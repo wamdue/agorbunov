@@ -10,7 +10,7 @@ public class Calculate{
 	Вывод строки на экран.
     */
     public static void main(String[] args){
-	System.out.println("Hello World!");
+	System.out.println("Hello World");
     }
 
 }
