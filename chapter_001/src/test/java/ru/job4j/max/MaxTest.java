@@ -24,4 +24,12 @@ public class MaxTest {
 	int expected = 1;
 	assertThat(max.max(1, 1), is(expected));
     }
+    /**
+    * Testing max(8, 3, 5) = 8.
+    */
+    public void whenOneAndThreeAndEightThenEight() {
+	Max max = new Max();
+	int expected = 8;
+	assertThat(max.max(8, 3, 5), is(expected));
+    }
 }
