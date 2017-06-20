@@ -1,5 +1,5 @@
 /**
-* Package for Point class.
+* Package for Learing conditions.
 *
 * @author Alexey Gorbunov (mailto:wamdue.m@yandex.ru)
 * @version $Id$
