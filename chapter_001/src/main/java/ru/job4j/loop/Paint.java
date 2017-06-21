@@ -13,13 +13,14 @@ public class Paint {
 	    int shift = n - 1;
 	    StringBuilder sb = new StringBuilder();
 	    for (int y = 0; y < n; y++) {
-		for (int x = 0; x < width; x++) {
-		    if (x > shift && x < (x - shift)) {
+		for (int x = 1; x <= width; x++) {
+		    if (x > shift && x < (width + 1) - shift) {
 			sb.append("^");
 		    } else {
 			sb.append(" ");
 		    }
 		}
+		shift--;
 		sb.append("\n");
 	    }
 	    return sb.toString();
