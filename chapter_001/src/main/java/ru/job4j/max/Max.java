@@ -9,7 +9,7 @@ public class Max {
     * @return max value.
     */
     public int max(int first, int second) {
-	return first > second ? first : first == second ? first : second;
+	return first > second ? first : second;
     }
     /**
     * @param first - first value to compare.
@@ -18,8 +18,7 @@ public class Max {
     * @return max value of three values.
     */
     public int max(int first, int second, int third) {
-	int temp = max(first, second);
-	int result = max(temp, third);
-	return result;
+	first = max(first, second);
+	return max(first, third);
     }
 }

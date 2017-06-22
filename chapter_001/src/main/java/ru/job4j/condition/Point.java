@@ -38,7 +38,6 @@ public class Point {
     * @return result of comparing variable.
     */
     public boolean is(int a, int b) {
-	int result = this.x * a + b;
-	return y == result;
+	return this.y == this.x * a + b;
     }
 }

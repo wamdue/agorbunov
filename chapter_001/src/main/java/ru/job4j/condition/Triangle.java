@@ -34,10 +34,7 @@ public class Triangle {
 	|| (a.getY() == b.getY() && a.getY() == c.getY())) {
 	    return -1;
 	}
-	double result;
-	double firstPart = Double.valueOf((a.getX() - b.getX()) * (c.getY() - b.getY()));
-	double secondPart = Double.valueOf((a.getY() - b.getY()) * (c.getX() - b.getX()));
-	result = Math.abs((firstPart - secondPart) / 2);
-	return result;
+	return Math.abs((Double.valueOf((a.getX() - b.getX()) * (c.getY() - b.getY()))
+		- Double.valueOf((a.getY() - b.getY()) * (c.getX() - b.getX()))) / 2);
     }
 }
