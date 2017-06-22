@@ -15,8 +15,8 @@ public class RotateArray {
                 tmp = array[i][j];
                 array[i][j] = array[len - j][i];
                 array[len - j][i] = array[len - i][len - j];
-                array[len + i][len - j] = array[i][len - j];
-                array[j][len] = tmp;
+                array[len + i][len - j] = array[j][len - i];
+                array[j][len - i] = tmp;
             }
         }
 	return array;
