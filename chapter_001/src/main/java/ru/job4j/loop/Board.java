@@ -13,10 +13,12 @@ public class Board {
 	    StringBuilder sb = new StringBuilder();
 	    for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
-		    if (y % 2 == 0) {
-			sb.append(x % 2 == 0 ? "X" : " ");
-		    } else {
-			sb.append(x % 2 == 0 ? " " : "X");
+		    if (y == 0 || y % 2 == 0) {
+			if (y + x % 2 == 0) {
+			    sb.append("X");
+			} else {
+			    sb.append(" ");
+			}
 		    }
 		}
 		sb.append("\n");
