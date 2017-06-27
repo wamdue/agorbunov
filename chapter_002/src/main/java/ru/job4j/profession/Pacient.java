@@ -1,4 +1,4 @@
-package profession;
+package ru.job4j.profession;
 /**
 * Pacient info. Stub class.
 */

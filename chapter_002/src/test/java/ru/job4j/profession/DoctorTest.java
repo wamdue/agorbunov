@@ -1,4 +1,4 @@
-package profession;
+package ru.job4j.profession;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
