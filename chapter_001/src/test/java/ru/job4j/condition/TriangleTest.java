@@ -40,7 +40,7 @@ public class TriangleTest {
 	Point b = new Point(1, 1);
 	Point c = new Point(3, 3);
 	Triangle triangle = new Triangle(a, b, c);
-	double expected = 0D;
+	double expected = -1D;
 	assertThat(triangle.area(), closeTo(expected, 0.01D));
     }
 }
