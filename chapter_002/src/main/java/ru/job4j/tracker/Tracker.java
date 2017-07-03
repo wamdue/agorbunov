@@ -1,9 +1,14 @@
 package ru.job4j.tracker;
 import java.util.Arrays;
+import java.util.Random;
 /**
 * List of all tasks.
 */
 public class Tracker {
+    /**
+    * @param RN - variable for generate inique id.
+    */
+    private static final Random RN = new Random();
     /**
     * @param items - array of tasks.
     */
@@ -19,6 +24,7 @@ public class Tracker {
 	if(position == 100) {
 	    position--;
 	}
+	item.setId(this.generateId());
 	items[position++] = item;
 	return item;
     }
@@ -81,5 +87,11 @@ public class Tracker {
     */
     public int size() {
 	return position;
+    }
+    /**
+    *
+    */
+    String generateId() {
+	return String.valueOf(System.currentTimeMillis() + RN.nextInt(100));
     }
 }

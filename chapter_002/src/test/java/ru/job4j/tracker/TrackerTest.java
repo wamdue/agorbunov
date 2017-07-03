@@ -81,9 +81,9 @@ public class TrackerTest {
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
 	    item = new Item(Integer.toString(i), Integer.toString(i), null);
-	    item.setId(Integer.toString(i));
 	    items[i] = item;
 	    tracker.add(item);
+	    item.setId(Integer.toString(i));
 	}
 	assertThat(tracker.findById("1"), is(items[1]));
     }
