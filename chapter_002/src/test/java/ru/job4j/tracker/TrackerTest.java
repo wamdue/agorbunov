@@ -13,8 +13,7 @@ public class TrackerTest {
     public void whenAddNewItemThenIncrase() {
 	Tracker tracker = new Tracker();
 	for (int i = 0; i < 5; i++) {
-	    tracker.add(new Item(Integer.toString(i), Integer.toString(i)
-		, null));
+	    tracker.add(new Item(Integer.toString(i), Integer.toString(i)));
 	}
 	int expected = 5;
 	assertThat(tracker.size(), is(expected));
@@ -28,7 +27,7 @@ public class TrackerTest {
 	Item[] items = new Item[5];
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
-	    item = new Item(Integer.toString(i), Integer.toString(i), null);
+	    item = new Item(Integer.toString(i), Integer.toString(i));
 	    item.setId(Integer.toString(i));
 	    items[i] = item;
 	    tracker.add(item);
@@ -46,7 +45,7 @@ public class TrackerTest {
 	Tracker tracker = new Tracker();
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
-	    item = new Item(Integer.toString(i), Integer.toString(i), null);
+	    item = new Item(Integer.toString(i), Integer.toString(i));
 	    item.setId(Integer.toString(i));
 	    items[i] = item;
 	    tracker.add(item);
@@ -62,7 +61,7 @@ public class TrackerTest {
 	Item[] items = new Item[5];
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
-	    item = new Item(Integer.toString(i), Integer.toString(i), null);
+	    item = new Item(Integer.toString(i), Integer.toString(i));
 	    item.setId(Integer.toString(i));
 	    items[i] = item;
 	    tracker.add(item);
@@ -80,7 +79,7 @@ public class TrackerTest {
 	Item[] items = new Item[5];
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
-	    item = new Item(Integer.toString(i), Integer.toString(i), null);
+	    item = new Item(Integer.toString(i), Integer.toString(i));
 	    items[i] = item;
 	    tracker.add(item);
 	    item.setId(Integer.toString(i));
@@ -96,7 +95,7 @@ public class TrackerTest {
 	Item[] items = new Item[5];
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
-	    item = new Item(Integer.toString(i), Integer.toString(i), null);
+	    item = new Item(Integer.toString(i), Integer.toString(i));
 	    item.setId(Integer.toString(i));
 	    items[i] = item;
 	    tracker.add(item);

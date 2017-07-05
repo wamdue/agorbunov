@@ -33,10 +33,9 @@ public class Item {
     * @param desc - description.
     * @param comments - array of comments.
     */
-    public Item(String name, String desc, String[] comments) {
+    public Item(String name, String desc) {
 	this.name = name;
 	this.desc = desc;
-	this.comments = comments;
     }
     /**
     * @return id - returns id.
