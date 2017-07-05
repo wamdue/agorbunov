@@ -13,14 +13,21 @@ public class Contain {
 	char temp = sub.charAt(0);
 	int mainLen = origin.length();
 	int subLen = sub.length();
+	boolean match = false;
 	for (int i = 0; i < mainLen; i++) {
 	    if (temp == origin.charAt(i)) {
 		if (i + subLen > mainLen) {
 		    return false;
-		} else if (origin.substring(i, subLen + 1).equals(sub)) {
+		}
+		match = true;
+		for (int j = 0; j < subLen; j++) {
+		    if (origin.charAt(i + j) != sub.charAt(j)) {
+			match = false;
+			break;
+		    }
+		}
+		if (match) {
 		    return true;
-		} else {
-		    continue;
 		}
 	    }
 	}
