@@ -44,6 +44,7 @@ public class StubInputTest {
 		items[i] = tracker.add(new Item("name"+i, "desc"+i));
 	    }
 	    Input input = new StubInput(new String[]{"1", "6"});
+	    new StartUi(input, tracker).init();
 	    assertThat(tracker.findAll(), is(items));
     }
     /**
@@ -58,7 +59,8 @@ public class StubInputTest {
         for (int i = 0; i < 3; i++) {
 	    items[i] = tracker.add(new Item("name"+i, "desc"+i));
 	}
-        Input input = new StubInput(new String[]{"3", items[1].getId().trim(), "6"});
+        Input input = new StubInput(new String[]{"3", items[1].getId(),"1", "6"});
+	new StartUi(input, tracker).init();
         assertThat(tracker.size(), is(expected));
     }
 }
