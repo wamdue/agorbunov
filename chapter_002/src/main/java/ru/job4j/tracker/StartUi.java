@@ -7,6 +7,8 @@ public class StartUi {
     * @param EXIT - exit program.
     */
     private static final int EXIT = 6;
+    /****/
+    private int[] ranges = new int[]{0, 1, 2, 3, 4, 5, 6};
     /**
     * @param menu - main menu.
     */
@@ -30,7 +32,7 @@ public class StartUi {
     * Entry point!
     */
     public static void main(String[] args) {
-    	new StartUi(new ConsoleInput(), new Tracker()).init();
+    	new StartUi(new ValidateInput(), new Tracker()).init();
     }
     /**
     * Constructor.
@@ -48,7 +50,7 @@ public class StartUi {
 	menu.fillActions();
     	while (true) {
     	    menu.show();
-	    int value = Integer.valueOf(input.ask("Select: "));
+	    int value = input.ask("Select: ", ranges);
 	    if (value == EXIT) {
 		break;
 	    }

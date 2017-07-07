@@ -24,4 +24,13 @@ public class StubInput implements Input {
     public String ask(String question) {
 	return answers[position++];
     }
+    /**
+    * @param question - string to show on console.
+    * @param range - range of values.
+    * @return byte array for autotest.
+    */
+    public int ask(String question, int[] range) {
+	return Integer.valueOf(answers[position++]);
+    }
+
 }

@@ -6,27 +6,27 @@ public class MenuTracker {
     /**
     * @param ADD - add new item to tracker.
     */
-    private final int ADD = 0;
+    public static final int ADD = 0;
     /**
     * @param SHOW_ALL - show all items in tracker.
     */
-    private final int SHOW_ALL = 1;
+    public static final int SHOW_ALL = 1;
     /**
     * @param EDIT - edit item by id.
     */
-    private final int EDIT = 2;
+    public static final int EDIT = 2;
     /**
     * @param DELETE - delete item by id.
     */
-    private final int DELETE = 3;
+    public static final int DELETE = 3;
     /**
     * @param FIND_BY_ID - find item by id.
     */
-    private final int FIND_BY_ID = 4;
+    public static final int FIND_BY_ID = 4;
     /**
     * @param FIND_BY_NAME - find items by name.
     */
-    private final int FIND_BY_NAME = 5;
+    public static final int FIND_BY_NAME = 5;
     /**
     * @param input - input system.
     */
@@ -84,7 +84,7 @@ public class MenuTracker {
 	* @return menu key.
 	*/
         public int key() {
-	    return ADD;
+	    return MenuTracker.ADD;
 	}
 	/**
 	* Execute action - add item to tracker.
@@ -111,7 +111,7 @@ public class MenuTracker {
 	* @return menu key.
 	*/
         public int key() {
-	    return SHOW_ALL;
+	    return MenuTracker.SHOW_ALL;
 	}
 	/**
 	* Execute action - add item to tracker.
@@ -140,7 +140,7 @@ class EditItem implements UserAction {
     * @return menu key.
     */
     public int key() {
-        return EDIT;
+        return MenuTracker.EDIT;
     }
     /**
     * Execute action - edit item in tracker.
@@ -168,7 +168,7 @@ class DeleteItem implements UserAction {
     * @return menu key.
     */
     public int key() {
-        return DELETE;
+        return MenuTracker.DELETE;
     }
     /**
     * Execute action - delete item from tracker.
@@ -194,7 +194,7 @@ class FindItemById implements UserAction {
     * @return menu key.
     */
     public int key() {
-        return FIND_BY_ID;
+        return MenuTracker.FIND_BY_ID;
     }
     /**
     * Execute action - find item in tracker.
@@ -225,7 +225,7 @@ class FindItemsByName implements UserAction {
     * @return menu key.
     */
     public int key() {
-        return FIND_BY_NAME;
+        return MenuTracker.FIND_BY_NAME;
     }
     /**
     * Execute action - find item in tracker.
