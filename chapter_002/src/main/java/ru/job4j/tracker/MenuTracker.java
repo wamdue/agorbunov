@@ -52,12 +52,12 @@ public class MenuTracker {
     *
     */
     public void fillActions() {
-	this.actions[0] = new AddItem();
-	this.actions[1] = new MenuTracker.ShowAll();
-	this.actions[2] = new EditItem();
-	this.actions[3] = new DeleteItem();
-	this.actions[4] = new FindItemById();
-	this.actions[5] = new FindItemsByName();
+	this.actions[0] = new AddItem(MenuTracker.ADD, "Add new item.");
+	this.actions[1] = new MenuTracker.ShowAll(MenuTracker.SHOW_ALL, "Show all items.");
+	this.actions[2] = new EditItem(MenuTracker.EDIT, "Edit item.");
+	this.actions[3] = new DeleteItem(MenuTracker.DELETE, "Delete item");
+	this.actions[4] = new FindItemById(MenuTracker.FIND_BY_ID, "Find item by id.");
+	this.actions[5] = new FindItemsByName(MenuTracker.FIND_BY_NAME, "Find items by name.");
     }
     /**
     * @param key - menu key.
@@ -79,12 +79,14 @@ public class MenuTracker {
     /**
     * Internal class for implemention UserAction.
     */
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
 	/**
-	* @return menu key.
+	* Constructor with main args.
+	* @param key - menu key.
+	* @param name - menu name.
 	*/
-        public int key() {
-	    return MenuTracker.ADD;
+	public AddItem(int key, String name) {
+	    super(key, name);
 	}
 	/**
 	* Execute action - add item to tracker.
@@ -96,22 +98,18 @@ public class MenuTracker {
 	    String desc = input.ask("Input task`s description: ");
 	    tracker.add(new Item(name, desc));
 	}
-	/**
-	* @return info string.
-	*/
-	public String info() {
-	    return String.format("	%s. %s", this.key(), "Add the new item. ");
-	}
     }
     /**
     * Internal static class for showing all items.
     */
-    private static class ShowAll implements UserAction {
+    private static class ShowAll extends BaseAction {
 	/**
-	* @return menu key.
+	* Constructor with main args.
+	* @param key - menu key.
+	* @param name - menu name.
 	*/
-        public int key() {
-	    return MenuTracker.SHOW_ALL;
+	public ShowAll(int key, String name) {
+	    super(key, name);
 	}
 	/**
 	* Execute action - add item to tracker.
@@ -123,24 +121,19 @@ public class MenuTracker {
 		System.out.printf("id: %s; name: %s\n", item.getId(), item.getName());
 	    }
 	}
-	/**
-	* @return info string.
-	*/
-	public String info() {
-	    return String.format("	%s. %s", this.key(), "Show all items. ");
-	}
-	
     }
 }
 /**
 * External class for edit item.
 */
-class EditItem implements UserAction {
+class EditItem extends BaseAction {
     /**
-    * @return menu key.
+    * Constructor with main args.
+    * @param key - menu key.
+    * @param name - menu name.
     */
-    public int key() {
-        return MenuTracker.EDIT;
+    public EditItem(int key, String name) {
+        super(key, name);
     }
     /**
     * Execute action - edit item in tracker.
@@ -153,22 +146,18 @@ class EditItem implements UserAction {
 	item.setName(input.ask("Enter new task name: "));
 	item.setDesc(input.ask("Enter new task description: "));
     }
-    /**
-    * @return info string.
-    */
-    public String info() {
-        return String.format("	%s. %s", this.key(), "Edit item. ");
-    }
 }
 /**
 * External class for delete item.
 */
-class DeleteItem implements UserAction {
+class DeleteItem extends BaseAction {
     /**
-    * @return menu key.
+    * Constructor with main args.
+    * @param key - menu key.
+    * @param name - menu name.
     */
-    public int key() {
-        return MenuTracker.DELETE;
+    public DeleteItem(int key, String name) {
+        super(key, name);
     }
     /**
     * Execute action - delete item from tracker.
@@ -179,22 +168,18 @@ class DeleteItem implements UserAction {
 	String id = input.ask("Enter task id to delete: ");
 	tracker.delete(tracker.findById(id));
     }
-    /**
-    * @return info string.
-    */
-    public String info() {
-        return String.format("	%s. %s", this.key(), "Delete item. ");
-    }
 }
 /**
 * External class for return item by id.
 */
-class FindItemById implements UserAction {
+class FindItemById extends BaseAction {
     /**
-    * @return menu key.
+    * Constructor with main args.
+    * @param key - menu key.
+    * @param name - menu name.
     */
-    public int key() {
-        return MenuTracker.FIND_BY_ID;
+    public FindItemById(int key, String name) {
+        super(key, name);
     }
     /**
     * Execute action - find item in tracker.
@@ -210,22 +195,18 @@ class FindItemById implements UserAction {
 	    System.out.println("Task not founded.");
 	}
     }
-    /**
-    * @return info string.
-    */
-    public String info() {
-        return String.format("	%s. %s", this.key(), "Find item by Id. ");
-    }
 }
 /**
 * External class for return item by id.
 */
-class FindItemsByName implements UserAction {
+class FindItemsByName extends BaseAction {
     /**
-    * @return menu key.
+    * Constructor with main args.
+    * @param key - menu key.
+    * @param name - menu name.
     */
-    public int key() {
-        return MenuTracker.FIND_BY_NAME;
+    public FindItemsByName(int key, String name) {
+        super(key, name);
     }
     /**
     * Execute action - find item in tracker.
@@ -242,12 +223,6 @@ class FindItemsByName implements UserAction {
 	} else {
 	    System.out.println("Task not founded.");
 	}
-    }
-    /**
-    * @return info string.
-    */
-    public String info() {
-        return String.format("	%s. %s", this.key(), "Find items by name. ");
     }
 }
 
