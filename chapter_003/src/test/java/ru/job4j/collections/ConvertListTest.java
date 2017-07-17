@@ -51,4 +51,24 @@ public class ConvertListTest {
         ConvertList convertList = new ConvertList();
         assertThat(convertList.toArray(list, 4), is(expected));
     }
+    /**
+     * Testing list of arrays to list converter.
+     * have 1, 2, 3, 4
+     *     ,5, 6
+     *     ,7, 8, 9.
+     * expecting 1, 2, 3, 4, 5, 6, 7, 8, 9.
+     */
+    @Test
+    public void whenHaveListWithArrayThenMakeList() {
+       List<Integer> expect = new ArrayList<>();
+       List<int[]> source = new ArrayList<>();
+       source.add(new int[] {1, 2, 3, 4});
+       source.add(new int[] {5, 6});
+       source.add(new int[] {7, 8, 9});
+        for (int i = 1; i < 10; i++) {
+            expect.add(i);
+        }
+        ConvertList convertList = new ConvertList();
+        assertThat(convertList.convert(source), is(expect));
+    }
 }

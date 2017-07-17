@@ -51,4 +51,13 @@ public class ConvertList {
         }
         return array;
     }
+    public List<Integer> convert (List<int[]> list) {
+        List<Integer> arrayList = new ArrayList<>();
+        for (int[] values : list) {
+            for (int value : values) {
+                arrayList.add(value);
+            }
+        }
+        return arrayList;
+    }
 }
