@@ -21,16 +21,7 @@ public class Board {
 	*/
     public boolean move(Cell source, Cell dist)
     throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
-    	Figure src = null;
-    	Figure empty = null;
-    	for (Figure f : figures) { // search figure in the cell.
-			if (!(f instanceof NullFigure)
-				&& f.position.getX() == source.getX()
-				&& f.position.getY() == source.getY()) {
-				src = f;
-				break;
-			}
-    	}
+    	Figure src = getFigure(source);
 
     	if (src == null) {
 			throw new FigureNotFoundException();
@@ -110,5 +101,23 @@ public class Board {
 		} else {
 			return Side.WHITE;
 		}
+	}
+
+	/**
+	 * Get figure in cell.
+	 * @param source - primary coords of the cell.
+	 * @return - figure or null if not found any figure.
+	 */
+	private Figure getFigure(Cell source) {
+		Figure figure = null;
+		for (Figure f : figures) { // search figure in the cell.
+			if (!(f.getClass() == NullFigure.class)
+					&& f.position.getX() == source.getX()
+					&& f.position.getY() == source.getY()) {
+				figure = f;
+				break;
+			}
+		}
+		return figure;
 	}
 }
