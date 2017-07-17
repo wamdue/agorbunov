@@ -8,7 +8,7 @@ public abstract class BaseAction implements UserAction {
     */
     private int key;
     /**
-    * @param name - action name.
+     * @param name - action name.
     */
     private String name;
     /**
@@ -21,7 +21,7 @@ public abstract class BaseAction implements UserAction {
 	this.name = name;
     }
     /**
-    * @param key - return menu key.
+    * @return - return menu key.
     */
     public int key() {
 	return key;

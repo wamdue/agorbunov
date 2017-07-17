@@ -1,4 +1,7 @@
 package ru.job4j.tracker;
+
+import java.util.ArrayList;
+
 /**
 * Class for store information about task.
 */
@@ -18,7 +21,7 @@ public class Item {
     /**
     * @param comments - history of the comments.
     */
-    private String[] comments;
+    private ArrayList<String> comments;
     /**
     * @param created - time of creation in mls.
     */
@@ -31,7 +34,6 @@ public class Item {
     * Main constructor.
     * @param name - name.
     * @param desc - description.
-    * @param comments - array of comments.
     */
     public Item(String name, String desc) {
 	this.name = name;
@@ -58,7 +60,7 @@ public class Item {
     /**
     * @return comments - returns array of comments.
     */
-    public String[] getComments() {
+    public ArrayList<String> getComments() {
 	return comments;
     }
     /**
@@ -80,7 +82,7 @@ public class Item {
 	this.name = name;
     }
     /**
-    * @param description - set new description.
+    * @param desc - set new description.
     */
     public void setDesc(String desc) {
 	this.desc = desc;
@@ -88,7 +90,7 @@ public class Item {
     /**
     * @param comments - set new comments.
     */
-    public void setComments(String[] comments) {
+    public void setComments(ArrayList<String> comments) {
 	this.comments = comments;
     }
     /**

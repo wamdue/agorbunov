@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
 /**
@@ -24,15 +27,15 @@ public class TrackerTest {
     @Test
     public void whenRemoveOneThenLess() {
 	Tracker tracker = new Tracker();
-	Item[] items = new Item[5];
+	ArrayList<Item> items = new ArrayList<>();
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
 	    item = new Item(Integer.toString(i), Integer.toString(i));
 	    item.setId(Integer.toString(i));
-	    items[i] = item;
+	    items.add(item);
 	    tracker.add(item);
 	}
-	tracker.delete(items[1]);
+	tracker.delete(items.get(1));
 	int expected = 4;
 	assertThat(tracker.size(), is(expected));
     }
@@ -41,13 +44,13 @@ public class TrackerTest {
     */
     @Test
     public void whenHaveTwoEqualArraysThenEqual() {
-	Item[] items = new Item[5];
+	ArrayList<Item> items = new ArrayList<>();
 	Tracker tracker = new Tracker();
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
 	    item = new Item(Integer.toString(i), Integer.toString(i));
 	    item.setId(Integer.toString(i));
-	    items[i] = item;
+	    items.add(item);
 	    tracker.add(item);
 	}
 	assertThat(tracker.findAll(), is(items));
@@ -58,16 +61,16 @@ public class TrackerTest {
     @Test
     public void whenHaveNameThenReturnByName() {
 	Tracker tracker = new Tracker();
-	Item[] items = new Item[5];
+	ArrayList<Item> items = new ArrayList<>();
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
 	    item = new Item(Integer.toString(i), Integer.toString(i));
 	    item.setId(Integer.toString(i));
-	    items[i] = item;
+	    items.add(item);
 	    tracker.add(item);
 	}
-	Item[] expected = new Item[1];
-	expected[0] = items[2];
+	ArrayList<Item> expected = new ArrayList<>();
+	expected.add(items.get(2));
 	assertThat(tracker.findByName("2"), is(expected));
     }
     /**
@@ -76,15 +79,15 @@ public class TrackerTest {
     @Test
     public void whenHaveIdThenReturnById() {
 	Tracker tracker = new Tracker();
-	Item[] items = new Item[5];
+	ArrayList<Item> items = new ArrayList<>();
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
 	    item = new Item(Integer.toString(i), Integer.toString(i));
-	    items[i] = item;
+	    items.add(item);
 	    tracker.add(item);
 	    item.setId(Integer.toString(i));
 	}
-	assertThat(tracker.findById("1"), is(items[1]));
+	assertThat(tracker.findById("1"), is(items.get(1)));
     }
     /**
     * Update item.
@@ -92,16 +95,16 @@ public class TrackerTest {
     @Test
     public void whenNeedToUpdateThenUpdate() {
 	Tracker tracker = new Tracker();
-	Item[] items = new Item[5];
+	ArrayList<Item> items = new ArrayList<>();
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
 	    item = new Item(Integer.toString(i), Integer.toString(i));
 	    item.setId(Integer.toString(i));
-	    items[i] = item;
+	    items.add(item);
 	    tracker.add(item);
 	}
-	items[1].setName("TestName");
-	tracker.update(items[1]);
+	items.get(1).setName("TestName");
+	tracker.update(items.get(1));
 	assertThat(tracker.findAll(), is(items));
     }
 }

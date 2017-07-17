@@ -1,4 +1,5 @@
 package ru.job4j.tracker;
+import java.util.ArrayList;
 import java.util.Scanner;
 /**
 * Class for work with console.
@@ -21,7 +22,7 @@ public class ConsoleInput implements Input {
     * @param range - range of values.
     * @return - digit input from console.
     */
-    public int ask(String question, int[] range) throws MenuOutException{
+    public int ask(String question, ArrayList<Integer> range) throws MenuOutException{
 	int key = Integer.valueOf(this.ask(question));
 	boolean exist = false;
 	for (int value : range) {

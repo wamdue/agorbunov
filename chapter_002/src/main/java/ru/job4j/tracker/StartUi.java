@@ -1,4 +1,8 @@
 package ru.job4j.tracker;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
 * User interface class.
 */
@@ -8,17 +12,7 @@ public class StartUi {
     */
     private static final int EXIT = 6;
     /****/
-    private int[] ranges = new int[]{0, 1, 2, 3, 4, 5, 6};
-    /**
-    * @param menu - main menu.
-    */
-    private String[] menu = {"0 Add new Item",
-	"1 Show all items",
-	"2 Edit item",
-	"3 Delete item",
-	"4 Find item by Id",
-	"5 Find items by name",
-	"6 Exit program"};
+    private ArrayList<Integer> ranges = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6));
     /**
     * @param input - class for drawing main menu, and read input.
     */
@@ -46,8 +40,8 @@ public class StartUi {
     */
     public void init() {
     	String element;
-	MenuTracker menu = new MenuTracker(input, tracker);
-	menu.fillActions();
+		MenuTracker menu = new MenuTracker(input, tracker);
+		menu.fillActions();
     	while (true) {
     	    menu.show();
 	    int value = input.ask("Select: ", ranges);

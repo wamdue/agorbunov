@@ -1,5 +1,5 @@
 package ru.job4j.tracker;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Random;
 /**
 * List of all tasks.
@@ -10,9 +10,9 @@ public class Tracker {
     */
     private static final Random RN = new Random();
     /**
-    * @param items - array of tasks.
+    * @param items - list of tasks.
     */
-    private Item[] items = new Item[100];
+    private ArrayList<Item> items = new ArrayList<>();
     /**
     * @param position - id of last element.
     */
@@ -21,20 +21,17 @@ public class Tracker {
     * @param item - item to add and generate id for it.
     */
     public Item add(Item item) {
-    	if(position == 100) {
-    		position--;
-    	}
     	item.setId(this.generateId());
-    	items[position++] = item;
+    	items.add(item);
     	return item;
    	}
     /**
     * @param item - item for update.
     */
     public void update(Item item) {
-    	for (int i = 0; i < position; i++) {
-    		if (items[i].getId().equals(item.getId())) {
-    			items[i] = item;
+    	for (int i = 0; i < items.size(); i++) {
+    		if (items.get(i).getId().equals(item.getId())) {
+    			items.set(i, item);
     			break;
     		}
     	}
@@ -43,43 +40,38 @@ public class Tracker {
     * @param item - delete current item from array.
     */
     public void delete(Item item) {
-    	for (int i = 0; i < position; i++) {
-    		if(items[i].getId().equals(item.getId())) {
-			int shift = position - i - 1;
-    			System.arraycopy(items, i + 1, items, i, shift);
-			items[--position] = null;
-    			break;
-    		}
-    	}
+    	items.remove(item);
     }
-    public Item[] findAll() {
-    	return Arrays.copyOf(items, position);
+
+    /**
+     *
+     * @return list as array.
+     */
+    public ArrayList<Item> findAll() {
+        return items;
     }
     /**
     * @param key - value to search in items.
     * @return array - array of finded values.
     */
-    public Item[] findByName(String key) {
-    	Item[] array = new Item[1];
-    	int counter = 0;
-    	for (int i = 0; i < position; i++) {
-    		if (items[i].getName().contains(key)) {
-    			if (counter == array.length) {
-    				array = Arrays.copyOf(array, counter + 1);
-    			}
-    			array[counter++] = items[i];
+    public ArrayList<Item> findByName(String key) {
+    	ArrayList<Item> array = new ArrayList<>();
+    	for (int i = 0; i < items.size(); i++) {
+    		if (items.get(i).getName().contains(key)) {
+    			array.add(items.get(i));
     		}
     	}
-    	return array[0] == null ? null : array;
+    	return array;
     }
     /**
     * @param id - id the task, which you want to find.
     * @return searched item, or null if not found.
     */
     public Item findById(String id) {
-    	for (int i = 0; i < position; i++) {
-    		if (items[i].getId().equals(id)) {
-    			return items[i];
+    	for (int i = 0; i < items.size(); i++) {
+    		Item item = items.get(i);
+    		if (item.getId().equals(id)) {
+    			return item;
     		}
     	}
     	return null;
@@ -88,7 +80,7 @@ public class Tracker {
     * @return position - return number of filled buckets.
     */
     public int size() {
-    	return position;
+    	return items.size();
     }
     /**
     * @return - new generated id.

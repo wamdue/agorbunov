@@ -1,4 +1,7 @@
 package ru.job4j.tracker;
+
+import java.util.ArrayList;
+
 /**
 * Interface for input.
 */
@@ -10,5 +13,5 @@ public interface Input {
     /**
     * Additional methos to ask question and return answer with limit of range.
     */
-    int ask(String question, int[] range);
+    int ask(String question, ArrayList<Integer> range);
 }

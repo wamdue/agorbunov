@@ -1,6 +1,8 @@
 package ru.job4j.tracker;
 import org.junit.Test;
-import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
 /**
@@ -13,12 +15,10 @@ public class StubInputTest {
 	*/
 	@Test
 	public void whenUserAddItemThenTrackerHasNewName() {
-	    //ByteArrayOutputStream out = new ByteArrayOutputStream();
-	    //System.setOut(new PrintStream(out));
 	    Tracker tracker = new Tracker();
-	    Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
+	    Input input = new StubInput(new ArrayList<>(Arrays.asList("0", "test name", "desc", "6")));
 	    new StartUi(input, tracker).init();
-	    assertThat(tracker.findAll()[0].getName(), is("test name"));
+	    assertThat(tracker.findAll().get(0).getName(), is("test name"));
 	}
 	/**
 	* Update existing item.
@@ -28,7 +28,7 @@ public class StubInputTest {
 	public void whenUpdateThenTrackerhasUpdatedValue() {
 	    Tracker tracker = new Tracker();
 	    Item item = tracker.add(new Item());
-	    Input input = new StubInput(new String[]{"2", item.getId(), "new name", "desc", "6"});
+	    Input input = new StubInput(new ArrayList<>(Arrays.asList("2", item.getId(), "new name", "desc", "6")));
 	    new StartUi(input, tracker).init();
 	    assertThat(tracker.findById(item.getId()).getName(), is("new name"));
 	}
@@ -39,11 +39,11 @@ public class StubInputTest {
 	@Test
 	public void whenAddThreeItemsThenCanCompare() {
 	    Tracker tracker = new Tracker();
-	    Item[] items = new Item[3];
+	    ArrayList<Item> items = new ArrayList<>();
 	    for (int i = 0; i < 3; i++) {
-		items[i] = tracker.add(new Item("name"+i, "desc"+i));
+		items.add(tracker.add(new Item("name"+i, "desc"+i)));
 	    }
-	    Input input = new StubInput(new String[]{"1", "6"});
+	    Input input = new StubInput(new ArrayList<>(Arrays.asList("1", "6")));
 	    new StartUi(input, tracker).init();
 	    assertThat(tracker.findAll(), is(items));
     }
@@ -54,12 +54,12 @@ public class StubInputTest {
     @Test
     public void whenAddThreeRemoveOneThenHaveTwo() {
         Tracker tracker = new Tracker();
-        Item[] items = new Item[3];
+        ArrayList<Item> items = new ArrayList<>();
 	int expected = 2;
         for (int i = 0; i < 3; i++) {
-	    items[i] = tracker.add(new Item("name"+i, "desc"+i));
+	    items.add(tracker.add(new Item("name"+i, "desc"+i)));
 	}
-        Input input = new StubInput(new String[]{"3", items[1].getId(),"1", "6"});
+        Input input = new StubInput(new ArrayList<>(Arrays.asList("3", items.get(1).getId(),"1", "6")));
 	new StartUi(input, tracker).init();
         assertThat(tracker.size(), is(expected));
     }

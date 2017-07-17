@@ -1,4 +1,7 @@
 package ru.job4j.tracker;
+
+import java.util.ArrayList;
+
 /**
 * Stub for test.
 */
@@ -6,7 +9,7 @@ public class StubInput implements Input {
     /**
     * @param answers - list of posibile answers.
     */
-    private String[] answers;
+    private ArrayList<String> answers;
     /**
     * @param position - counter.
     */
@@ -14,7 +17,7 @@ public class StubInput implements Input {
     /**
     *
     */
-    public StubInput(String[] answers) {
+    public StubInput(ArrayList<String> answers) {
 	this.answers = answers;
     }
     /**
@@ -22,15 +25,15 @@ public class StubInput implements Input {
     * @return byte array for autotest.
     */
     public String ask(String question) {
-	return answers[position++];
+	return answers.get(position++);
     }
     /**
     * @param question - string to show on console.
     * @param range - range of values.
     * @return byte array for autotest.
     */
-    public int ask(String question, int[] range) {
-	return Integer.valueOf(answers[position++]);
+    public int ask(String question, ArrayList<Integer> range) {
+	return Integer.valueOf(answers.get(position++));
     }
 
 }
