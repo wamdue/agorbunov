@@ -51,4 +51,12 @@ public class User implements Comparable<User> {
     public int compareTo(User o) {
         return this.age > o.age ? 1 : this.age < o.age ? -1 : 0;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "age=" + age +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
