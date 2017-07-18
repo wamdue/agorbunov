@@ -3,100 +3,114 @@ package ru.job4j.tracker;
 import java.util.ArrayList;
 
 /**
-* Class for store information about task.
-*/
+ * Class for store information about task.
+ */
 public class Item {
     /**
-    * @param id - number of task.
-    */
+     * @param id - number of task.
+     */
     private String id;
     /**
-    * @param name - name of the task.
-    */
+     * @param name - name of the task.
+     */
     private String name;
     /**
-    * @param desc - description of the task.
-    */
+     * @param desc - description of the task.
+     */
     private String desc;
     /**
-    * @param comments - history of the comments.
-    */
+     * @param comments - history of the comments.
+     */
     private ArrayList<String> comments;
     /**
-    * @param created - time of creation in mls.
-    */
+     * @param created - time of creation in mls.
+     */
     private long created;
+
     /**
-    * Empty constructor.
-    */
-    public Item() {}
+     * Empty constructor.
+     */
+    public Item() {
+    }
+
     /**
-    * Main constructor.
-    * @param name - name.
-    * @param desc - description.
-    */
+     * Main constructor.
+     *
+     * @param name - name.
+     * @param desc - description.
+     */
     public Item(String name, String desc) {
-	this.name = name;
-	this.desc = desc;
+        this.name = name;
+        this.desc = desc;
     }
+
     /**
-    * @return id - returns id.
-    */
+     * @return id - returns id.
+     */
     public String getId() {
-	return id;
+        return id;
     }
+
     /**
-    * @return name - returns name.
-    */
+     * @return name - returns name.
+     */
     public String getName() {
-	return name;
+        return name;
     }
+
     /**
-    * @return desc - returns description.
-    */
+     * @return desc - returns description.
+     */
     public String getDesc() {
-	return desc;
+        return desc;
     }
+
     /**
-    * @return comments - returns array of comments.
-    */
+     * @return comments - returns array of comments.
+     */
     public ArrayList<String> getComments() {
-	return comments;
+        return comments;
     }
+
     /**
-    * @return created - returns time of creation.
-    */
+     * @return created - returns time of creation.
+     */
     public long getCreated() {
-	return created;
+        return created;
     }
+
     /**
-    * @param id - set id of the task.
-    */
+     * @param id - set id of the task.
+     */
     public void setId(String id) {
-	this.id = id;
+        this.id = id;
     }
+
     /**
-    * @param name - set new name of the task.
-    */
+     * @param name - set new name of the task.
+     */
     public void setName(String name) {
-	this.name = name;
+        this.name = name;
     }
+
     /**
-    * @param desc - set new description.
-    */
+     * @param desc - set new description.
+     */
     public void setDesc(String desc) {
-	this.desc = desc;
+        this.desc = desc;
     }
+
     /**
-    * @param comments - set new comments.
-    */
+     * @param comments - set new comments.
+     */
     public void setComments(ArrayList<String> comments) {
-	this.comments = comments;
+        this.comments = comments;
     }
+
     /**
-    * @param created - set new time of creation.
-    */
+     * @param created - set new time of creation.
+     */
     public void setCreated(long created) {
-	this.created = created;
+        this.created = created;
     }
 }
