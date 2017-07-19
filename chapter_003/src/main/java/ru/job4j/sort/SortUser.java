@@ -28,8 +28,7 @@ public class SortUser {
         arrayList.sort(new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {
-                return o1.getName().length() > o2.getName().length() ? 1 :
-                        o1.getName().length() < o2.getName().length() ? -1 : 0;
+                return o1.getName().length() -  o2.getName().length();
             }
         });
         return arrayList;
@@ -45,15 +44,8 @@ public class SortUser {
         Comparator<User> comparator = new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {
-                int result = 0;
-
-                if (o1.getName().length() > o2.getName().length()) {
-                    result = 1;
-                } else if (o1.getName().length() == o2.getName().length()) {
-                    result = o1.getAge() > o2.getAge() ? 1 : o1.getAge() == o2.getAge() ? 0 : -1;
-                } else {
-                    result = -1;
-                }
+                int result = o1.getName().length() - o2.getName().length();
+                result = result == 0 ? o1.getAge() - o2.getAge() : result;
                 return result;
             }
         };
