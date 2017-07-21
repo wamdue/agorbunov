@@ -73,4 +73,15 @@ public class SimpleArray<T> {
     public int size() {
         return position;
     }
+
+    public int getId(T t) {
+        int result = -1;
+        for (int i = 0; i < position; i++) {
+            if (objects[i].equals(t)) {
+                result = i;
+                break;
+            }
+        }
+        return result;
+    }
 }
