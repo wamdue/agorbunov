@@ -114,16 +114,7 @@ public class Board {
      * @return - figure or null if not found any figure.
      */
     private Figure getFigure(Cell source) {
-        Figure figure = null;
-        for (Figure f : figures) { // search figure in the cell.
-            if (!(f.side == Side.EMPTY)
-                    && f.position.getX() == source.getX()
-                    && f.position.getY() == source.getY()) {
-                figure = f;
-                break;
-            }
-        }
-        return figure;
+        return figures[getFigureId(source)];
     }
 
     /**
