@@ -2,8 +2,8 @@ package ru.job4j.iterators;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.core.Is.*;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created on 19.07.17
@@ -46,13 +46,14 @@ public class MatrixIteratorTest {
     @Test
     public void whenHaveMoreThenOneColumnThenIterateNext() {
         Integer[][] matrix = new Integer[][] {
-                {0, 1, 2},
-                {3, 4, 5},
-                {6, 7, 8}
+                {0, 1, 2, 3},
+                {4, 5, 6, 7},
+                {8, 9, 10, 11}
         };
         MatrixIterator iterator = new MatrixIterator(matrix);
-        int expect = 3;
+        int expect = 4;
 
+        iterator.next();
         iterator.next();
         iterator.next();
         iterator.next();

@@ -1,6 +1,8 @@
 package ru.job4j.fin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Wamdue
@@ -8,36 +10,59 @@ import java.util.*;
  * @since 24.07.2017
  */
 public class ArraySort {
-    private String[] strings = new String[]{"K1\\SK1",
-            "K1\\SK2",
-            "K1\\SK1\\SSK1",
-            "K1\\SK1\\SSK2",
-            "K2",
-            "K2\\SK1\\SSK1",
-            "K2\\SK1\\SSK2"};
+    /**
+     * Constant to ascending order.
+     */
+    public static final int ASC = 0;
+    /**
+     * Constant to descending order.
+     */
+    public static final int DESC = 1;
+
+    /**
+     * Sort array in two ways.
+     * @param array - source array.
+     * @param method - sort method.
+     * @return sorted list.
+     */
     public ArrayList<String> sortedArray(String[] array, int method) {
+        ArrayList<String> list = new ArrayList<>(arrayToSet(array));
+        if (method != ArraySort.ASC) {
+            list.sort((o1, o2) -> {
+                String[] s1 = o1.split("\\\\");
+                String[] s2 = o2.split("\\\\");
+                int result;
+                if (s1.length == s2.length) {
+                    result = o2.compareTo(o1);
+                }
+                else {
+                    result = s2[0].compareTo(s1[0]);
+                }
+                return result;
+            });
+        }
+        return list;
+    }
+
+    /**
+     * Method to add absent items in set, and ascending sort.
+     * @param array - source array.
+     * @return - sorted set.
+     */
+    private Set<String> arrayToSet(String[] array) {
         Set<String> set =  new TreeSet<>();
 
-        for (int i = 0; i <strings.length ; i++) {
-            String[] parts = strings[i].split("\\\\");
+        for (String string : array) {
+            String[] parts = string.split("\\\\");
             StringBuilder sb = new StringBuilder();
             for (int j = 0; j < parts.length; j++) {
-                if ( j > 0) {
-                    sb.append("\\\\");
+                if (j > 0) {
+                    sb.append("\\");
                 }
                 sb.append(parts[j]);
                 set.add(sb.toString());
             }
         }
-        ArrayList<String> list = new ArrayList<>(set);
-        if (method != 0) {
-            Collections.sort(list, Collections.reverseOrder());
-        }
-        return list;
-    }
-
-    public static void main(String[] args) {
-        ArraySort array = new ArraySort();
-        System.out.println(array.sortedArray(array.strings, 1));
+        return set;
     }
 }
