@@ -26,16 +26,7 @@ public class EvenIt implements Iterator {
      */
     @Override
     public boolean hasNext() {
-        boolean state = false;
-        if (position < even.length) {
-            for (int i = position; i < even.length; i++) {
-                if (even[i] % 2 == 0) {
-                    state = true;
-                    break;
-                }
-            }
-        }
-        return state;
+        return checkPos() > -1;
     }
 
     /**
@@ -45,10 +36,19 @@ public class EvenIt implements Iterator {
     @Override
     public Object next() {
         int result = -1;
+        int id = checkPos();
+        if (id > -1) {
+            result = even[id];
+            position = id + 1;
+        }
+        return result;
+    }
+
+    private int checkPos() {
+        int result = -1;
         for (int i = position; i < even.length; i++) {
             if (even[i] % 2 == 0) {
-                result = even[i];
-                position = i + 1;
+                result = i;
                 break;
             }
         }
