@@ -87,4 +87,12 @@ public class User {
     public void setChildren(int children) {
         this.children = children;
     }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + children;
+        return result;
+    }
 }
