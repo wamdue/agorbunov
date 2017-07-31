@@ -20,8 +20,8 @@ public class BankMachine {
      * @param cash - value to change.
      * @return available possibility.
      */
-    public String onePossibility(int cash) {
-        StringBuilder sb = new StringBuilder();
+    public List<Integer> onePossibility(int cash) {
+        List<Integer> list = new ArrayList<>();
         int result = cash;
         for (int i = 0; i < banknotes.length;) {
             if (result == 0) {
@@ -30,12 +30,12 @@ public class BankMachine {
             int temp = banknotes[i];
             if (temp <= result) {
                 result -= temp;
-                sb.append(temp);
+                list.add(temp);
             } else {
                 i++;
             }
         }
-        return sb.toString();
+        return list;
     }
 
     /**
@@ -43,10 +43,10 @@ public class BankMachine {
      * @param cash - value to change.
      * @return list of possibilities.
      */
-    public List<String> allPossibilities(int cash) {
-        List<String> list = new ArrayList<>();
+    public List<List<Integer>> allPossibilities(int cash) {
+        List<List<Integer>> allLists = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         int result = cash;
-        StringBuilder sb = new StringBuilder();
         int len = banknotes.length;
 
         for (int i = 0; i < len; i++) {
@@ -54,20 +54,18 @@ public class BankMachine {
                 int temp = banknotes[j];
                 if (temp <= result) {
                     result -= temp;
-                    sb.append(temp);
+                    list.add(temp);
                 } else {
                     j++;
                 }
                 if (result == 0) {
-                    if (!list.contains(sb.toString())) {
-                        list.add(sb.toString());
-                    }
-                    sb = new StringBuilder();
+                    allLists.add(list);
+                    list = new ArrayList<>();
                     result = cash;
                     break;
                 }
             }
         }
-        return list;
+        return allLists;
     }
 }

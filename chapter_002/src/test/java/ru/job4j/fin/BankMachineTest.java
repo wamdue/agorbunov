@@ -23,7 +23,7 @@ public class BankMachineTest {
     @Test
     public void whenHaveBanknoteThenReturnOneSolution() {
         BankMachine bank = new BankMachine();
-        String expect = "511";
+        List<Integer> expect = new ArrayList<>(Arrays.asList(5, 1, 1));
         assertThat(bank.onePossibility(7), is(expect));
     }
 
@@ -34,7 +34,11 @@ public class BankMachineTest {
     @Test
     public void whenHaveBanknoteThenReturnAllSolutions() {
         BankMachine bank = new BankMachine();
-        List<String> expect = new ArrayList<>(Arrays.asList("1011", "5511","111111111111"));
+        List<List<Integer>> expect = new ArrayList<>();
+        expect.add(new ArrayList<>(Arrays.asList(10, 1, 1)));
+        expect.add(new ArrayList<>(Arrays.asList(5, 5, 1, 1)));
+        expect.add(new ArrayList<>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)));
+
         assertThat(bank.allPossibilities(12), is(expect));
     }
 
