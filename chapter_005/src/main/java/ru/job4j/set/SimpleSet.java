@@ -22,7 +22,7 @@ public class SimpleSet<E> implements Iterable<E> {
      * Main constructor.
      */
     public SimpleSet() {
-        objects = new Object[10];
+        objects = new Object[16];
     }
 
     /**
@@ -40,12 +40,54 @@ public class SimpleSet<E> implements Iterable<E> {
         }
         if (!match) {
             if (objects.length == size) {
-                Object[] temp = new Object[size * 2];
-                System.arraycopy(objects, 0, temp, 0, size);
-                objects = temp;
+                extendArray();
             }
             objects[size++] = e;
         }
+    }
+
+    public void addHash(E e) {
+        if (size >= objects.length * 0.8) {
+            extendArray();
+        }
+
+        int index = (objects.length - 1) & getHash(e);
+        Node<E> newNode = new Node(e, null);
+        if (objects[index] == null) {
+            objects[index] = new Node<E>(e, null);
+            size++;
+        } else {
+            Node<E> current = (Node<E>) objects[index];
+            if (!current.item.equals(e)) {
+                if (current.next == null) {
+                    current.next = newNode;
+                    size++;
+                } else {
+                    current = current.next;
+                    while (true) {
+                        if (current.item.equals(e)) {
+                            break;
+                        }
+                        if (current.next == null) {
+                            current.next = newNode;
+                            size++;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private int getHash(Object object) {
+        int h;
+        return (object == null) ? 0 : (h = object.hashCode()) ^ (h >>> 16);
+    }
+
+    private void extendArray() {
+        Object[] temp = new Object[objects.length * 2];
+        System.arraycopy(objects, 0, temp, 0, size);
+        objects = temp;
     }
 
     /**
@@ -68,11 +110,41 @@ public class SimpleSet<E> implements Iterable<E> {
         };
     }
 
+    private class Node<E> {
+        E item;
+        Node<E> next;
+
+        Node(E item, Node<E> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
     /**
      *
      * @return - current number of elements in array.
      */
     public int size() {
         return size;
+    }
+
+    public static void main(String[] args) {
+        SimpleSet<Integer> simple = new SimpleSet<>();
+        long begin = System.currentTimeMillis();
+        for (int i = 0; i < 10000; i++) {
+            simple.add(i);
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("Simple insert time: " + (end - begin));
+        System.out.println("Simple size: " + simple.size);
+
+        SimpleSet<Integer> optimum = new SimpleSet<>();
+        begin = System.currentTimeMillis();
+        for (int i = 0; i < 10000; i++) {
+            optimum.addHash(i);
+        }
+        end = System.currentTimeMillis();
+        System.out.println("Optimum insert time: " + (end - begin));
+        System.out.println("Optimum size: " + optimum.size);
     }
 }
