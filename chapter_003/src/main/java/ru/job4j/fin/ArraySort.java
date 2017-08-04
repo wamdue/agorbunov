@@ -29,16 +29,11 @@ public class ArraySort {
         ArrayList<String> list = new ArrayList<>(arrayToSet(array));
         if (method != ArraySort.ASC) {
             list.sort((o1, o2) -> {
-                String[] s1 = o1.split("\\\\");
-                String[] s2 = o2.split("\\\\");
-                int result;
-                if (s1.length == s2.length) {
-                    result = o2.compareTo(o1);
-                }
-                else {
-                    result = s2[0].compareTo(s1[0]);
-                }
-                return result;
+                String s1 = o1.replaceAll("[^0-9]", "");
+                String s2 = o2.replaceAll("[^0-9]", "");
+                s1 = s1.length() == 1 ? s1 + "99" : s1.length() == 2 ? s1 + "9" : s1;
+                s2 = s2.length() == 1 ? s2 + "99" : s2.length() == 2 ? s2 + "9" : s2;
+                return Integer.valueOf(s2) - Integer.valueOf(s1);
             });
         }
         return list;
