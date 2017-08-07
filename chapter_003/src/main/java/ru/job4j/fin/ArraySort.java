@@ -43,10 +43,18 @@ public class ArraySort {
         return result;
     }
 
+    /**
+     *
+     * @return result of comparing by ascending
+     */
     private Comparator<Dep> asc() {
         return (o1, o2) -> o2.number - o1.number;
     }
 
+    /**
+     *
+     * @return result of comparing by descending.
+     */
     private Comparator<Dep> desc() {
         return Comparator.comparing(o -> o.name);
     }
@@ -76,6 +84,9 @@ public class ArraySort {
         return set;
     }
 
+    /**
+     * Internal class to store values, need for sort.
+     */
     private class Dep implements Comparable<Dep> {
         String name;
         int number;
