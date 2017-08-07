@@ -1,6 +1,7 @@
 package ru.job4j.fin;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -26,26 +27,38 @@ public class ArraySort {
      * @return sorted list.
      */
     public ArrayList<String> sortedArray(String[] array, int method) {
-        ArrayList<String> list = new ArrayList<>(arrayToSet(array));
+        ArrayList<Dep> list = new ArrayList<>(arrayToSet(array));
         if (method != ArraySort.ASC) {
-            list.sort((o1, o2) -> {
-                String s1 = o1.replaceAll("[^0-9]", "");
-                String s2 = o2.replaceAll("[^0-9]", "");
-                s1 = s1.length() == 1 ? s1 + "99" : s1.length() == 2 ? s1 + "9" : s1;
-                s2 = s2.length() == 1 ? s2 + "99" : s2.length() == 2 ? s2 + "9" : s2;
-                return Integer.valueOf(s2) - Integer.valueOf(s1);
-            });
+            list.sort(this.asc());
+        } else {
+            list.sort(this.desc());
         }
-        return list;
+
+        ArrayList<String> result = new ArrayList<>();
+
+        for (Dep d : list) {
+            result.add(d.name);
+        }
+
+        return result;
     }
+
+    private Comparator<Dep> asc() {
+        return (o1, o2) -> o2.number - o1.number;
+    }
+
+    private Comparator<Dep> desc() {
+        return Comparator.comparing(o -> o.name);
+    }
+
 
     /**
      * Method to add absent items in set, and ascending sort.
      * @param array - source array.
      * @return - sorted set.
      */
-    private Set<String> arrayToSet(String[] array) {
-        Set<String> set =  new TreeSet<>();
+    private Set<Dep> arrayToSet(String[] array) {
+        Set<Dep> set =  new TreeSet<>();
 
         for (String string : array) {
             String[] parts = string.split("\\\\");
@@ -55,9 +68,44 @@ public class ArraySort {
                     sb.append("\\");
                 }
                 sb.append(parts[j]);
-                set.add(sb.toString());
+                String val = sb.toString().replaceAll("[^0-9]", "");
+                val = val.length() == 1 ? val + "99" : val.length() == 2 ? val + "9" : val;
+                set.add(new Dep(sb.toString(), Integer.valueOf(val)));
             }
         }
         return set;
+    }
+
+    private class Dep implements Comparable<Dep> {
+        String name;
+        int number;
+
+        Dep(String name, int number) {
+            this.name = name;
+            this.number = number;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Dep dep = (Dep) o;
+
+            if (number != dep.number) return false;
+            return name.equals(dep.name);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = name.hashCode();
+            result = 31 * result + number;
+            return result;
+        }
+
+        @Override
+        public int compareTo(Dep o) {
+            return this.number - o.number;
+        }
     }
 }
