@@ -42,7 +42,7 @@ public class PrimeIt implements Iterator {
     @Override
     public Object next() {
         int result = checkNumber();
-        if (checkNumber() > -1) {
+        if (result > -1) {
             position = result + 1;
             return numbers[result];
         } else {
