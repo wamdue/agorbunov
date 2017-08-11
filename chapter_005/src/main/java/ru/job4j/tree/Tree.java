@@ -116,4 +116,24 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
              }
          };
      }
+
+    /**
+     *
+     * @return true if tree node contains less or equal 2 elements, false if more.
+     */
+    public boolean isBinary() {
+         Queue<Node<E>> temp = new LinkedList<>();
+         boolean result = true;
+         temp.add(root);
+         Node<E> node;
+         while (!temp.isEmpty()) {
+             node = temp.poll();
+             if (node.childen.size() > 2) {
+                 result = false;
+                 break;
+             }
+             temp.addAll(node.childen);
+         }
+         return result;
+    }
 }
