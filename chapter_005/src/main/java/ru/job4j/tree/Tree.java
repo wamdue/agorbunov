@@ -19,7 +19,9 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      * @param <E> - class to store.
      */
     class Node<E> {
-        List<Node<E>> childen;
+        Node<E> left;
+        Node<E> right;
+        List<Node<E>> children;
         E value;
     }
 
@@ -29,7 +31,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     public Tree() {
         Node<E> newNode = new Node<>();
         newNode.value = null;
-        newNode.childen = new ArrayList<>();
+        newNode.children = new ArrayList<>();
         this.root = newNode;
     }
 
@@ -42,14 +44,47 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     @Override
     public boolean add(E parent, E child) {
         Node<E> newNode = new Node<>();
-        newNode.childen = new ArrayList<>();
+        newNode.children = new ArrayList<>();
         newNode.value = child;
         Node<E> temp = getParent(parent);
         boolean result = temp != null;
         if (result) {
-            temp.childen.add(newNode);
+            temp.children.add(newNode);
         }
         return result;
+    }
+
+    /**
+     * Using binary tree.
+     * @param e - item to add.
+     */
+    public void add(E e) {
+        if (root.value == null) {
+            root.value = e;
+        } else {
+            Node<E> current = root;
+            Node<E> newNode = new Node<>();
+            newNode.value = e;
+            while(true) {
+                if (current.value.compareTo(e) > 0) {
+                    if (current.left == null) {
+                        current.left = newNode;
+                        break;
+                    } else {
+                        current = current.left;
+                    }
+                } else if (current.value.compareTo(e) < 0) {
+                    if (current.right == null) {
+                        current.right = newNode;
+                        break;
+                    } else {
+                        current = current.right;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -62,7 +97,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         }
         Node<E> result = null;
         Queue<Node<E>> queue = new LinkedList<>();
-        queue.addAll(root.childen);
+        queue.addAll(root.children);
         Node<E> temp = null;
         while (!queue.isEmpty()) {
            temp = queue.poll();
@@ -70,7 +105,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                result = temp;
                break;
            }
-           queue.addAll(temp.childen);
+           queue.addAll(temp.children);
         }
         return result;
     }
@@ -105,12 +140,12 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
              private void init() {
                  Queue<Node<E>> temp = new ArrayDeque<>();
                  queue.add(root);
-                 temp.addAll(root.childen);
+                 temp.addAll(root.children);
                  Node<E> node = null;
                  while (!temp.isEmpty()) {
                     node = temp.poll();
                     queue.add(node);
-                    temp.addAll(node.childen);
+                    temp.addAll(node.children);
                  }
                  queue.poll();
              }
@@ -128,11 +163,11 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
          Node<E> node;
          while (!temp.isEmpty()) {
              node = temp.poll();
-             if (node.childen.size() > 2) {
+             if (node.children.size() > 2) {
                  result = false;
                  break;
              }
-             temp.addAll(node.childen);
+             temp.addAll(node.children);
          }
          return result;
     }
