@@ -5,10 +5,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created on 11.08.17
@@ -20,21 +17,67 @@ public class OrderBook {
     private Set<Order> list = new HashSet<>();
     private Set<Order> ask = new TreeSet<>();
     private Set<Order> bid = new TreeSet<>();
+    private Map<Order, Order> result = new TreeMap<>();
     private String name = "/home/alexey/Java/orders.xml";
 
     public static void main(String[] args) {
         OrderBook book = new OrderBook();
         long begin = System.currentTimeMillis();
         book.readFile();
-        long end = System.currentTimeMillis();
         System.out.println("List size: " + book.list.size());
         System.out.println("Bid size: " + book.bid.size());
         System.out.println("Ask size: " + book.ask.size());
+        LinkedList<Order> bidList = new LinkedList<>(book.bid);
+        LinkedList<Order> askList = new LinkedList<>(book.ask);
+        while (!bidList.isEmpty() && !askList.isEmpty()) {
+            Order as = askList.peek();
+            Order bd = bidList.peek();
+            if (as == null) {
+                askList.remove();
+                continue;
+            }
+            if (bd == null) {
+                bidList.remove();
+                continue;
+            }
+            if (bd.getValue() - as.getValue() >= 0) {
+                int volume = as.getVolume() - bd.getVolume() > 0 ? bd.getVolume() : as.getVolume();
+                Order orderBid = new Order();
+                orderBid.setVolume(volume);
+                orderBid.setValue(bd.getValue());
+                Order orderAsk = new Order();
+                orderAsk.setValue(as.getValue());
+                orderAsk.setVolume(volume);
+                bd.setVolume(bd.getVolume() - volume);
+                as.setVolume(as.getVolume() - volume);
+                book.result.put(orderBid, orderAsk);
+                if (bd.getVolume() == 0) {
+                    bidList.remove();
+                }
+                if(as.getVolume() == 0) {
+                    askList.remove();
+                }
+            } else {
+                askList.remove();
+            }
+        }
+        System.out.println("BID - ASK");
+        for (Map.Entry<Order, Order> map : book.result.entrySet()) {
+            System.out.printf("%d@%f - %d@%f\n", map.getKey().getVolume(), map.getKey().getValue()
+                    , map.getValue().getVolume(), map.getValue().getValue());
+        }
+        System.out.println(book.result.size());
+        //        for (Order a : book.ask) {
+//            for (Order b : book.bid) {
+//                if (a.getValue() <= b.getValue()) {
+//                    book.result.put(a, b);
+//                    book.bid.remove(b);
+//                    break;
+//                }
+//            }
+//        }
+        long end = System.currentTimeMillis();
         System.out.println((end - begin) / 1000);
-        System.out.println(book.ask.toArray()[0]);
-        System.out.println(book.ask.toArray()[1]);
-        System.out.println(book.bid.toArray()[0]);
-        System.out.println(book.bid.toArray()[1]);
     }
 
     public void readFile() {

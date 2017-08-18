@@ -71,12 +71,12 @@ public class Order implements Comparable<Order> {
 
         Order order = (Order) o;
 
-        return id == order.id;
+        return value == order.value;
     }
 
     @Override
     public int hashCode() {
-        return 31 * id;
+        return (int) (31 * value);
     }
 
     @Override
