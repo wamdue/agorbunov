@@ -9,6 +9,9 @@ package ru.job4j.order;
 public class Order implements Comparable<Order> {
     private String name;
     private Operation operation;
+    /**
+     * price.
+     */
     private double value;
     private int volume;
     private int id;
@@ -69,14 +72,28 @@ public class Order implements Comparable<Order> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
+        boolean result = false;
         Order order = (Order) o;
+        if (order.id == 0) {
+            result = name.equals(order.name);
+            if (result) {
+                result = value == order.value;
+            }
+        } else {
+            result = this.id == order.id;
+        }
 
-        return value == order.value;
+        return result;
     }
 
     @Override
     public int hashCode() {
-        return (int) (31 * value);
+        int result = id;
+        if (result == 0) {
+            result = this.name.hashCode();
+            result = (int) (31 * result + this.value);
+        }
+        return result;
     }
 
     @Override
@@ -92,8 +109,8 @@ public class Order implements Comparable<Order> {
 
     @Override
     public int compareTo(Order o) {
-        int temp = this.volume - o.getVolume();
-        temp += this.id - o.getId();
-        return temp;
+
+        double result = this.getValue() - o.getValue();
+        return  result > 0 ?  1 : result < 0 ? -1 : 0;
     }
 }

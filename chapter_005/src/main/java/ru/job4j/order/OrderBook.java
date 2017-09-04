@@ -14,51 +14,71 @@ import java.util.*;
  * @version 1.0
  */
 public class OrderBook {
-    private Set<Order> list = new HashSet<>();
-    private Set<Order> ask = new TreeSet<>();
-    private Set<Order> bid = new TreeSet<>();
-    private Map<Order, Order> result = new TreeMap<>();
+    private Set<Order> ask = new HashSet<>();
+    private Set<Order> bid = new HashSet<>();
+    private Map<Order, Order> result = new TreeMap<>((o1, o2) -> (int) (o1.getValue() - o2.getValue()));
     private String name = "/home/alexey/Java/orders.xml";
 
     public static void main(String[] args) {
         OrderBook book = new OrderBook();
         long begin = System.currentTimeMillis();
+
         book.readFile();
-        System.out.println("List size: " + book.list.size());
+
         System.out.println("Bid size: " + book.bid.size());
         System.out.println("Ask size: " + book.ask.size());
+
         LinkedList<Order> bidList = new LinkedList<>(book.bid);
+        bidList.sort((o1, o2) -> {
+            double result = o2.getValue() - o1.getValue();
+            return  result > 0 ? 1 : result == 0 ? o2.getName().compareTo(o1.getName()) : -1;
+        });
+
         LinkedList<Order> askList = new LinkedList<>(book.ask);
+        askList.sort((o1, o2) -> {
+            double result = o1.getValue() - o2.getValue();
+            return  result > 0 ? 1 : result == 0 ? o1.getName().compareTo(o2.getName()) : -1;
+        });
+
+        askList = book.aggregate(askList);
+        bidList = book.aggregate(bidList);
+
         while (!bidList.isEmpty() && !askList.isEmpty()) {
-            Order as = askList.peek();
-            Order bd = bidList.peek();
+            Order as = askList.peekFirst();
+            Order bd = bidList.peekLast();
+
             if (as == null) {
-                askList.remove();
+                askList.removeFirst();
                 continue;
             }
             if (bd == null) {
-                bidList.remove();
+                bidList.removeLast();
                 continue;
             }
-            if (bd.getValue() - as.getValue() >= 0) {
+            if (bd.getValue() - as.getValue() >= 0 && bd.getName().equals(as.getName())) {
                 int volume = as.getVolume() - bd.getVolume() > 0 ? bd.getVolume() : as.getVolume();
                 Order orderBid = new Order();
                 orderBid.setVolume(volume);
                 orderBid.setValue(bd.getValue());
+                orderBid.setName(bd.getName());
                 Order orderAsk = new Order();
                 orderAsk.setValue(as.getValue());
                 orderAsk.setVolume(volume);
+                orderAsk.setName(as.getName());
                 bd.setVolume(bd.getVolume() - volume);
                 as.setVolume(as.getVolume() - volume);
+                if (book.result.containsKey(orderBid)) {
+
+                }
                 book.result.put(orderBid, orderAsk);
                 if (bd.getVolume() == 0) {
-                    bidList.remove();
+                    bidList.removeLast();
                 }
                 if(as.getVolume() == 0) {
-                    askList.remove();
+                    askList.removeFirst();
                 }
             } else {
-                askList.remove();
+                askList.removeFirst();
             }
         }
         System.out.println("BID - ASK");
@@ -66,16 +86,8 @@ public class OrderBook {
             System.out.printf("%d@%f - %d@%f\n", map.getKey().getVolume(), map.getKey().getValue()
                     , map.getValue().getVolume(), map.getValue().getValue());
         }
+
         System.out.println(book.result.size());
-        //        for (Order a : book.ask) {
-//            for (Order b : book.bid) {
-//                if (a.getValue() <= b.getValue()) {
-//                    book.result.put(a, b);
-//                    book.bid.remove(b);
-//                    break;
-//                }
-//            }
-//        }
         long end = System.currentTimeMillis();
         System.out.println((end - begin) / 1000);
     }
@@ -117,21 +129,19 @@ public class OrderBook {
         }
     }
 
-    private Comparator<Order> asc() {
-        return new Comparator<Order>() {
-            @Override
-            public int compare(Order o1, Order o2) {
-                return (int) (o2.getValue() - o1.getValue());
+    private LinkedList<Order> aggregate(LinkedList<Order> orders) {
+        Iterator<Order> iterator = orders.iterator();
+        LinkedList<Order> list = new LinkedList<>();
+        Order current = iterator.next();
+        while (iterator.hasNext()) {
+            Order temp = iterator.next();
+            if (current.getValue() == temp.getValue() && current.getName().equals(temp.getName())) {
+                current.setVolume(current.getVolume() + temp.getVolume());
+            } else {
+                list.add(current);
+                current = temp;
             }
-        };
-    }
-
-    private Comparator<Order> desc() {
-        return new Comparator<Order>() {
-            @Override
-            public int compare(Order o1, Order o2) {
-                return (int) (o1.getValue() - o2.getValue());
-            };
-        };
+        }
+        return list;
     }
 }
