@@ -9,14 +9,26 @@ import java.util.*;
 
 /**
  * Created on 11.08.17
- *
+ * Managing order books.
  * @author Wamdue
  * @version 1.0
  */
 public class OrderBook {
+    /**
+     * ask orders.
+     */
     private Set<Order> ask = new HashSet<>();
+    /**
+     * bid orders.
+     */
     private Set<Order> bid = new HashSet<>();
-    private Map<Order, Order> result = new TreeMap<>((o1, o2) -> (int) (o1.getValue() - o2.getValue()));
+    /**
+     * result map.
+     */
+    private Map<Order, List<Order>> result = new TreeMap<>((o1, o2) -> (int) (o1.getValue() - o2.getValue()));
+    /**
+     * path to source file.
+     */
     private String name = "/home/alexey/Java/orders.xml";
 
     public static void main(String[] args) {
@@ -43,48 +55,14 @@ public class OrderBook {
         askList = book.aggregate(askList);
         bidList = book.aggregate(bidList);
 
-        while (!bidList.isEmpty() && !askList.isEmpty()) {
-            Order as = askList.peekFirst();
-            Order bd = bidList.peekLast();
+        book.compute(bidList, askList);
 
-            if (as == null) {
-                askList.removeFirst();
-                continue;
-            }
-            if (bd == null) {
-                bidList.removeLast();
-                continue;
-            }
-            if (bd.getValue() - as.getValue() >= 0 && bd.getName().equals(as.getName())) {
-                int volume = as.getVolume() - bd.getVolume() > 0 ? bd.getVolume() : as.getVolume();
-                Order orderBid = new Order();
-                orderBid.setVolume(volume);
-                orderBid.setValue(bd.getValue());
-                orderBid.setName(bd.getName());
-                Order orderAsk = new Order();
-                orderAsk.setValue(as.getValue());
-                orderAsk.setVolume(volume);
-                orderAsk.setName(as.getName());
-                bd.setVolume(bd.getVolume() - volume);
-                as.setVolume(as.getVolume() - volume);
-                if (book.result.containsKey(orderBid)) {
-
-                }
-                book.result.put(orderBid, orderAsk);
-                if (bd.getVolume() == 0) {
-                    bidList.removeLast();
-                }
-                if(as.getVolume() == 0) {
-                    askList.removeFirst();
-                }
-            } else {
-                askList.removeFirst();
-            }
-        }
         System.out.println("BID - ASK");
-        for (Map.Entry<Order, Order> map : book.result.entrySet()) {
-            System.out.printf("%d@%f - %d@%f\n", map.getKey().getVolume(), map.getKey().getValue()
-                    , map.getValue().getVolume(), map.getValue().getValue());
+        for (Map.Entry<Order, List<Order>> map : book.result.entrySet()) {
+            for (Order o : map.getValue()) {
+                System.out.printf("%d@%f - %d@%f\n", map.getKey().getVolume(), map.getKey().getValue()
+                        , o.getVolume(), o.getValue());
+            }
         }
 
         System.out.println(book.result.size());
@@ -92,6 +70,9 @@ public class OrderBook {
         System.out.println((end - begin) / 1000);
     }
 
+    /**
+     * reading source file and fill ask & bid sets.
+     */
     public void readFile() {
         try {
             XMLStreamReader xmlr = XMLInputFactory.newInstance().createXMLStreamReader(name, new FileInputStream(name));
@@ -129,6 +110,11 @@ public class OrderBook {
         }
     }
 
+    /**
+     * Method to aggregate orders with same value.
+     * @param orders - sourse list.
+     * @return aggregated list.
+     */
     private LinkedList<Order> aggregate(LinkedList<Order> orders) {
         Iterator<Order> iterator = orders.iterator();
         LinkedList<Order> list = new LinkedList<>();
@@ -143,5 +129,65 @@ public class OrderBook {
             }
         }
         return list;
+    }
+
+    /**
+     * Method fills result map with orders.
+     * @param bid - bid list.
+     * @param ask - ask list.
+     */
+    private void compute(LinkedList<Order> bid, LinkedList<Order> ask) {
+        while (!bid.isEmpty() && !ask.isEmpty()) {
+            Order as = ask.peekFirst();
+            Order bd = bid.peekLast();
+
+            if (as == null) {
+                ask.removeFirst();
+                continue;
+            }
+            if (bd == null) {
+                bid.removeLast();
+                continue;
+            }
+            if (bd.getValue() - as.getValue() >= 0 && bd.getName().equals(as.getName())) {
+                int volume = as.getVolume() - bd.getVolume() > 0 ? bd.getVolume() : as.getVolume();
+                Order orderBid = new Order();
+                orderBid.setVolume(volume);
+                orderBid.setValue(bd.getValue());
+                orderBid.setName(bd.getName());
+                Order orderAsk = new Order();
+                orderAsk.setValue(as.getValue());
+                orderAsk.setVolume(volume);
+                orderAsk.setName(as.getName());
+                bd.setVolume(bd.getVolume() - volume);
+                as.setVolume(as.getVolume() - volume);
+                if (result.containsKey(orderBid)) {
+                    List<Order> list = result.get(orderBid);
+                    list.add(orderAsk);
+                    for (Order o : result.keySet()) {
+                        if (o.equals(orderBid)) {
+                            orderBid.setVolume(orderBid.getVolume() + o.getVolume());
+                            break;
+                        }
+                    }
+
+                    result.put(orderBid, list);
+
+                } else {
+                    List<Order> list = new ArrayList<>();
+                    list.add(orderAsk);
+                    result.put(orderBid, list);
+                }
+                if (bd.getVolume() == 0) {
+                    bid.removeLast();
+                }
+                if(as.getVolume() == 0) {
+                    ask.removeFirst();
+                }
+            } else {
+                ask.removeFirst();
+            }
+        }
+
     }
 }
