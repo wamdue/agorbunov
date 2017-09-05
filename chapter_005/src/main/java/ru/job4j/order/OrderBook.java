@@ -65,9 +65,8 @@ public class OrderBook {
             }
         }
 
-        System.out.println(book.result.size());
         long end = System.currentTimeMillis();
-        System.out.println((end - begin) / 1000);
+        System.out.printf("Total time: %d seconds\n", (end - begin) / 1000);
     }
 
     /**
