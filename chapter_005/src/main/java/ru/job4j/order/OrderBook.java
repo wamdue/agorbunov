@@ -29,10 +29,14 @@ public class OrderBook {
     /**
      * path to source file.
      */
-    private String name = "/home/alexey/Java/orders.xml";
+    private String name;
+
+    public OrderBook(String name) {
+        this.name = name;
+    }
 
     public static void main(String[] args) {
-        OrderBook book = new OrderBook();
+        OrderBook book = new OrderBook(args[0]);
         long begin = System.currentTimeMillis();
 
         book.readFile();
