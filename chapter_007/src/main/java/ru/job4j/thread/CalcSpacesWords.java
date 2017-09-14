@@ -3,6 +3,7 @@ package ru.job4j.thread;
 /**
  * Created on 06.09.17
  * Calculation class.
+ *
  * @author Wamdue
  * @version 1.0
  */
@@ -10,10 +11,11 @@ public class CalcSpacesWords {
     /**
      * Text to analise.
      */
-    private  String text;
+    private String text;
 
     /**
      * Main constructor.
+     *
      * @param text - text to analise.
      */
     public CalcSpacesWords(String text) {
@@ -49,8 +51,22 @@ public class CalcSpacesWords {
 
         @Override
         public void run() {
+            long beginTime = System.currentTimeMillis();
             String[] words = text.split(" ");
+            long endTime = System.currentTimeMillis();
+            System.out.printf("Regex time: %d;\n", endTime - beginTime);
+            int count = 0;
+            beginTime = System.currentTimeMillis();
+            for (int i = 0; i < text.length(); i++) {
+                char c = text.charAt(i);
+                if (c == ' ' || c == '.' || c == '!' || c == '?') {
+                    count++;
+                }
+            }
+            endTime = System.currentTimeMillis();
+            System.out.printf("For time: %d;\n", endTime - beginTime);
             System.out.printf("Words: %d;\n", words.length);
+            System.out.printf("Count word: %d;\n", count);
         }
     }
 
@@ -65,6 +81,7 @@ public class CalcSpacesWords {
             this.spaces = spaces;
             this.words = words;
         }
+
         @Override
         public void run() {
             try {
@@ -99,8 +116,7 @@ public class CalcSpacesWords {
         try {
             spaces.join();
             words.join();
-            if (spaces.isAlive() || words.isAlive())
-            {
+            if (spaces.isAlive() || words.isAlive()) {
                 spaces.interrupt();
                 words.interrupt();
                 System.out.println("Calculation takes to long time, interrupting.");
