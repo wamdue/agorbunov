@@ -1,17 +1,16 @@
 package ru.job4j.monitor;
 
-import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created on 12.09.17
@@ -23,9 +22,8 @@ import java.util.Queue;
 public class ParallelSearch {
 
     public final static String STOP_WORD = "STOP";
-    private final Object lock = new Object();
-    @GuardedBy("lock")
-    private Queue<String> queue = new LinkedList<>();
+
+    private LinkedBlockingQueue<String> queue = new LinkedBlockingQueue<>();
 
     private List<String> result = new ArrayList<>();
 
@@ -89,9 +87,7 @@ public class ParallelSearch {
                 } else {
                     String ext = f.getName().contains(".")? f.getName().substring(f.getName().indexOf('.') + 1) : " ";
                     if (exts.contains(ext)) {
-                        synchronized (lock) {
                             queue.offer(f.getAbsolutePath());
-                        }
                     }
                 }
             }
@@ -110,15 +106,11 @@ public class ParallelSearch {
             String file;
             while (true) {
                 try {
-                    synchronized (lock) {
-                        if (queue.isEmpty()) {
-                            Thread.sleep(5);
-                            continue;
-                        } else {
-                            file = queue.poll();
-                        }
+                    file = queue.poll();
+                    if (file == null) {
+                        Thread.sleep(50);
+                        continue;
                     }
-
                     if (file.equals(ParallelSearch.STOP_WORD)) {
                         System.out.println(result.size());
                         break;
@@ -126,7 +118,7 @@ public class ParallelSearch {
 
 
                     p = Paths.get(file);
-                    lines = Files.readAllLines(p);
+                    lines = Files.readAllLines(p, Charset.defaultCharset());
                     for (String line : lines) {
                         if (line.contains(text)) {
                             result.add(p.toFile().getAbsolutePath());
@@ -137,6 +129,18 @@ public class ParallelSearch {
                     ex.printStackTrace();
                 }
             }
+        }
+    }
+
+    public static void main(String[] args) {
+        List<String> exts = new ArrayList<>();
+        exts.add("java");
+        String root = "/home/alexey/IdeaProjects/";
+        String text = "main";
+
+        ParallelSearch search = new ParallelSearch(root, text, exts);
+        for (String s : search.result()) {
+            System.out.println(s);
         }
     }
 }
