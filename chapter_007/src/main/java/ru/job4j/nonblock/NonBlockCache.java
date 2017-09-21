@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Created on 19.09.17
  * Simple cache class.
+ *
  * @author Wamdue
  * @version 1.0
  */
@@ -26,22 +27,24 @@ public class NonBlockCache {
 
     /**
      * update task if it can be fount in map.
-     * @param id - id to search
+     *
+     * @param id   - id to search
      * @param task - new task.
      */
     public void update(int id, Task task) {
         long temp = this.getVersion();
-        if (this.map.contains(id)){
+        map.computeIfPresent(id, (k, v) -> {
             if (temp != this.getVersion()) {
                 throw new OptimisticException();
             }
-            map.computeIfPresent(id, (k, v) -> task);
             this.inc();
-        }
+            return task;
+        });
     }
 
     /**
      * Version show.
+     *
      * @return current version.
      */
     private long getVersion() {
@@ -50,11 +53,12 @@ public class NonBlockCache {
 
     /**
      * Delete task from cache.
+     *
      * @param id - id to delete.
      */
     public void delete(int id) {
         long temp = this.getVersion();
-        if (this.map.contains(id)){
+        if (this.map.contains(id)) {
             if (temp != this.getVersion()) {
                 throw new OptimisticException();
             }
