@@ -52,7 +52,7 @@ public class NonBlockCache {
      * Delete task from cache.
      * @param id - id to delete.
      */
-    public void delete(long id) {
+    public void delete(int id) {
         long temp = this.getVersion();
         if (this.map.contains(id)){
             if (temp != this.getVersion()) {
