@@ -13,6 +13,7 @@
         <module>chapter_003</module>
         <module>chapter_005</module>
         <module>chapter_007</module>
+        <module>chapter_008</module>
     </modules>
 
     <properties>
