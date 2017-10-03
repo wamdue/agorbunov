@@ -1,6 +1,8 @@
 package ru.job4j.query;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created on 02.10.17
@@ -9,6 +11,34 @@ import java.util.List;
  * @version 1.0
  */
 public class Generator {
+    /**
+     * Dispatcher.
+     */
+    private Map<Action, String> actions = new HashMap<>();
+
+    /**
+     * init map actions with possible actions, end response on them
+     */
+    private void init() {
+        actions.put(Action.CONTAIN, "LIKE");
+        actions.put(Action.EQUAL, "=");
+        actions.put(Action.NOT_EQUAL, "!=");
+        actions.put(Action.LESS, "<");
+        actions.put(Action.LESS_OR_EQUAL, "<=");
+        actions.put(Action.MORE, ">");
+        actions.put(Action.MORE_OR_EQUAL, ">=");
+        actions.put(Action.NULL, "IS NULL");
+        actions.put(Action.NOT_NULL, "IS NOT NULL");
+        actions.put(Action.IN, "IN");
+    }
+
+    /**
+     * Default constructor.
+     */
+    public Generator() {
+        this.init();
+    }
+
     /**
      * generator method
      * @param begin - beginning of the query
@@ -22,7 +52,6 @@ public class Generator {
             sb.append(getLine(l));
         }
         return sb.toString();
-
     }
 
     /**
@@ -36,7 +65,7 @@ public class Generator {
             sb.append(" ").append(line.getBehave());
         }
         sb.append(" ").append(line.getField());
-        sb.append(" ").append(getAction(line.getAction()));
+        sb.append(" ").append(actions.get(line.getAction()));
         if (line.getAction() != Action.NULL || line.getAction() != Action.NOT_NULL) {
             if (line.getAction() == Action.CONTAIN) {
                 sb.append(" '%").append(line.getValue()).append("%'");
@@ -48,36 +77,5 @@ public class Generator {
         }
         sb.append("\n");
         return sb.toString();
-    }
-
-    /**
-     * Convert method
-     * @param action enum action
-     * @return readable action, to insert into the query
-     */
-    private String getAction(Action action) {
-        String temp;
-        if (action == Action.CONTAIN) {
-            temp = "LIKE";
-        } else if (action == Action.EQUAL) {
-            temp = "=";
-        } else if (action == Action.NOT_EQUAL) {
-            temp = "!=";
-        }  else if (action == Action.LESS) {
-            temp = "<";
-        } else if (action == Action.LESS_OR_EQUAL) {
-            temp = "<=";
-        } else if (action == Action.MORE) {
-            temp = ">";
-        } else if (action == Action.MORE_OR_EQUAL) {
-            temp = ">=";
-        } else if (action == Action.NULL) {
-            temp = "IS NULL";
-        } else if (action == Action.NOT_NULL) {
-            temp = "IS NOT NULL";
-        } else {
-            temp = action.toString();
-        }
-        return temp;
     }
 }
