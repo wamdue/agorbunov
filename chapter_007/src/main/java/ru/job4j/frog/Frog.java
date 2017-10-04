@@ -6,30 +6,59 @@ import java.util.List;
 
 /**
  * Created on 27.09.17
- *
+ * Wave algorithm, find shortest way to finish.
  * @author Wamdue
  * @version 1.0
  */
 public class Frog {
-    private int[][] maze = new int[10][16];
+    private static final int WALL = 0;
+    /**
+     * Main matrix.
+     */
     private int[][] labyrinth;
+    /**
+     * clone of the main matrix, to move frog.
+     */
+    private int[][] maze;
+    /**
+     * List of possible moves.
+     */
     private List<Point> buf = new ArrayList<>();
 
+    /**
+     * Main constructor.
+     * @param labyrinth - matrix to analyze.
+     */
     public Frog (int[][] labyrinth) {
         this.labyrinth = labyrinth;
+        maze = new int[labyrinth.length][labyrinth[0].length];
     }
 
+    /**
+     * Adding point to the list.
+     * @param p - point to move.
+     * @param x - current step.
+     */
     private void push(Point p, int x) {
         if (maze[p.getY()][p.getX()] <= x) return;
         maze[p.getY()][p.getX()] = x;
         buf.add(p);
     }
 
+    /**
+     * @return - remove point from the list, and return it.
+     */
     private Point pop() {
         if (buf.isEmpty()) return null;
         return buf.remove(0);
     }
 
+    /**
+     *
+     * @param start - start position.
+     * @param finish - place where to go.
+     * @return - array of the moves.
+     */
     private Point[] find(Point start, Point finish) {
         int n = 0;
         int t = 0;
@@ -49,20 +78,20 @@ public class Frog {
 
             n = maze[p.getY()][p.getX()] + labyrinth[p.getY()][p.getX()];
 
-            if ((p.getY() + 1  < labyrinth.length) && labyrinth[p.getY() + 1][this.decimal(p.getX() + 2)] != 0) {
-                this.push(new Point( this.decimal(p.getX() + 2), p.getY() + 1), n);
+            if ((p.getY() + 1  < labyrinth.length) && labyrinth[p.getY() + 1][this.positive(p.getX() + 2)] != WALL) {
+                this.push(new Point( this.positive(p.getX() + 2), p.getY() + 1), n);
             }
-            if ((p.getY() + 2 < labyrinth.length) && labyrinth[p.getY() + 2][this.decimal(p.getX() + 1)] != 0) {
-                this.push(new Point(this.decimal(p.getX() + 1), p.getY() + 2), n);
+            if ((p.getY() + 2 < labyrinth.length) && labyrinth[p.getY() + 2][this.positive(p.getX() + 1)] != WALL) {
+                this.push(new Point(this.positive(p.getX() + 1), p.getY() + 2), n);
             }
-            if ((p.getY() - 2 >= 0) && labyrinth[p.getY() - 2][this.decimal(p.getX() + 1)] != 0) {
-                this.push(new Point(this.decimal(p.getX() + 1), p.getY() - 2), n);
+            if ((p.getY() - 2 >= 0) && labyrinth[p.getY() - 2][this.positive(p.getX() + 1)] != WALL) {
+                this.push(new Point(this.positive(p.getX() + 1), p.getY() - 2), n);
             }
-            if ((p.getY() - 1 >= 0) && labyrinth[p.getY() - 1][this.decimal(p.getX() + 2)] != 0) {
-                this.push(new Point(this.decimal(p.getX() + 2), p.getY() - 1), n);
+            if ((p.getY() - 1 >= 0) && labyrinth[p.getY() - 1][this.positive(p.getX() + 2)] != WALL) {
+                this.push(new Point(this.positive(p.getX() + 2), p.getY() - 1), n);
             }
-            if (p.getY() == finish.getY() && labyrinth[p.getY()][this.decimal(p.getX() + 3)] != 0) {
-                this.push(new Point(this.decimal(p.getX() + 3), p.getY()), n);
+            if (p.getY() == finish.getY() && labyrinth[p.getY()][this.positive(p.getX() + 3)] != WALL) {
+                this.push(new Point(this.positive(p.getX() + 3), p.getY()), n);
             }
         }
 
@@ -129,14 +158,25 @@ public class Frog {
         return result;
     }
 
+    /**
+     * Emulation of the infinite matrix by the axis x.
+     * @param val - desirable coord.
+     * @return correct value, through length of matrix
+     */
     private int positive(int val) {
-        return val >= 0 ? val : 16 + val;
+        int result;
+        if (val < 0) {
+            result = labyrinth[0].length + val;
+        } else {
+            result = val > labyrinth[0].length - 1 ? (val - labyrinth[0].length): val;
+        }
+        return result;
     }
 
-    private int decimal (int val) {
-        return val > 15? (val - 16): val;
-    }
-
+    /**
+     * Raw test.
+     * @param args - not in use.
+     */
     public static void main(String[] args) {
         int[][] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
