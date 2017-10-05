@@ -12,17 +12,36 @@ import java.sql.*;
 
 /**
  * Created on 04.10.17
- *
+ * Xml xslt
  * @author Wamdue
  * @version 1.0
  */
 public class XmlXsd {
+    /**
+     * count of rows.
+     */
     private final int entries;
+    /**
+     * name of the first file.
+     */
     private final String first = "1.xml";
+    /**
+     * name of the second file, xslt.
+     */
     private final String second = "2.xml";
+    /**
+     * Style, to convert from xml to xslt.
+     */
     private final String xsltStyle = "style.xsl";
+    /**
+     * db file name.
+     */
     private final String dbName = "test.db";
 
+    /**
+     * main constructor
+     * @param entries - count of rows to create.
+     */
     public XmlXsd(int entries) {
         this.entries = entries;
         this.init();
@@ -30,6 +49,9 @@ public class XmlXsd {
         System.out.println(this.calculateSum());
     }
 
+    /**
+     * Init method, connection to db and working with data.
+     */
     private void init() {
         boolean isExist = true;
         File file = new File(dbName);
@@ -68,6 +90,10 @@ public class XmlXsd {
         }
     }
 
+    /**
+     * Create file if not exist.
+     * @param file - file name.
+     */
     private void createFile(File file) {
         if (!file.exists()) {
             try {
@@ -78,10 +104,21 @@ public class XmlXsd {
         }
     }
 
+    /**
+     * Create table if not created.
+     * @param st - statement of the connection.
+     * @throws SQLException
+     */
     private void createTable(Statement st) throws SQLException {
         st.execute("CREATE TABLE IF NOT EXISTS TEST (field integer);");
     }
 
+    /**
+     * Fills table with default data.
+     * @param st - statement of the connection.
+     * @param n - count of row.
+     * @throws SQLException
+     */
     private void insertVaules(Statement st, int n) throws SQLException {
         for (int i = 0; i < n; i++) {
             st.addBatch("INSERT INTO TEST (field) VALUES (1);");
@@ -89,6 +126,10 @@ public class XmlXsd {
         st.executeBatch();
     }
 
+    /**
+     * Wfite data to xml.
+     * @param set - result of the select.
+     */
     private void writetoXmlFile(ResultSet set) {
         XMLOutputFactory factory = XMLOutputFactory.newInstance();
         XMLStreamWriter writer = null;
@@ -120,6 +161,9 @@ public class XmlXsd {
         }
     }
 
+    /**
+     * Convertion from xml to xml xslt
+     */
     private void convertXmlToXslt() {
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(xsltStyle));
@@ -129,6 +173,10 @@ public class XmlXsd {
         }
     }
 
+    /**
+     * Calculating sum from xslt file.
+     * @return - sum.
+     */
     private int calculateSum() {
         XMLInputFactory factory = XMLInputFactory.newInstance();
         XMLStreamReader reader = null;
