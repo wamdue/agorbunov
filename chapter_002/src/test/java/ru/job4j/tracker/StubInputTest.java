@@ -1,10 +1,12 @@
 package ru.job4j.tracker;
+
 import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 /**
 * Test for menu.
 */
@@ -28,7 +30,7 @@ public class StubInputTest {
 	public void whenUpdateThenTrackerhasUpdatedValue() {
 	    Tracker tracker = new Tracker();
 	    Item item = tracker.add(new Item());
-	    Input input = new StubInput(new ArrayList<>(Arrays.asList("2", item.getId(), "new name", "desc", "6")));
+	    Input input = new StubInput(new ArrayList<>(Arrays.asList("2", String.valueOf(item.getId()), "new name", "desc", "6")));
 	    new StartUi(input, tracker).init();
 	    assertThat(tracker.findById(item.getId()).getName(), is("new name"));
 	}
@@ -59,7 +61,7 @@ public class StubInputTest {
         for (int i = 0; i < 3; i++) {
 	    items.add(tracker.add(new Item("name"+i, "desc"+i)));
 	}
-        Input input = new StubInput(new ArrayList<>(Arrays.asList("3", items.get(1).getId(),"1", "6")));
+        Input input = new StubInput(new ArrayList<>(Arrays.asList("3", String.valueOf(items.get(1).getId()),"1", "6")));
 	new StartUi(input, tracker).init();
         assertThat(tracker.size(), is(expected));
     }

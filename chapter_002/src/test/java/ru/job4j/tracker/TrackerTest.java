@@ -1,10 +1,11 @@
 package ru.job4j.tracker;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 /**
 * Class for testing Tracker.
 */
@@ -31,7 +32,6 @@ public class TrackerTest {
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
 	    item = new Item(Integer.toString(i), Integer.toString(i));
-	    item.setId(Integer.toString(i));
 	    items.add(item);
 	    tracker.add(item);
 	}
@@ -49,7 +49,6 @@ public class TrackerTest {
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
 	    item = new Item(Integer.toString(i), Integer.toString(i));
-	    item.setId(Integer.toString(i));
 	    items.add(item);
 	    tracker.add(item);
 	}
@@ -65,7 +64,6 @@ public class TrackerTest {
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
 	    item = new Item(Integer.toString(i), Integer.toString(i));
-	    item.setId(Integer.toString(i));
 	    items.add(item);
 	    tracker.add(item);
 	}
@@ -85,9 +83,8 @@ public class TrackerTest {
 	    item = new Item(Integer.toString(i), Integer.toString(i));
 	    items.add(item);
 	    tracker.add(item);
-	    item.setId(Integer.toString(i));
 	}
-	assertThat(tracker.findById("1"), is(items.get(1)));
+	assertThat(tracker.findById(1), is(items.get(1)));
     }
     /**
     * Update item.
@@ -99,7 +96,6 @@ public class TrackerTest {
 	Item item = null;
 	for (int i = 0; i < 5; i++) {
 	    item = new Item(Integer.toString(i), Integer.toString(i));
-	    item.setId(Integer.toString(i));
 	    items.add(item);
 	    tracker.add(item);
 	}

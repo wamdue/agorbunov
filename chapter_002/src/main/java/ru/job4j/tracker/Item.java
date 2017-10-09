@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,7 @@ public class Item {
     /**
      * @param id - number of task.
      */
-    private String id;
+    private int id;
     /**
      * @param name - name of the task.
      */
@@ -18,14 +19,11 @@ public class Item {
      * @param desc - description of the task.
      */
     private String desc;
-    /**
-     * @param comments - history of the comments.
-     */
-    private ArrayList<String> comments;
+    private ArrayList<Comment> comments;
     /**
      * @param created - time of creation in mls.
      */
-    private long created;
+    private Timestamp created;
 
     /**
      * Empty constructor.
@@ -47,7 +45,7 @@ public class Item {
     /**
      * @return id - returns id.
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -68,21 +66,21 @@ public class Item {
     /**
      * @return comments - returns array of comments.
      */
-    public ArrayList<String> getComments() {
+    public ArrayList<Comment> getComments() {
         return comments;
     }
 
     /**
      * @return created - returns time of creation.
      */
-    public long getCreated() {
+    public Timestamp getCreated() {
         return created;
     }
 
     /**
      * @param id - set id of the task.
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -101,16 +99,13 @@ public class Item {
     }
 
     /**
-     * @param comments - set new comments.
-     */
-    public void setComments(ArrayList<String> comments) {
-        this.comments = comments;
-    }
-
-    /**
      * @param created - set new time of creation.
      */
-    public void setCreated(long created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
     }
 }

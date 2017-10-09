@@ -49,6 +49,7 @@ public class StartUi {
             menu.show();
             int value = input.ask("Select: ", ranges);
             if (value == EXIT) {
+                menu.close();
                 break;
             }
             menu.select(value);

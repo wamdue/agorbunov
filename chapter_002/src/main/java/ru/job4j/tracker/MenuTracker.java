@@ -85,6 +85,9 @@ public class MenuTracker {
         System.out.println("	6 Exit.");
     }
 
+    public void close() {
+        this.tracker.close();
+    }
     /**
      * Internal class for implemention UserAction.
      */
@@ -162,9 +165,10 @@ class EditItem extends BaseAction {
      */
     public void execute(Input input, Tracker tracker) {
         String id = input.ask("Enter task id for edit: ");
-        Item item = tracker.findById(id);
+        Item item = tracker.findById(Integer.valueOf(id));
         item.setName(input.ask("Enter new task name: "));
         item.setDesc(input.ask("Enter new task description: "));
+        tracker.update(item);
     }
 }
 
@@ -190,7 +194,7 @@ class DeleteItem extends BaseAction {
      */
     public void execute(Input input, Tracker tracker) {
         String id = input.ask("Enter task id to delete: ");
-        tracker.delete(tracker.findById(id));
+        tracker.delete(tracker.findById(Integer.valueOf(id)));
     }
 }
 
@@ -216,7 +220,7 @@ class FindItemById extends BaseAction {
      */
     public void execute(Input input, Tracker tracker) {
         String id = input.ask("Enter task id to find: ");
-        Item item = tracker.findById(id);
+        Item item = tracker.findById(Integer.valueOf(id));
         if (item != null) {
             System.out.printf("id: %s; name: %s\n", item.getId(), item.getName());
         } else {
