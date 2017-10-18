@@ -17,7 +17,6 @@ import java.util.Properties;
  */
 public class Connect {
     private Connection conn;
-    private PreparedStatement statement;
     private Properties prop = new Properties();
     private final Logger log = Logger.getLogger(Connect.class);
 
@@ -43,9 +42,8 @@ public class Connect {
         try {
             conn = DriverManager.getConnection(prop.getProperty("url")
                     , prop.getProperty("user"), prop.getProperty("password"));
-            statement = conn.prepareStatement(prop.getProperty("table"));
-            statement.executeUpdate();
             conn.setAutoCommit(false);
+            this.createTables();
         } catch (SQLException e) {
             log.error("Couldn`t establish connection with DB", e.fillInStackTrace());
         }
@@ -56,18 +54,17 @@ public class Connect {
      * @param entryList - list of values to insert.
      */
     public void addBatch(List<Entry> entryList) {
-        try {
-            statement = conn.prepareStatement(prop.getProperty("insert"));
+        try (PreparedStatement preparedStatement = conn.prepareStatement(prop.getProperty("insert"))) {
             for (Entry e : entryList) {
                 if(this.isNewRecord(e)) {
-                    statement.setString(1, e.getSource());
-                    statement.setString(2, e.getName());
-                    statement.setString(3, e.getUrl());
-                    statement.setTimestamp(4, e.getTimestamp());
-                    statement.addBatch();
+                    preparedStatement.setString(1, e.getSource());
+                    preparedStatement.setString(2, e.getName());
+                    preparedStatement.setString(3, e.getUrl());
+                    preparedStatement.setTimestamp(4, e.getTimestamp());
+                    preparedStatement.addBatch();
                 }
             }
-            statement.executeBatch();
+            preparedStatement.executeBatch();
             conn.commit();
         } catch (SQLException e) {
             log.error("Cannot insert record to db", e.fillInStackTrace());
@@ -85,23 +82,23 @@ public class Connect {
                 log.error("Cannot close connection", e.fillInStackTrace());
             }
         }
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                log.error("Cannot close statement", e.fillInStackTrace());
-            }
-        }
     }
 
-    private boolean isNewRecord(Entry entry) throws SQLException {
-        statement = conn.prepareStatement(prop.getProperty("check_record"));
-        statement.setString(1, entry.getName());
-        ResultSet set = statement.executeQuery();
-        set.next();
-        int i = set.getInt(1);
-        set.close();
-        return i == 0;
+    private boolean isNewRecord(Entry entry) {
+        boolean result = true;
+        try(PreparedStatement preparedStatement = conn.prepareStatement(prop.getProperty("check_record"))) {
+            preparedStatement.setString(1, entry.getName());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                int i = resultSet.getInt(1);
+                result = i == 0;
+            }catch (SQLException ex) {
+                log.error("Cannot execute query", ex.fillInStackTrace());
+            }
+        } catch (SQLException e) {
+            log.error("Cannot create statement on query", e.fillInStackTrace());
+        }
+        return result;
     }
 
     /**
@@ -110,26 +107,25 @@ public class Connect {
      */
     public boolean emptyDB() {
         boolean result = false;
-        ResultSet set = null;
 
-        try {
-            statement = conn.prepareStatement(prop.getProperty("not_empty"));
-            set =statement.executeQuery();
-            set.next();
-            result = set.getInt(1) == 0;
+        try(PreparedStatement preparedStatement = conn.prepareStatement(prop.getProperty("not_empty"));
+        ResultSet resultSet = preparedStatement.executeQuery()) {
+            resultSet.next();
+            result = resultSet.getInt(1) == 0;
         } catch (SQLException e) {
             log.error("Cannot check size of db.", e.fillInStackTrace());
             e.printStackTrace();
-        } finally {
-            if (set!= null) {
-                try {
-                    set.close();
-                } catch (SQLException e) {
-                    log.error("Cannot close result set", e.fillInStackTrace());
-                    e.printStackTrace();
-                }
-            }
         }
         return result;
+    }
+
+    public void createTables() {
+        try (PreparedStatement preparedStatement = conn.prepareStatement(prop.getProperty("table"))) {
+            preparedStatement.executeUpdate();
+            conn.commit();
+            prop.getProperty("table");
+        }catch (SQLException e) {
+            log.error("Cannot check tables", e.fillInStackTrace());
+        }
     }
 }
