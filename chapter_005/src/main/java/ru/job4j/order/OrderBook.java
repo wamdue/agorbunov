@@ -64,8 +64,7 @@ public class OrderBook {
         System.out.println("BID - ASK");
         for (Map.Entry<Order, List<Order>> map : book.result.entrySet()) {
             for (Order o : map.getValue()) {
-                System.out.printf("%d@%f - %d@%f\n", map.getKey().getVolume(), map.getKey().getValue()
-                        , o.getVolume(), o.getValue());
+                System.out.printf("%d@%f - %d@%f\n", map.getKey().getVolume(), map.getKey().getValue(), o.getVolume(), o.getValue());
             }
         }
 
@@ -184,7 +183,7 @@ public class OrderBook {
                 if (bd.getVolume() == 0) {
                     bid.removeLast();
                 }
-                if(as.getVolume() == 0) {
+                if (as.getVolume() == 0) {
                     ask.removeFirst();
                 }
             } else {

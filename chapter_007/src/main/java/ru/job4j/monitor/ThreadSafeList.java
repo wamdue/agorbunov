@@ -12,7 +12,7 @@ import java.util.Iterator;
  * @version 1.0
  */
 @ThreadSafe
-public class ThreadSafeList<E>  {
+public class ThreadSafeList<E> {
 
     private final Object lock = new Object();
     /**
@@ -71,7 +71,7 @@ public class ThreadSafeList<E>  {
      * Internal class for iterator.
      * @param <V>
      */
-    private class SimpleIterator<V> implements Iterator<V>{
+    private class SimpleIterator<V> implements Iterator<V> {
         /**
          * Array to interact.
          */

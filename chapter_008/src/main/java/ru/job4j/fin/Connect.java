@@ -40,8 +40,7 @@ public class Connect {
      */
     public void connect() {
         try {
-            conn = DriverManager.getConnection(prop.getProperty("url")
-                    , prop.getProperty("user"), prop.getProperty("password"));
+            conn = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"), prop.getProperty("password"));
             conn.setAutoCommit(false);
             this.createTables();
         } catch (SQLException e) {
@@ -56,7 +55,7 @@ public class Connect {
     public void addBatch(List<Entry> entryList) {
         try (PreparedStatement preparedStatement = conn.prepareStatement(prop.getProperty("insert"))) {
             for (Entry e : entryList) {
-                if(this.isNewRecord(e)) {
+                if (this.isNewRecord(e)) {
                     preparedStatement.setString(1, e.getSource());
                     preparedStatement.setString(2, e.getName());
                     preparedStatement.setString(3, e.getUrl());
@@ -86,13 +85,13 @@ public class Connect {
 
     private boolean isNewRecord(Entry entry) {
         boolean result = true;
-        try(PreparedStatement preparedStatement = conn.prepareStatement(prop.getProperty("check_record"))) {
+        try (PreparedStatement preparedStatement = conn.prepareStatement(prop.getProperty("check_record"))) {
             preparedStatement.setString(1, entry.getName());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
                 int i = resultSet.getInt(1);
                 result = i == 0;
-            }catch (SQLException ex) {
+            } catch (SQLException ex) {
                 log.error("Cannot execute query", ex.fillInStackTrace());
             }
         } catch (SQLException e) {
@@ -108,7 +107,7 @@ public class Connect {
     public boolean emptyDB() {
         boolean result = false;
 
-        try(PreparedStatement preparedStatement = conn.prepareStatement(prop.getProperty("not_empty"));
+        try (PreparedStatement preparedStatement = conn.prepareStatement(prop.getProperty("not_empty"));
         ResultSet resultSet = preparedStatement.executeQuery()) {
             resultSet.next();
             result = resultSet.getInt(1) == 0;
@@ -124,7 +123,7 @@ public class Connect {
             preparedStatement.executeUpdate();
             conn.commit();
             prop.getProperty("table");
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             log.error("Cannot check tables", e.fillInStackTrace());
         }
     }

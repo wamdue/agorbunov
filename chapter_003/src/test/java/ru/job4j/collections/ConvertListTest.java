@@ -5,8 +5,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created on 17.07.17
@@ -28,7 +28,7 @@ public class ConvertListTest {
         int[][] source = new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         ConvertList convertList = new ConvertList();
         for (int i = 0; i < 9; i++) {
-            expected.add(i+1);
+            expected.add(i + 1);
         }
         assertThat(convertList.toList(source), is(expected));
     }
@@ -44,7 +44,7 @@ public class ConvertListTest {
     @Test
     public void whenHaveListThenMakeArray() {
         List<Integer> list = new ArrayList<>();
-        int[][] expected = new int[][] { {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {9, 0, 0}};
+        int[][] expected = new int[][] {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {9, 0, 0}};
         for (int i = 0; i < 10; i++) {
             list.add(i);
         }

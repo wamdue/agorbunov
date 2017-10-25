@@ -64,11 +64,11 @@ public class BomberMan {
      */
     private void initBlocks() {
         Set<Cell> cells = new HashSet<>();
-        while(cells.size() < numBlocks) {
+        while (cells.size() < numBlocks) {
             cells.add(new Cell(random.nextInt(SIZE - 1), random.nextInt(SIZE - 1)));
         }
         allCells.addAll(cells);
-        for(Cell c : cells) {
+        for (Cell c : cells) {
             board[c.getY()][c.getX()].lock();
         }
     }

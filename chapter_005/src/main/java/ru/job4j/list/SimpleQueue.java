@@ -6,7 +6,7 @@ package ru.job4j.list;
  * @author Wamdue
  * @version 1.0
  */
-public class SimpleQueue<E> extends SimpleLinkedList<E>{
+public class SimpleQueue<E> extends SimpleLinkedList<E> {
     /**
      *  Link to the first element.
      */
@@ -24,8 +24,8 @@ public class SimpleQueue<E> extends SimpleLinkedList<E>{
      * Removes first element from list, and returns it.
      * @return - first element, or null if size == 0.
      */
-    public E poll () {
-        E temp = this. first.item;
+    public E poll() {
+        E temp = this.first.item;
         if (this.size > 0) {
             this.first = this.first.next;
             this.size--;
@@ -89,7 +89,7 @@ public class SimpleQueue<E> extends SimpleLinkedList<E>{
          * @param previous - link to previous item.
          * @param next - link to next item.
          */
-        public Node (E item, Node<E> previous, Node<E> next) {
+        public Node(E item, Node<E> previous, Node<E> next) {
             this.item = item;
             this.previous = previous;
             this.next = next;

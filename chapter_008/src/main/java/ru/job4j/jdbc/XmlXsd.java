@@ -137,7 +137,7 @@ public class XmlXsd {
             writer = factory.createXMLStreamWriter(new FileWriter(new File(first)));
             writer.writeStartDocument();
             writer.writeStartElement("entries");
-            while(set.next()) {
+            while (set.next()) {
                 writer.writeStartElement("entry");
                 writer.writeStartElement("field");
                 writer.writeCharacters(String.valueOf(set.getInt("field")));
@@ -150,7 +150,7 @@ public class XmlXsd {
             writer.close();
         } catch (XMLStreamException | IOException | SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (writer != null) {
                 try {
                     writer.close();

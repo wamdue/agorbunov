@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class LoadData {
 
-    private static final Logger log = Logger.getLogger(LoadData.class);
+    private static final Logger LOG = Logger.getLogger(LoadData.class);
 
     private Map<String, Integer> months = new HashMap<>();
 
@@ -79,7 +79,7 @@ public class LoadData {
         } else {
             calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) - 1);
         }
-        log.info("Starting to parse: " + this.nextStart.getTime());
+        LOG.info("Starting to parse: " + this.nextStart.getTime());
         while (true) {
             try {
                 doc = Jsoup.connect("http://www.sql.ru/forum/job-offers/" + count).get();
@@ -96,7 +96,7 @@ public class LoadData {
                         }
                     }
                 }
-                if (temp!= null && temp.compareTo(calendar) < 0) {
+                if (temp != null && temp.compareTo(calendar) < 0) {
                     break;
                 }
                 count++;
@@ -155,7 +155,7 @@ public class LoadData {
      */
     public void start() {
         this.fillList();
-        while(isWorking) {
+        while (isWorking) {
             Calendar currentTime = Calendar.getInstance(this.locale);
             if (this.nextStart.getTime().compareTo(currentTime.getTime()) > 0) {
                 try {
@@ -163,7 +163,7 @@ public class LoadData {
                     Thread.sleep(this.nextStart.getTimeInMillis() - currentTime.getTimeInMillis());
                     continue;
                 } catch (InterruptedException e) {
-                    log.error("Interrupted sleep time", e.fillInStackTrace());
+                    LOG.error("Interrupted sleep time", e.fillInStackTrace());
                     e.printStackTrace();
                 }
             }
@@ -190,7 +190,7 @@ public class LoadData {
         } else if (mode == 'D') {
             this.nextStart.set(Calendar.DAY_OF_MONTH, this.nextStart.get(Calendar.DAY_OF_MONTH) + this.waitTime);
         }
-        log.info("Next time, will start at: " + nextStart.getTime());
+        LOG.info("Next time, will start at: " + nextStart.getTime());
     }
 
     public static void main(String[] args) {

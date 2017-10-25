@@ -58,7 +58,7 @@ public class BankMap {
      * @param user - source user.
      * @return - list of all accounts
      */
-    public List<Account> getUserAccounts (User user) {
+    public List<Account> getUserAccounts(User user) {
         return map.get(user);
     }
 
@@ -71,13 +71,13 @@ public class BankMap {
      * @param amount - amount to transfer.
      * @return - true if transaction was successful or false if not.
      */
-    public boolean transferMoney (User srcUser, Account srcAccount, User dstUser, Account dstAccount, double amount) {
+    public boolean transferMoney(User srcUser, Account srcAccount, User dstUser, Account dstAccount, double amount) {
         boolean result = true;
         List<Account> srcList = this.getUserAccounts(srcUser);
         List<Account> dstList = this.getUserAccounts(dstUser);
         int srcAccountIndex = srcList.indexOf(srcAccount);
         int dstAccountIndex = dstList.indexOf(dstAccount);
-        if(srcAccountIndex == -1 || dstAccountIndex == - 1) {
+        if (srcAccountIndex == -1 || dstAccountIndex == -1) {
             result = false;
         } else {
 

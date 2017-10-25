@@ -86,7 +86,7 @@ public class UserStorage {
      * @param amount - amount to transfer.
      * @return - true if user from have enough money, otherwise false.
      */
-    public boolean tranfer (int from, int to, int amount) {
+    public boolean tranfer(int from, int to, int amount) {
         synchronized (lock) {
             boolean result = false;
             User userFrom = getUserById(from);

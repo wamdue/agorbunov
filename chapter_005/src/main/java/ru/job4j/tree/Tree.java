@@ -65,7 +65,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             Node<E> current = root;
             Node<E> newNode = new Node<>();
             newNode.value = e;
-            while(true) {
+            while (true) {
                 if (current.value.compareTo(e) > 0) {
                     if (current.left == null) {
                         current.left = newNode;
@@ -92,7 +92,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      * @return return node of the parent element, or null if not found.
      */
     private Node<E> getParent(E parent) {
-        if(parent == null){
+        if (parent == null) {
             return root;
         }
         Node<E> result = null;

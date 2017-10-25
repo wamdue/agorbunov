@@ -60,7 +60,7 @@ public class SimpleList<E> implements SimpleContainer<E> {
      * Internal class for iterator.
      * @param <V>
      */
-    private class SimpleIterator<V> implements Iterator<V>{
+    private class SimpleIterator<V> implements Iterator<V> {
         /**
          * Array to interact.
          */

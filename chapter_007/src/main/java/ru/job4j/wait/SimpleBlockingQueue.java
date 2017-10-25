@@ -38,7 +38,7 @@ public class SimpleBlockingQueue<E> {
      * if list is empty, waits until item will appear.
      * @return
      */
-    public E take(){
+    public E take() {
         E item = null;
         synchronized (lockTake) {
             while (size == 0) {

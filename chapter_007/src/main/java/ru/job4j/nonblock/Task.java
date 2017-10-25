@@ -11,5 +11,5 @@ public interface Task {
     String getName();
     void setName(String name);
     int getAge();
-    void setAge ( int age);
+    void setAge(int age);
 }

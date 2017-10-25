@@ -12,7 +12,7 @@ public class WorkingTime {
     /**
      * Main constructor
      */
-    public WorkingTime() {}
+    public WorkingTime() { }
 
     /**
      * Calculate insert working time.

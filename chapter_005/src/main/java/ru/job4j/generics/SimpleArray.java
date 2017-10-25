@@ -50,7 +50,7 @@ public class SimpleArray<T> {
             if (objects[i].equals(t)) {
                 Object[] temp = new Object[--position];
                 System.arraycopy(objects, 0, temp, 0, i);
-                System.arraycopy(objects, i+1, temp, i, position - i - 1);
+                System.arraycopy(objects, i + 1, temp, i, position - i - 1);
                 objects = temp;
                 break;
             }

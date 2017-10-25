@@ -1,10 +1,12 @@
 package ru.job4j.sort;
 
 import org.junit.Test;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.core.Is.is;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created on 18.07.17
@@ -29,7 +31,7 @@ public class SortUserTest {
         list.add(vova);
         list.add(dima);
         SortUser sortUser = new SortUser();
-        assertThat(sortUser.sort(list).iterator().next(), is (vova));
+        assertThat(sortUser.sort(list).iterator().next(), is(vova));
     }
 
     /**

@@ -18,7 +18,7 @@ public class SimpleArrayTest {
      * call get(3) expect 3.
      */
     @Test
-    public void whenAddingNewItemThenItCanBeFound(){
+    public void whenAddingNewItemThenItCanBeFound() {
         SimpleArray<String> simpleArray = new SimpleArray<>(10);
         for (int i = 0; i < 10; i++) {
             simpleArray.add(String.valueOf(i));

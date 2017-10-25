@@ -29,7 +29,7 @@ public class Frog {
      * Main constructor.
      * @param labyrinth - matrix to analyze.
      */
-    public Frog (int[][] labyrinth) {
+    public Frog(int[][] labyrinth) {
         this.labyrinth = labyrinth;
         this.sizeX = labyrinth.length;
         this.sizeY = labyrinth[0].length;
@@ -89,7 +89,7 @@ public class Frog {
      */
     private Way isWinner(int x, int y, int stepCount) {
         Way result = new Way(false, stepCount);
-        if (stepCount <= LIMIT && x >=0 && y >= 0 && y < this.sizeY) {
+        if (stepCount <= LIMIT && x >= 0 && y >= 0 && y < this.sizeY) {
             if (x >= this.sizeX) {
                 x -= this.sizeX;
             }

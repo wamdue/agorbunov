@@ -62,7 +62,7 @@ public class MyMap<K, V> {
      * @param key - key to find in map
      * @return - value of the key.
      */
-    public V get (K key) {
+    public V get(K key) {
         return objects[getIndex(key)].value;
     }
 
@@ -89,8 +89,8 @@ public class MyMap<K, V> {
      * @return hash number.
      */
     private int hash(K key) {
-        int h;
-        return key == null ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+        int h = key.hashCode();
+        return key == null ? 0 : h ^ (h >>> 16);
     }
 
     /**
@@ -186,7 +186,7 @@ public class MyMap<K, V> {
     private class Node<K, V> {
         K key;
         V value;
-        Node (K key, V value) {
+        Node(K key, V value) {
             this.key = key;
             this.value = value;
         }

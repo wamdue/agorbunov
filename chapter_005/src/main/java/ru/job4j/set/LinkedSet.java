@@ -8,7 +8,7 @@ import java.util.Iterator;
  * @author Wamdue
  * @version 1.0
  */
-public class LinkedSet<E> implements Iterable<E>{
+public class LinkedSet<E> implements Iterable<E> {
     /**
      * Link to the first element.
      */

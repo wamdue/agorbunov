@@ -15,7 +15,7 @@ public class ConvertList {
      * @param array - array to convert in list.
      * @return array as list, or empty if array.length == 0
      */
-    public List<Integer> toList (int[][] array) {
+    public List<Integer> toList(int[][] array) {
         List<Integer> list = new ArrayList<>();
         for (int[] arr : array) {
             for (int value : arr) {
@@ -31,7 +31,7 @@ public class ConvertList {
      * @param rows - number of rows in array.
      * @return converted array.
      */
-    public int[][] toArray (List<Integer> list, int rows) {
+    public int[][] toArray(List<Integer> list, int rows) {
         int width = list.size() % rows == 0 ? list.size() / rows : (list.size() / rows) + 1;
         int[][] array = new int[rows][width];
         int x = 0;
@@ -57,7 +57,7 @@ public class ConvertList {
      * @param list - list of arrays to convert.
      * @return list of values of list of arrays.
      */
-    public List<Integer> convert (List<int[]> list) {
+    public List<Integer> convert(List<int[]> list) {
         List<Integer> arrayList = new ArrayList<>();
         for (int[] values : list) {
             for (int value : values) {

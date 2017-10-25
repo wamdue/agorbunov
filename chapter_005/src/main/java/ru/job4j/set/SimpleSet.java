@@ -32,7 +32,7 @@ public class SimpleSet<E> implements Iterable<E> {
     public void add(E e) {
         boolean match = false;
         for (int i = 0; i < size; i++) {
-            if (((E)objects[i]).equals(e)) {
+            if (((E) objects[i]).equals(e)) {
                 match = true;
                 objects[i] = e;
                 break;
@@ -80,8 +80,8 @@ public class SimpleSet<E> implements Iterable<E> {
     }
 
     private int getHash(Object object) {
-        int h;
-        return (object == null) ? 0 : (h = object.hashCode()) ^ (h >>> 16);
+        int h = object.hashCode();
+        return (object == null) ? 0 : h ^ (h >>> 16);
     }
 
     private void extendArray() {

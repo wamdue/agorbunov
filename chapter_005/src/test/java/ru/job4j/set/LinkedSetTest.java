@@ -20,7 +20,7 @@ public class LinkedSetTest {
      * Expect 2.
      */
     @Test
-    public void whenAddTenItemsThenIterateThreeTimes(){
+    public void whenAddTenItemsThenIterateThreeTimes() {
         LinkedSet<Integer> set = new LinkedSet<>();
         for (int i = 0; i < 10; i++) {
             set.add(i);

@@ -42,8 +42,7 @@ public class ArraySortTest {
     @Test
     public void whenHaveArrayWithElementsInNotCorrectOrderThenOrder() {
         ArraySort sort = new ArraySort();
-        List<String> expect = new ArrayList<>(Arrays.asList("K1", "K1\\SK1", "K1\\SK1\\SSK1"
-                , "K1\\SK1\\SSK2", "K1\\SK2", "K2", "K2\\SK1", "K2\\SK1\\SSK1", "K2\\SK1\\SSK2"));
+        List<String> expect = new ArrayList<>(Arrays.asList("K1", "K1\\SK1", "K1\\SK1\\SSK1", "K1\\SK1\\SSK2", "K1\\SK2", "K2", "K2\\SK1", "K2\\SK1\\SSK1", "K2\\SK1\\SSK2"));
         assertThat(sort.sortedArray(strings, ArraySort.ASC), is(expect));
     }
     /**
@@ -61,8 +60,7 @@ public class ArraySortTest {
     @Test
     public void whenHaveToOrderByDescendingThenDo() {
         ArraySort sort = new ArraySort();
-        List<String> expect = new ArrayList<>(Arrays.asList("K2", "K2\\SK1", "K2\\SK1\\SSK2"
-                , "K2\\SK1\\SSK1", "K1", "K1\\SK2", "K1\\SK1", "K1\\SK1\\SSK2", "K1\\SK1\\SSK1"));
+        List<String> expect = new ArrayList<>(Arrays.asList("K2", "K2\\SK1", "K2\\SK1\\SSK2", "K2\\SK1\\SSK1", "K1", "K1\\SK2", "K1\\SK1", "K1\\SK1\\SSK2", "K1\\SK1\\SSK1"));
         assertThat(sort.sortedArray(strings, ArraySort.DESC), is(expect));
     }
 }

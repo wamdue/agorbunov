@@ -14,7 +14,7 @@ public class SortUser {
      * @param list - source list to convert in sorted set.
      * @return - sorted set.
      */
-    public Set<User> sort (List<User> list) {
+    public Set<User> sort(List<User> list) {
         return new TreeSet<>(list);
     }
 
@@ -23,7 +23,7 @@ public class SortUser {
      * @param list - source list to sort.
      * @return sorted list by name length.
      */
-    public List<User> sortNameLength (List<User> list) {
+    public List<User> sortNameLength(List<User> list) {
         ArrayList<User> arrayList = new ArrayList<>(list);
         arrayList.sort(new Comparator<User>() {
             @Override
@@ -39,7 +39,7 @@ public class SortUser {
      * @param list - source list to compare.
      * @return sorted list.
      */
-    public List<User> sortByAllFields (List<User> list) {
+    public List<User> sortByAllFields(List<User> list) {
         ArrayList<User> arrayList = new ArrayList<>(list);
         Comparator<User> comparator = new Comparator<User>() {
             @Override

@@ -17,7 +17,7 @@ public class SimpleLock {
             while (isLocked) {
                 wait();
             }
-        }catch (InterruptedException ex) {
+        } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
         isLocked = true;

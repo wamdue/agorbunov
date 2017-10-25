@@ -58,7 +58,7 @@ public class ParallelSearch {
             while (fileFilter.isAlive() && textSearch.isAlive()) {
                 Thread.sleep(100);
             }
-        } catch(InterruptedException ex) {
+        } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
         return result;
@@ -85,7 +85,7 @@ public class ParallelSearch {
                 if (f.isDirectory()) {
                     searchFiles(f.listFiles());
                 } else {
-                    String ext = f.getName().contains(".")? f.getName().substring(f.getName().indexOf('.') + 1) : " ";
+                    String ext = f.getName().contains(".") ? f.getName().substring(f.getName().indexOf('.') + 1) : " ";
                     if (exts.contains(ext)) {
                             queue.offer(f.getAbsolutePath());
                     }
