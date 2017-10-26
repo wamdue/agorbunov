@@ -2,10 +2,11 @@ package ru.job4j.crud;
 
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -16,8 +17,9 @@ import java.util.Properties;
  */
 public class DBConnection {
 
+    private static final Logger LOGGER = Logger.getLogger(DBConnection.class);
+
     private Connection connection;
-    private static final Logger logger = Logger.getLogger(DBConnection.class);
     private Properties props = new Properties();
 
     /**
@@ -25,14 +27,17 @@ public class DBConnection {
      */
     private void connect() {
         try {
+            Class.forName("org.postgresql.Driver");
             String login = this.props.getProperty("login");
             String password = this.props.getProperty("password");
             String url = this.props.getProperty("url");
             this.connection = DriverManager.getConnection(url, login, password);
-            logger.info("Connection to db users established successfully");
+            LOGGER.info("Connection to db users established successfully");
             this.createTable();
         } catch (SQLException e) {
-            logger.error("Cannot establish connection to DB", e.fillInStackTrace());
+            LOGGER.error("Cannot establish connection to DB", e.fillInStackTrace());
+        } catch (ClassNotFoundException e) {
+            LOGGER.error("Cannot find postgresql connection driver", e.fillInStackTrace());
         }
     }
 
@@ -49,9 +54,11 @@ public class DBConnection {
      */
     private void init() {
         try {
-            this.props.load(new FileReader(new File("Init.properties")));
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            InputStream input = classLoader.getResourceAsStream("Init.properties");
+            this.props.load(input);
         } catch (IOException e) {
-            logger.error("Cannot read Init.properties", e.fillInStackTrace());
+            LOGGER.error("Cannot read Init.properties", e.fillInStackTrace());
         }
     }
 
@@ -61,9 +68,9 @@ public class DBConnection {
     private void createTable() {
         try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("create_table"))) {
             statement.execute();
-            logger.info("Tables created!");
+            LOGGER.info("Tables created!");
         } catch (SQLException e) {
-            logger.error("Cannot create tables", e.fillInStackTrace());
+            LOGGER.error("Cannot create tables", e.fillInStackTrace());
         }
     }
 
@@ -85,7 +92,7 @@ public class DBConnection {
                     user.setCreateDate(set.getTimestamp("createdate"));
                 }
             } catch (SQLException e) {
-                logger.error("Cannot make search from table users", e.fillInStackTrace());
+                LOGGER.error("Cannot make search from table users", e.fillInStackTrace());
             }
         }
         return user;
@@ -96,29 +103,29 @@ public class DBConnection {
      * @param user - user to add.
      */
     public void addUser(User user) {
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("add_user"))){
+        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("add_user"))) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getEmail());
             statement.setTimestamp(4, user.getCreateDate());
             statement.executeUpdate();
-            logger.info("User Added");
+            LOGGER.info("User Added");
         } catch (SQLException e) {
-            logger.error("Cannot insert new user", e.fillInStackTrace());
+            LOGGER.error("Cannot insert new user", e.fillInStackTrace());
         }
     }
 
     /**
      * Delete user from db.
-     * @param name - name of user to delete.
+     * @param id - id of user to delete.
      */
-    public void deleteUser(String name) {
+    public void deleteUser(int id) {
         try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("delete_user"))) {
-            statement.setString(1, name);
+            statement.setInt(1, id);
             statement.executeUpdate();
-            logger.info("User successfully deleted");
+            LOGGER.info("User successfully deleted");
         } catch (SQLException e) {
-            logger.error("Cannot delete user", e.fillInStackTrace());
+            LOGGER.error("Cannot delete user", e.fillInStackTrace());
         }
     }
 
@@ -126,17 +133,41 @@ public class DBConnection {
      * Update user.
      * @param user - user to update.
      */
-    public void updateUser(User user) {
+    public void updateUser(int id, User user) {
         try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("update_user"))) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getEmail());
-            statement.setTimestamp(4, user.getCreateDate());
+            statement.setInt(4, id);
             statement.executeUpdate();
-            logger.info("User successfully updated.");
+            LOGGER.info("User successfully updated.");
         } catch (SQLException e) {
-            logger.error("Cannot update user", e.fillInStackTrace());
+            LOGGER.error("Cannot update user", e.fillInStackTrace());
         }
+    }
+
+    /**
+     * Get list of all users from db.
+     * @return - list of users, or empty list, if db is empty.
+     */
+    public List<User> listOfUsers() {
+        List<User> users = new ArrayList<>();
+        try (Statement statement = this.connection.createStatement()) {
+            try (ResultSet set = statement.executeQuery(this.props.getProperty("all_users"))) {
+                while (set.next()) {
+                    User user = new User();
+                    user.setId(set.getInt("id"));
+                    user.setName(set.getString("name"));
+                    user.setLogin(set.getString("login"));
+                    user.setEmail(set.getString("email"));
+                    user.setCreateDate(set.getTimestamp("createdate"));
+                    users.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Cannot get all users from db", e.fillInStackTrace());
+        }
+        return users;
     }
 
     /**
@@ -145,8 +176,32 @@ public class DBConnection {
     public void closeConnection() {
         try {
             this.connection.close();
+            LOGGER.info("Connection closed successfully!");
         } catch (SQLException e) {
-            logger.error("Cannot close connection", e.fillInStackTrace());
+            LOGGER.error("Cannot close connection", e.fillInStackTrace());
         }
+    }
+
+    /**
+     * Get user by id.
+     * @param id - id source user.
+     * @return - source user, or empty user, if not found.
+     */
+    public User getUserById(int id) {
+        User user = new User();
+        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("get_user_by_id"))) {
+            statement.setInt(1, id);
+            try (ResultSet set = statement.executeQuery()) {
+            set.next();
+            user.setId(set.getInt("id"));
+            user.setName(set.getString("name"));
+            user.setLogin(set.getString("login"));
+            user.setEmail(set.getString("email"));
+            user.setCreateDate(set.getTimestamp("createdate"));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Cannot get user by id", e.fillInStackTrace());
+        }
+        return user;
     }
 }

@@ -9,6 +9,7 @@ import java.sql.Timestamp;
  * @version 1.0
  */
 public class User {
+    private int id;
     private String name;
     private String login;
     private String email;
@@ -45,5 +46,12 @@ public class User {
     public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
-;
