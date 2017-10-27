@@ -14,7 +14,9 @@ import java.io.PrintWriter;
  * @version 1.0
  */
 public class UpdateUser extends HttpServlet {
-
+    /**
+     * Internal connection to db.
+     */
     private DBConnection connection = new DBConnection();
 
     /**

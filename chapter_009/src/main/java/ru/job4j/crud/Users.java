@@ -15,7 +15,9 @@ import java.util.Date;
  * @version 1.0
  */
 public class Users extends HttpServlet {
-
+    /**
+     * Establish connection to db.
+     */
     private DBConnection connection = new DBConnection();
 
     /**

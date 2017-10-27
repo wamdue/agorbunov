@@ -4,22 +4,34 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 /**
- * Created on 23.10.17
+ * Created on 23.10.17.
  *
  * @author Wamdue
  * @version 1.0
  */
 public class DBConnection {
-
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = Logger.getLogger(DBConnection.class);
-
+    /**
+     * Main connection to db.
+     */
     private Connection connection;
+    /**
+     * Properties to communicate with db.
+     */
     private Properties props = new Properties();
 
     /**
@@ -131,6 +143,7 @@ public class DBConnection {
 
     /**
      * Update user.
+     * @param id - user id.
      * @param user - user to update.
      */
     public void updateUser(int id, User user) {
@@ -203,5 +216,13 @@ public class DBConnection {
             LOGGER.error("Cannot get user by id", e.fillInStackTrace());
         }
         return user;
+    }
+
+    /**
+     * Get instance of the class.
+     * @return new instance.
+     */
+    public static DBConnection getInstance() {
+        return new DBConnection();
     }
 }
