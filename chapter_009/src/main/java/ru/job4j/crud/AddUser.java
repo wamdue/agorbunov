@@ -24,14 +24,13 @@ public class AddUser extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DBConnection connection = new DBConnection();
+        DBConnection connection = DBConnection.getInstance();
         User user = new User();
         user.setName(req.getParameter("name"));
         user.setLogin(req.getParameter("login"));
         user.setEmail(req.getParameter("email"));
         user.setCreateDate(new Timestamp(new Date().getTime()));
         connection.addUser(user);
-        connection.closeConnection();
         resp.sendRedirect(req.getContextPath());
     }
 }

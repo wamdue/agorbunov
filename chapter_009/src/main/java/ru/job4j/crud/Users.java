@@ -18,7 +18,7 @@ public class Users extends HttpServlet {
     /**
      * Establish connection to db.
      */
-    private DBConnection connection = new DBConnection();
+    private DBConnection connection = DBConnection.getInstance();
 
     /**
      * Show user by entered name.
@@ -67,10 +67,5 @@ public class Users extends HttpServlet {
                 + "</html>");
         writer.flush();
 
-    }
-
-    @Override
-    public void destroy() {
-        this.connection.closeConnection();
     }
 }

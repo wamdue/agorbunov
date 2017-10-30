@@ -22,10 +22,9 @@ public class DeleteUser extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DBConnection connection = new DBConnection();
+        DBConnection connection = DBConnection.getInstance();
         int id = Integer.valueOf(req.getParameter("id"));
         connection.deleteUser(id);
-        connection.closeConnection();
         resp.sendRedirect(req.getContextPath());
 
     }

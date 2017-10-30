@@ -17,7 +17,7 @@ public class UpdateUser extends HttpServlet {
     /**
      * Internal connection to db.
      */
-    private DBConnection connection = new DBConnection();
+    private DBConnection connection = DBConnection.getInstance();
 
     /**
      * Shows welcome screen to update user.
@@ -65,13 +65,5 @@ public class UpdateUser extends HttpServlet {
         user.setEmail(req.getParameter("newemail"));
         this.connection.updateUser(user.getId(), user);
         resp.sendRedirect(req.getContextPath());
-    }
-
-    /**
-     * Close db connection.
-     */
-    @Override
-    public void destroy() {
-        this.connection.closeConnection();
     }
 }

@@ -33,6 +33,10 @@ public class DBConnection {
      * Properties to communicate with db.
      */
     private Properties props = new Properties();
+    /**
+     * Class instance.
+     */
+    private static volatile DBConnection instance;
 
     /**
      * Establish connection to db.
@@ -56,7 +60,7 @@ public class DBConnection {
     /**
      * Main constructor.
      */
-    public DBConnection() {
+    private DBConnection() {
         this.init();
         this.connect();
     }
@@ -219,10 +223,20 @@ public class DBConnection {
     }
 
     /**
-     * Get instance of the class.
-     * @return new instance.
+     * Get instance of the class. Singleton pattern.
+     * @return instance.
      */
     public static DBConnection getInstance() {
-        return new DBConnection();
+        DBConnection local = instance;
+        if (local == null) {
+            synchronized (DBConnection.class) {
+                local = instance;
+                if (local == null) {
+                    instance = new DBConnection();
+                    local = instance;
+                }
+            }
+        }
+        return local;
     }
 }
