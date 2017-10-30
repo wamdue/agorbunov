@@ -3,10 +3,11 @@ package ru.job4j.list;
 import java.util.Iterator;
 
 /**
- * Created on 21.07.17
+ * Created on 21.07.17.
  * Simple realization of ArrayList.
  * @author Wamdue
  * @version 1.0
+ * @param <E> - class to work with.
  */
 public class SimpleList<E> implements SimpleContainer<E> {
     /**
@@ -52,6 +53,11 @@ public class SimpleList<E> implements SimpleContainer<E> {
         System.arraycopy(objects, 0, temp, 0, position - 1);
         return new SimpleIterator<E>(temp);
     }
+
+    /**
+     * Get current size of list.
+     * @return - list size.
+     */
     public int size() {
         return position;
     }
@@ -73,7 +79,7 @@ public class SimpleList<E> implements SimpleContainer<E> {
          * Main constructor.
          * @param items - source array.
          */
-        public SimpleIterator(Object[] items) {
+        private SimpleIterator(Object[] items) {
             this.items = items;
         }
         /**

@@ -1,10 +1,11 @@
 package ru.job4j.list;
 
 /**
- * Created on 24.07.17
+ * Created on 24.07.17.
  * Simple queue realization.
  * @author Wamdue
  * @version 1.0
+ * @param <E> - class to store.
  */
 public class SimpleQueue<E> extends SimpleLinkedList<E> {
     /**
@@ -73,23 +74,23 @@ public class SimpleQueue<E> extends SimpleLinkedList<E> {
         /**
          * main element.
          */
-        E item;
+        private E item;
         /**
          * Link to previous item.
          */
-        Node<E> previous;
+        private Node<E> previous;
         /**
          * link ot next item.
          */
-        Node<E> next;
+        private Node<E> next;
 
         /**
-         *
+         * Main constructor.
          * @param item - main item.
          * @param previous - link to previous item.
          * @param next - link to next item.
          */
-        public Node(E item, Node<E> previous, Node<E> next) {
+        Node(E item, Node<E> previous, Node<E> next) {
             this.item = item;
             this.previous = previous;
             this.next = next;

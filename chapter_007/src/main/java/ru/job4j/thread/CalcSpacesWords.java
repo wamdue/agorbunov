@@ -1,7 +1,7 @@
 package ru.job4j.thread;
 
 /**
- * Created on 06.09.17
+ * Created on 06.09.17.
  * Calculation class.
  *
  * @author Wamdue
@@ -26,12 +26,22 @@ public class CalcSpacesWords {
      * Thread to calculate amount of spaces in text.
      */
     private class CalcSpaces implements Runnable {
+        /**
+         * Source string to analize.
+         */
         private final String text;
 
-        public CalcSpaces(String text) {
+        /**
+         * Main constructor.
+         * @param text - source string.
+         */
+        CalcSpaces(String text) {
             this.text = text;
         }
 
+        /**
+         * Calculating spaces in string.
+         */
         @Override
         public void run() {
             int count = text.length() - text.replace(" ", "").length();
@@ -43,12 +53,22 @@ public class CalcSpacesWords {
      * Thread to calculate amount of words in text.
      */
     private class CalcWords implements Runnable {
+        /**
+         * Source string to analise.
+         */
         private final String text;
 
-        public CalcWords(String text) {
+        /**
+         * Main constructor.
+         * @param text - source string.
+         */
+        CalcWords(String text) {
             this.text = text;
         }
 
+        /**
+         * Calculating words in string.
+         */
         @Override
         public void run() {
             long beginTime = System.currentTimeMillis();
@@ -74,14 +94,28 @@ public class CalcSpacesWords {
      * Demon class to watch for calculation time.
      */
     private class Demon extends Thread {
+        /**
+         * First thread to calculate spaces.
+         */
         private Thread spaces;
+        /**
+         * Second thread to calculate words.
+         */
         private Thread words;
 
-        public Demon(Thread spaces, Thread words) {
+        /**
+         * Main constructor.
+         * @param spaces - first thread.
+         * @param words - second thread.
+         */
+        Demon(Thread spaces, Thread words) {
             this.spaces = spaces;
             this.words = words;
         }
 
+        /**
+         * Watching for work of two threads.
+         */
         @Override
         public void run() {
             try {
@@ -128,6 +162,10 @@ public class CalcSpacesWords {
         calcEnd.start();
     }
 
+    /**
+     * Main method for demonstrating work.
+     * @param args - arguments in command line.
+     */
     public static void main(String[] args) {
         new CalcSpacesWords("Hello my dear friend.").calc();
     }

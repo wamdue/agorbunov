@@ -6,14 +6,17 @@ import net.jcip.annotations.ThreadSafe;
 import java.util.Iterator;
 
 /**
- * Created on 12.09.17
+ * Created on 12.09.17.
  * Thread safe realization of ArrayList.
  * @author Wamdue
  * @version 1.0
+ * @param <E> - class to work with.
  */
 @ThreadSafe
 public class ThreadSafeList<E> {
-
+    /**
+     * Object monitor.
+     */
     private final Object lock = new Object();
     /**
      * Main array.
@@ -63,6 +66,10 @@ public class ThreadSafeList<E> {
             return new SimpleIterator<E>(temp);
         }
     }
+    /**
+     * Size of list.
+     * @return - current list size.
+     */
     public int size() {
         return position;
     }
@@ -84,7 +91,7 @@ public class ThreadSafeList<E> {
          * Main constructor.
          * @param items - source array.
          */
-        public SimpleIterator(Object[] items) {
+        SimpleIterator(Object[] items) {
             this.items = items;
         }
         /**

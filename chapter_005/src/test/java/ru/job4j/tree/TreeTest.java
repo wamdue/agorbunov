@@ -8,8 +8,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created on 11.08.17
- *
+ * Created on 11.08.17.
+ * Testing Tree class.
  * @author Wamdue
  * @version 1.0
  */

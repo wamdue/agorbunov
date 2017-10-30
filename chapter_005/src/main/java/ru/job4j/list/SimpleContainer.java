@@ -1,10 +1,11 @@
 package ru.job4j.list;
 
 /**
- * Created on 21.07.17
+ * Created on 21.07.17.
  * Interface to explain main methods of the SimpleList
  * @author Wamdue
  * @version 1.0
+ * @param <E> - class to store.
  */
 public interface SimpleContainer<E> extends Iterable<E> {
     /**

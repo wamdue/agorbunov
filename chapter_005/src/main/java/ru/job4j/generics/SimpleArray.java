@@ -1,10 +1,11 @@
 package ru.job4j.generics;
 
 /**
- * Created on 20.07.17
+ * Created on 20.07.17.
  * Generic example, simple collection.
  * @author Wamdue
  * @version 1.0
+ * @param <T> - class to work with.
  */
 public class SimpleArray<T> {
     /**
@@ -17,7 +18,7 @@ public class SimpleArray<T> {
     private int position = 0;
 
     /**
-     *
+     * Main constructor.
      * @param size - maximum size of array.
      */
     public SimpleArray(int size) {
@@ -33,7 +34,7 @@ public class SimpleArray<T> {
     }
 
     /**
-     *
+     * Update item.
      * @param index - index of item.
      * @param t - new item.
      */
@@ -42,7 +43,7 @@ public class SimpleArray<T> {
     }
 
     /**
-     *
+     * Delete item from array.
      * @param t - item that you want to delete.
      */
     public void delete(T t) {
@@ -58,7 +59,7 @@ public class SimpleArray<T> {
     }
 
     /**
-     *
+     * Get item from array.
      * @param index - index of item in array.
      * @return item
      */
@@ -67,13 +68,18 @@ public class SimpleArray<T> {
     }
 
     /**
-     *
+     * Get array size.
      * @return number of entered items.
      */
     public int size() {
         return position;
     }
 
+    /**
+     * Get id of the item.
+     * @param t - item to work with.
+     * @return - id of the item.
+     */
     public int getId(T t) {
         int result = -1;
         for (int i = 0; i < position; i++) {

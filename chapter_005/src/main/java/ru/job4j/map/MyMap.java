@@ -3,10 +3,12 @@ package ru.job4j.map;
 import java.util.Iterator;
 
 /**
- * Created on 04.08.17
+ * Created on 04.08.17.
  * My realization of map.
  * @author Wamdue
  * @version 1.0
+ * @param <K> - key class.
+ * @param <V> - value class.
  */
 public class MyMap<K, V> {
     /**
@@ -26,7 +28,7 @@ public class MyMap<K, V> {
     }
 
     /**
-     * method to insert item in map
+     * Method to insert item in map.
      * @param key - key value.
      * @param value - value.
      * @return true if cell in array if free, false if not.
@@ -50,7 +52,7 @@ public class MyMap<K, V> {
     }
 
     /**
-     *
+     * Get current map size.
      * @return current size.
      */
     public int size() {
@@ -162,7 +164,10 @@ public class MyMap<K, V> {
      * key iterator class.
      */
     private class KeyIterator extends MyIterator implements Iterator<K> {
-
+        /**
+         * Get iterator for key set.
+         * @return - iterator.
+         */
         public K next() {
             return nextNode().key;
         }
@@ -172,7 +177,10 @@ public class MyMap<K, V> {
      * value iterator class.
      */
     public class ValueIterator extends MyIterator implements Iterator<V> {
-
+        /**
+         * Get iterator for value set.
+         * @return - iterator.
+         */
         public V next() {
             return nextNode().value;
         }
@@ -184,8 +192,20 @@ public class MyMap<K, V> {
      * @param <V> - value.
      */
     private class Node<K, V> {
-        K key;
-        V value;
+        /**
+         * Vey value.
+         */
+        private K key;
+        /**
+         * Vvalue for the key.
+         */
+        private V value;
+
+        /**
+         * Main constructor.
+         * @param key - key value.
+         * @param value - value for the key.
+         */
         Node(K key, V value) {
             this.key = key;
             this.value = value;

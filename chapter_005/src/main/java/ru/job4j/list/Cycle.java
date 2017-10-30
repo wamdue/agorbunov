@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created on 24.07.17
+ * Created on 24.07.17.
  * Checkin cycle in the linked list.
  * @author Wamdue
  * @version 1.0
@@ -19,7 +19,7 @@ public class Cycle {
     public boolean hasCycle(Node first) {
         boolean result = false;
         List<Node> list = new ArrayList<>();
-        Node current = first.next;
+        Node current = first.getNext();
         list.add(first);
         while (current != null) {
             for (Node n : list) {
@@ -32,7 +32,7 @@ public class Cycle {
                 break;
             }
             list.add(current);
-            current = current.next;
+            current = current.getNext();
         }
         return result;
     }

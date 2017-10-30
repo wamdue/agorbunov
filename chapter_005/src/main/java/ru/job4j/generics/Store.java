@@ -1,10 +1,11 @@
 package ru.job4j.generics;
 
 /**
- * Created on 20.07.17
+ * Created on 20.07.17.
  * Store interface.
  * @author Wamdue
  * @version 1.0
+ * @param <T> - class to store.
  */
 public interface Store<T extends Base> {
     /**

@@ -6,8 +6,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created on 24.07.17
- *
+ * Created on 24.07.17.
+ * Testing Cycle class.
  * @author Wamdue
  * @version 1.0
  */
@@ -24,10 +24,10 @@ public class CycleTest {
         Node third = new Node(3);
         Node four = new Node(4);
 
-        first.next = two;
-        two.next = third;
-        third.next = four;
-        four.next = first;
+        first.setNext(two);
+        two.setNext(third);
+        third.setNext(four);
+        four.setNext(first);
 
         Cycle cycle = new Cycle();
         boolean expect = true;

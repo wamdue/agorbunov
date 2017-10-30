@@ -1,25 +1,25 @@
 package ru.job4j.bank;
 
 /**
- * Created on 18.07.17
- *
+ * Created on 18.07.17.
+ * User information.
  * @author Wamdue
  * @version 1.0
  */
 public class User {
     /**
-     * @param name - user name;
+     * user name.
      */
     private String name;
     /**
-     * @param passport - user passport;
+     * user passport.
      */
     private String passport;
 
     /**
-     *
-     * @param name - Set name of user;
-     * @param passport- set passport of user;
+     * Main constructor.
+     * @param name - Set name of user.
+     * @param passport - set passport of user.
      */
     public User(String name, String passport) {
         this.name = name;
@@ -58,6 +58,11 @@ public class User {
         this.passport = passport;
     }
 
+    /**
+     * Overriding equals method.
+     * @param o - class to compare.
+     * @return result of compare.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -75,6 +80,10 @@ public class User {
         return passport != null ? passport.equals(user.passport) : user.passport == null;
     }
 
+    /**
+     * Calculating new hashcode.
+     * @return hashcode.
+     */
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;

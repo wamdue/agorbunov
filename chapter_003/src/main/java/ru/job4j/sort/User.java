@@ -1,8 +1,8 @@
 package ru.job4j.sort;
 
 /**
- * Created on 18.07.17
- *
+ * Created on 18.07.17.
+ * User information.
  * @author Wamdue
  * @version 1.0
  */
@@ -52,6 +52,10 @@ public class User implements Comparable<User> {
         return this.age - o.age;
     }
 
+    /**
+     * Readable object view.
+     * @return string.
+     */
     @Override
     public String toString() {
         return "User{"

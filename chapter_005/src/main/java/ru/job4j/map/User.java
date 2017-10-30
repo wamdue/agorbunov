@@ -3,7 +3,7 @@ package ru.job4j.map;
 import java.util.Calendar;
 
 /**
- * Created on 28.07.17
+ * Created on 28.07.17.
  * User class.
  * @author Wamdue
  * @version 1.0
@@ -88,6 +88,11 @@ public class User {
         this.children = children;
     }
 
+    /**
+     * Overriding equal method.
+     * @param o - compare object.
+     * @return - result of compare.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -108,6 +113,10 @@ public class User {
         return birthday.equals(user.birthday);
     }
 
+    /**
+     * Get hash code.
+     * @return - hashcode.
+     */
     @Override
     public int hashCode() {
         int result = name.hashCode();

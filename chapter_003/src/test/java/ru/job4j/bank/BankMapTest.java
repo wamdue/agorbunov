@@ -1,10 +1,11 @@
 package ru.job4j.bank;
 
 import org.junit.Test;
-import static org.junit.Assert.assertThat;
+
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 /**
- * Created on 18.07.17
+ * Created on 18.07.17.
  *
  * @author Wamdue
  * @version 1.0

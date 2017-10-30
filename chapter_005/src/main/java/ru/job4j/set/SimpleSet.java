@@ -3,10 +3,11 @@ package ru.job4j.set;
 import java.util.Iterator;
 
 /**
- * Created on 24.07.17
+ * Created on 24.07.17.
  * Simple set realization.
  * @author Wamdue
  * @version 1.0
+ * @param <E>- class to store.
  */
 public class SimpleSet<E> implements Iterable<E> {
     /**
@@ -46,6 +47,10 @@ public class SimpleSet<E> implements Iterable<E> {
         }
     }
 
+    /**
+     * Add new hash value.
+     * @param e - item.
+     */
     public void addHash(E e) {
         if (size >= objects.length * 0.8) {
             extendArray();
@@ -79,11 +84,19 @@ public class SimpleSet<E> implements Iterable<E> {
         }
     }
 
+    /**
+     * Get hash value.
+     * @param object - object to analise.
+     * @return - hashcode.
+     */
     private int getHash(Object object) {
         int h = object.hashCode();
         return (object == null) ? 0 : h ^ (h >>> 16);
     }
 
+    /**
+     * Extending array to store elements.
+     */
     private void extendArray() {
         Object[] temp = new Object[objects.length * 2];
         System.arraycopy(objects, 0, temp, 0, size);
@@ -96,7 +109,7 @@ public class SimpleSet<E> implements Iterable<E> {
      */
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            int position = 0;
+            private int position = 0;
 
             @Override
             public boolean hasNext() {
@@ -110,10 +123,25 @@ public class SimpleSet<E> implements Iterable<E> {
         };
     }
 
+    /**
+     * Node class.
+     * @param <E> - class to store.
+     */
     private class Node<E> {
-        E item;
-        Node<E> next;
+        /**
+         * Store item.
+         */
+        private E item;
+        /**
+         * Link to next node.
+         */
+        private Node<E> next;
 
+        /**
+         * Main constructor.
+         * @param item - item to store.
+         * @param next - link to next item.
+         */
         Node(E item, Node<E> next) {
             this.item = item;
             this.next = next;
@@ -128,6 +156,10 @@ public class SimpleSet<E> implements Iterable<E> {
         return size;
     }
 
+    /**
+     * Method to demonstrate program.
+     * @param args - not in use.
+     */
     public static void main(String[] args) {
         SimpleSet<Integer> simple = new SimpleSet<>();
         long begin = System.currentTimeMillis();

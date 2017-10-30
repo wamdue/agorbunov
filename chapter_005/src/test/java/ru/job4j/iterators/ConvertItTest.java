@@ -7,11 +7,11 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
- * Created on 20.07.17
- *
+ * Created on 20.07.17.
+ * Testing ConvertIt class.
  * @author Wamdue
  * @version 1.0
  */

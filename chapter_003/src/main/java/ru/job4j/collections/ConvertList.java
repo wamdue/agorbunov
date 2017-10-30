@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created on 17.07.17
- *
+ * Created on 17.07.17.
+ * Convertion array to list.
  * @author Wamdue
  * @version 1.0
  */

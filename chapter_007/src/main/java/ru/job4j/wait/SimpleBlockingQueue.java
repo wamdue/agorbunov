@@ -2,16 +2,29 @@ package ru.job4j.wait;
 
 
 /**
- * Created on 13.09.17
+ * Created on 13.09.17.
  * Blocking queue realization.
  * @author Wamdue
  * @version 1.0
+ * @param <E> - class to store.
  */
 public class SimpleBlockingQueue<E> {
 
+    /**
+     * Link to first node.
+     */
     private Node<E> first = null;
+    /**
+     * Link to last node.
+     */
     private Node<E> last = null;
+    /**
+     * Object monitor.
+     */
     private final Object lockTake = new Object();
+    /**
+     * Size of queue.
+     */
     private int size = 0;
 
     /**
@@ -36,7 +49,7 @@ public class SimpleBlockingQueue<E> {
     /**
      * take item from list.
      * if list is empty, waits until item will appear.
-     * @return
+     * @return - value of the node.
      */
     public E take() {
         E item = null;
@@ -58,12 +71,22 @@ public class SimpleBlockingQueue<E> {
 
     /**
      * Internal class to hold item, and ref.
-     * @param <E>
+     * @param <E> - class to store.
      */
     private class Node<E> {
-        Node<E> next;
-        E item;
+        /**
+         * Link to next element.
+         */
+        private Node<E> next;
+        /**
+         * Link to stored class.
+         */
+        private E item;
 
+        /**
+         * Main constructor.
+         * @param item - class to store.
+         */
         Node(E item) {
             this.item = item;
         }

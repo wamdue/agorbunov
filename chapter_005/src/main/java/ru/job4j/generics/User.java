@@ -1,7 +1,7 @@
 package ru.job4j.generics;
 
 /**
- * Created on 20.07.17
+ * Created on 20.07.17.
  * User class.
  * @author Wamdue
  * @version 1.0

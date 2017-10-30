@@ -4,15 +4,26 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created on 22.09.17
+ * Created on 22.09.17.
  * Raw class for characters in the game
  * @author Wamdue
  * @version 1.0
  */
 public abstract class AbstractChar {
+    /**
+     * Matrix of locks.
+     */
     private final ReentrantLock[][] board;
+    /**
+     * Target cell.
+     */
     private Cell cell;
 
+    /**
+     * Main constructor.
+     * @param board - matrix of locks.
+     * @param cell - current cell.
+     */
     public AbstractChar(ReentrantLock[][] board, Cell cell) {
         this.board = board;
         this.cell = cell;
@@ -67,6 +78,10 @@ public abstract class AbstractChar {
         return result;
     }
 
+    /**
+     * Get current cell.
+     * @return - cell.
+     */
     public Cell getCell() {
         return cell;
     }

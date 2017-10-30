@@ -6,8 +6,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created on 19.07.17
- *
+ * Created on 19.07.17.
+ * Testing MatrixIterator class.
  * @author Wamdue
  * @version 1.0
  */

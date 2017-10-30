@@ -9,7 +9,13 @@ import java.util.Iterator;
  * @since 19.07.2017
  */
 public class EvenIt implements Iterator {
+    /**
+     * Array of even items.
+     */
     private int[] even;
+    /**
+     * Current position.
+     */
     private int position = 0;
 
     /**
@@ -44,6 +50,10 @@ public class EvenIt implements Iterator {
         return result;
     }
 
+    /**
+     * Check possible position of even number..
+     * @return - position.
+     */
     private int checkPos() {
         int result = -1;
         for (int i = position; i < even.length; i++) {

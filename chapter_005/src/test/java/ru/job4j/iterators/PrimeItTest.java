@@ -3,11 +3,11 @@ package ru.job4j.iterators;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
- * Created on 20.07.17
- *
+ * Created on 20.07.17.
+ * Testing PrimeIt class.
  * @author Wamdue
  * @version 1.0
  */

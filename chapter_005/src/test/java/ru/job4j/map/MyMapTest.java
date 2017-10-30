@@ -8,8 +8,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created on 04.08.17
- *
+ * Created on 04.08.17.
+ * Testing MyMap class.
  * @author Wamdue
  * @version 1.0
  */
@@ -46,7 +46,7 @@ public class MyMapTest {
     }
 
     /**
-     * Making value iterator.
+     * Making key iterator.
      */
     @Test
     public void whenUserIteratorByKeyThenCanIterate() {
@@ -59,6 +59,10 @@ public class MyMapTest {
         iterator.next();
         assertThat(iterator.next(), is(expect));
     }
+
+    /**
+     * Testing iterator by value.
+     */
     @Test
     public void whenUserIteratorByValueThenCanIterate() {
         MyMap<String, Integer> map = new MyMap<>();

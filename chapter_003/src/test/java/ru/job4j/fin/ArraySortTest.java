@@ -10,7 +10,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created on 27.07.17
+ * Created on 27.07.17.
  *
  * @author Wamdue
  * @version 1.0

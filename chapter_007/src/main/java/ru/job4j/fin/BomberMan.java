@@ -1,23 +1,53 @@
 package ru.job4j.fin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created on 21.09.17
+ * Created on 21.09.17.
  * BomberMan
  * @author Wamdue
  * @version 1.0
  */
 public class BomberMan {
+    /**
+     * Create board.
+     */
     private final ReentrantLock[][] board = new ReentrantLock[SIZE][SIZE];
+    /**
+     * static board size.
+     */
     private static final int SIZE = 10;
+    /**
+     * Internal generator.
+     */
     private final Random random = new Random();
+    /**
+     * number of monsters on board.
+     */
     private final int numMonsters;
+    /**
+     * number of blocks on board.
+     */
     private final int numBlocks;
+    /**
+     * Storage of monsters.
+     */
     private final List<Monster> monsters = new ArrayList<>();
+    /**
+     * Storage of all cells.
+     */
     private final Set<Cell> allCells = new HashSet<>();
 
+    /**
+     * Main constructor.
+     * @param numMonsters - number of monsters.
+     * @param numBlocks - number of blocks.
+     */
     public BomberMan(int numMonsters, int numBlocks) {
         this.numMonsters = numMonsters;
         this.numBlocks = numBlocks;

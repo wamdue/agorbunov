@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
+ * Sorting array.
  * @author Wamdue
  * @version 1.0
  * @since 24.07.2017
@@ -88,14 +89,30 @@ public class ArraySort {
      * Internal class to store values, need for sort.
      */
     private class Dep implements Comparable<Dep> {
-        String name;
-        int number;
+        /**
+         * Line.
+         */
+        private String name;
+        /**
+         * Number.
+         */
+        private int number;
 
+        /**
+         * Main constructor.
+         * @param name - line.
+         * @param number - number.
+         */
         Dep(String name, int number) {
             this.name = name;
             this.number = number;
         }
 
+        /**
+         * Overriding equals method.
+         * @param o - class to compare.
+         * @return result of compare.
+         */
         @Override
         public boolean equals(Object o) {
             if (this == o) {
@@ -113,6 +130,10 @@ public class ArraySort {
             return name.equals(dep.name);
         }
 
+        /**
+         * Calculating new hashcode.
+         * @return hashcode.
+         */
         @Override
         public int hashCode() {
             int result = name.hashCode();
@@ -120,6 +141,11 @@ public class ArraySort {
             return result;
         }
 
+        /**
+         * Comparing with another object.
+         * @param o - object to compare.
+         * @return result of compare.
+         */
         @Override
         public int compareTo(Dep o) {
             return this.number - o.number;

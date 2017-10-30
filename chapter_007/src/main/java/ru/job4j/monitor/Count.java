@@ -4,7 +4,7 @@ import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 /**
- * Created on 11.09.17
+ * Created on 11.09.17.
  * Increment value class.
  * @author Wamdue
  * @version 1.0

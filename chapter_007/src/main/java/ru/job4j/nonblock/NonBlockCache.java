@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Created on 19.09.17
+ * Created on 19.09.17.
  * Simple cache class.
  *
  * @author Wamdue
@@ -20,6 +20,11 @@ public class NonBlockCache {
      */
     private AtomicLong version = new AtomicLong(0);
 
+    /**
+     * Adding new task to map.
+     * @param id - id of the task.
+     * @param task - task.
+     */
     public void add(int id, Task task) {
         this.map.putIfAbsent(id, task);
         this.inc();

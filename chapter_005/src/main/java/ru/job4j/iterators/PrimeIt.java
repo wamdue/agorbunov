@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 /**
  * Created on 20.07.17
- *
+ * Prime items.
  * @author Wamdue
  * @version 1.0
  */

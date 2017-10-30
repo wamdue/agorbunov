@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created on 18.07.17
+ * Created on 18.07.17.
  * Map for work with accounts and users.
  * @author Wamdue
  * @version 1.0

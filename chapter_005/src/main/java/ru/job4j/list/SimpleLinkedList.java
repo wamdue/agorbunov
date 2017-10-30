@@ -3,10 +3,11 @@ package ru.job4j.list;
 import java.util.Iterator;
 
 /**
- * Created on 21.07.17
+ * Created on 21.07.17.
  * Simple realisation of LinkedList.
  * @author Wamdue
  * @version 1.0
+ * @param <E> - class to work with.
  */
 public class SimpleLinkedList<E> implements SimpleContainer<E> {
     /**
@@ -83,12 +84,21 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
      * @param <E> - generic parameter.
      */
     private class Node<E> {
-        E item;
-        Node previous;
-        Node next;
+        /**
+         * Item to store.
+         */
+        private E item;
+        /**
+         * Link to previous node.
+         */
+        private Node previous;
+        /**
+         * Link to next node.
+         */
+        private Node next;
 
         /**
-         *
+         * Main constructor.
          * @param item - item to store.
          * @param previous - reference to prevous element.
          * @param next - reference to next element.
@@ -123,7 +133,7 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
         }
 
         /**
-         *
+         * Gets next item of the list.
          * @return element, and move the position to the next.
          */
         @Override

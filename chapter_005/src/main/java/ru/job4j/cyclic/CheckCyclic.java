@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created on 11.09.17
+ * Created on 11.09.17.
  * Check cyclic entries in file.
  * @author Wamdue
  * @version 1.0
  */
 public class CheckCyclic {
     /**
-     * file path
+     * File path.
      */
     private String filePath;
 

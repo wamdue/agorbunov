@@ -6,8 +6,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created on 20.07.17
- *
+ * Created on 20.07.17.
+ * Testing simple array class.
  * @author Wamdue
  * @version 1.0
  */
@@ -40,6 +40,10 @@ public class SimpleArrayTest {
         assertThat(simpleArray.get(3), is("10"));
     }
 
+    /**
+     * Testing size of list.
+     * When deleting item from list, then size of list, must be less, then before.
+     */
     @Test
     public void whenRecordIsDeletedThenSizeMustBeLess() {
         SimpleArray<String> simpleArray = new SimpleArray<>(10);

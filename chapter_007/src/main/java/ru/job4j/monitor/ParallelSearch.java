@@ -13,22 +13,36 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * Created on 12.09.17
+ * Created on 12.09.17.
  * Thread safe parallel file search.
  * @author Wamdue
  * @version 1.0
  */
 @ThreadSafe
 public class ParallelSearch {
-
-    public final static String STOP_WORD = "STOP";
-
+    /**
+     * Constant to stop loop.
+     */
+    public static final  String STOP_WORD = "STOP";
+    /**
+     * Storage to store full file path.
+     */
     private LinkedBlockingQueue<String> queue = new LinkedBlockingQueue<>();
-
+    /**
+     * Storage for result files.
+     */
     private List<String> result = new ArrayList<>();
-
+    /**
+     * Start point of search.
+     */
     private String root;
+    /**
+     * Text to search.
+     */
     private String text;
+    /**
+     * List of extensions to analise.
+     */
     private List<String> exts;
 
     /**
@@ -68,18 +82,31 @@ public class ParallelSearch {
      * Class to filter files by extension.
      */
     private class PickFile implements Runnable {
+        /**
+         * Array of files in directory.
+         */
         private File[] files;
 
+        /**
+         * Main constructor.
+         */
         PickFile() {
             files = new File(root).listFiles();
         }
 
+        /**
+         * Method to start file filter.
+         */
         @Override
         public void run() {
             searchFiles(files);
             queue.offer(ParallelSearch.STOP_WORD);
         }
 
+        /**
+         * Method to fill storage of files paths.
+         * @param listFiles - array of files to check.
+         */
         private void searchFiles(File[] listFiles) {
             for (File f : listFiles) {
                 if (f.isDirectory()) {
@@ -95,10 +122,12 @@ public class ParallelSearch {
     }
 
     /**
-     * Class to analyze files for source text
+     * Class to analyze files for source text.
      */
     private class Visitor implements Runnable {
-
+        /**
+         * Checks files for searched text.
+         */
         @Override
         public void run() {
             List<String> lines;
@@ -132,6 +161,10 @@ public class ParallelSearch {
         }
     }
 
+    /**
+     * Main method to demonstrate program.
+     * @param args - array of parameters.
+     */
     public static void main(String[] args) {
         List<String> exts = new ArrayList<>();
         exts.add("java");

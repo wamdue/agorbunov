@@ -1,9 +1,14 @@
 package ru.job4j.sort;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
- * Created on 18.07.17
+ * Created on 18.07.17.
  * Class for sorting user lists.
  * @author Wamdue
  * @version 1.0

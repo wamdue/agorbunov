@@ -1,10 +1,11 @@
 package ru.job4j.list;
 
 /**
- * Created on 24.07.17
+ * Created on 24.07.17.
  * Simple stack realization.
  * @author Wamdue
  * @version 1.0
+ * @param <E> - class to work with.
  */
 public class SimpleStack<E> extends SimpleLinkedList<E> {
     /**
@@ -59,17 +60,18 @@ public class SimpleStack<E> extends SimpleLinkedList<E> {
         /**
          * main element.
          */
-        E item;
+        private E item;
         /**
          * Link to previous item.
          */
-        Node<E> previous;
+        private Node<E> previous;
         /**
          * link ot next item.
          */
-        Node next;
+        private Node next;
 
         /**
+         * Main constructor.
          * @param item     - main item.
          * @param previous - link to previous item.
          * @param next     - link to next item.

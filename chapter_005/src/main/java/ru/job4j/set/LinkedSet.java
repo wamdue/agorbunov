@@ -3,10 +3,11 @@ package ru.job4j.set;
 import java.util.Iterator;
 
 /**
- * Created on 27.07.17
+ * Created on 27.07.17.
  * Simple set based on linked list.
  * @author Wamdue
  * @version 1.0
+ * @param <E> - class to store.
  */
 public class LinkedSet<E> implements Iterable<E> {
     /**
@@ -68,12 +69,24 @@ public class LinkedSet<E> implements Iterable<E> {
     }
 
     /**
-     * private class for Elements to link
+     * private class for Elements to link.
      * @param <E> - base class.
      */
     private class Node<E> {
-        E item;
-        Node<E> next;
+        /**
+         * Item to store.
+         */
+        private E item;
+        /**
+         * Link to next node.
+         */
+        private Node<E> next;
+
+        /**
+         * Main constructor.
+         * @param item - value.
+         * @param next - link to next node.
+         */
         Node(E item, Node<E> next) {
             this.item = item;
             this.next = next;

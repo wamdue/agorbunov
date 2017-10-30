@@ -7,19 +7,34 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Created on 18.09.17
+ * Created on 18.09.17.
  * Simple thread pool realization.
  * @author Wamdue
  * @version 1.0
  */
 @ThreadSafe
 public class SimpleThreadPool {
+    /**
+     * Number of cores.
+     */
     private int processorsCount;
+    /**
+     * Object monitor.
+     */
     private final Object lock = new Object();
+    /**
+     * Flag of thread.
+     */
     private boolean isRunning;
+    /**
+     * Main queue.
+     */
     @GuardedBy("lock")
     private final Queue<Runnable> queue = new ConcurrentLinkedQueue<>();
 
+    /**
+     * Main constructor.
+     */
     public SimpleThreadPool() {
         init();
     }
@@ -36,6 +51,7 @@ public class SimpleThreadPool {
     }
 
     /**
+     * Adding work to queue.
      * @param work - add new work in queue and notifies threads about it.
      */
     public void add(Work work) {
@@ -45,6 +61,9 @@ public class SimpleThreadPool {
         }
     }
 
+    /**
+     * Stops pool.
+     */
     public void shutDown() {
         isRunning = false;
     }

@@ -1,16 +1,21 @@
 package ru.job4j.collections;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.TreeSet;
 
 /**
- * Created on 14.07.17
+ * Created on 14.07.17.
  * Class for calculation working time of the collections.
  * @author Wamdue
  * @version 1.0
  */
 public class WorkingTime {
     /**
-     * Main constructor
+     * Main constructor.
      */
     public WorkingTime() { }
 
@@ -57,6 +62,10 @@ public class WorkingTime {
         System.out.printf("Delete: %d\n", this.delete(collection, count));
     }
 
+    /**
+     * Main method, for demonstration.
+     * @param args - not in use.
+     */
     public static void main(String[] args) {
         WorkingTime time = new WorkingTime();
         ArrayList<String> list = new ArrayList<>();

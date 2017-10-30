@@ -5,10 +5,18 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
 
 /**
- * Created on 11.08.17
+ * Created on 11.08.17.
  * Managing order books.
  * @author Wamdue
  * @version 1.0
@@ -31,10 +39,18 @@ public class OrderBook {
      */
     private String name;
 
+    /**
+     * Main constructor.
+     * @param name - path to file.
+     */
     public OrderBook(String name) {
         this.name = name;
     }
 
+    /**
+     * Method to demonstrate program.
+     * @param args - not in use.
+     */
     public static void main(String[] args) {
         OrderBook book = new OrderBook(args[0]);
         long begin = System.currentTimeMillis();

@@ -3,7 +3,7 @@ package ru.job4j.iterators;
 import java.util.Iterator;
 
 /**
- * Created on 19.07.17
+ * Created on 19.07.17.
  * Class for iterate matrix.
  * @author Wamdue
  * @version 1.0

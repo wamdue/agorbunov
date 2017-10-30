@@ -12,13 +12,14 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created on 14.09.17
+ * Created on 14.09.17.
  * Test class for cyclic file.
  * @author Wamdue
  * @version 1.0
  */
 public class CheckCyclicTest {
     /**
+     * Testing.
      * Have file with lines:
      * 1 2
      * 2 1

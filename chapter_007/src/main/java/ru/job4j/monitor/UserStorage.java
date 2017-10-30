@@ -18,7 +18,9 @@ public class UserStorage {
      * Lock object.
      */
     private final Object lock = new Object();
-
+    /**
+     * Set of all users.
+     */
     @GuardedBy("lock")
     private Set<User> users = new HashSet<>();
 

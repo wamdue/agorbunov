@@ -1,12 +1,19 @@
 package ru.job4j.tree;
 
-import java.util.*;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 /**
- * Created on 10.08.17
+ * Created on 10.08.17.
  * Simple tree realization.
  * @author Wamdue
  * @version 1.0
+ * @param <E> - class to work with.
  */
 public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     /**
@@ -19,10 +26,22 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      * @param <E> - class to store.
      */
     class Node<E> {
-        Node<E> left;
-        Node<E> right;
-        List<Node<E>> children;
-        E value;
+        /**
+         * Left child.
+         */
+        private Node<E> left;
+        /**
+         * Right child.
+         */
+        private Node<E> right;
+        /**
+         * Children of element.
+         */
+        private List<Node<E>> children;
+        /**
+         * Value of element.
+         */
+        private E value;
     }
 
     /**

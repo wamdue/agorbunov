@@ -1,7 +1,7 @@
 package ru.job4j.thread;
 
 /**
- * Created on 06.09.17
+ * Created on 06.09.17.
  * Class to count chars int text.
  * @author Wamdue
  * @version 1.0
@@ -38,6 +38,10 @@ public class CountChar implements Runnable {
         }
     }
 
+    /**
+     * Main method to demonstrate programm.
+     * @param args - arguments in command line.
+     */
     public static void main(String[] args) {
         Thread countThread = new Thread(new CountChar("Hello my dear friend."));
         Thread timeThread = new Thread(new Time(countThread, 100));

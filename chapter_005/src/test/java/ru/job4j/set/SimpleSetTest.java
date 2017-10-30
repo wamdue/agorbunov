@@ -8,8 +8,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created on 24.07.17
- *
+ * Created on 24.07.17.
+ * Testing SimpleSet class.
  * @author Wamdue
  * @version 1.0
  */

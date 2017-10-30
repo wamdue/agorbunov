@@ -5,12 +5,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created on 28.07.17
+ * Created on 28.07.17.
  *
  * @author Wamdue
  * @version 1.0
  */
 public class MapIncorrect {
+    /**
+     * Main method.
+     * @param args - not in use.
+     */
     public static void main(String[] args) {
         User vasya = new User("Vasya", new GregorianCalendar(2000, 5, 20), 0);
         User vasya2 = new User("Vasya", new GregorianCalendar(2000, 5, 20), 0);

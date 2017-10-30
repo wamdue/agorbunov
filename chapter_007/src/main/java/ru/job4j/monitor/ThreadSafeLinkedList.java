@@ -6,13 +6,17 @@ import net.jcip.annotations.ThreadSafe;
 import java.util.Iterator;
 
 /**
- * Created on 12.09.17
+ * Created on 12.09.17.
  * Thread safe realisation of LinkedList.
  * @author Wamdue
  * @version 1.0
+ * @param <E> - class to work with.
  */
 @ThreadSafe
 public class ThreadSafeLinkedList<E>  {
+    /**
+     * Object monitor.
+     */
     private final Object lock = new Object();
     /**
      * Reference to first element.
@@ -94,9 +98,19 @@ public class ThreadSafeLinkedList<E>  {
      * @param <E> - generic parameter.
      */
     private class Node<E> {
-        E item;
-        Node previous;
-        Node next;
+
+        /**
+         * item to store.
+         */
+        private E item;
+        /**
+         * Link to previous node.
+         */
+        private Node previous;
+        /**
+         * Link to next node.
+         */
+        private Node next;
 
         /**
          *
@@ -136,7 +150,7 @@ public class ThreadSafeLinkedList<E>  {
         }
 
         /**
-         *
+         * Returns next item.
          * @return element, and move the position to the next.
          */
         @Override

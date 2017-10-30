@@ -1,10 +1,11 @@
 package ru.job4j.tree;
 
 /**
- * Created on 10.08.17
- *
+ * Created on 10.08.17.
+ * Tree interface.
  * @author Wamdue
  * @version 1.0
+ * @param <E> - class to store.
  */
 public interface SimpleTree<E extends Comparable<E>> extends Iterable<E> {
     /**

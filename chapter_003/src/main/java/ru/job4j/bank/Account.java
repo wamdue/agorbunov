@@ -1,7 +1,7 @@
 package ru.job4j.bank;
 
 /**
- * Created on 18.07.17
+ * Created on 18.07.17.
  * Account information.
  * @author Wamdue
  * @version 1.0
@@ -50,6 +50,11 @@ public class Account {
         return requisites;
     }
 
+    /**
+     * Overriding equals method.
+     * @param o - class to compare.
+     * @return result of the compare.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -67,6 +72,10 @@ public class Account {
         return requisites.equals(account.requisites);
     }
 
+    /**
+     * Calculating new hashcode.
+     * @return new hashcode.
+     */
     @Override
     public int hashCode() {
         int result;

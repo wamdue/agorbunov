@@ -2,11 +2,11 @@ package ru.job4j.iterators;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
- * @author Wamdue
+ * @author Wamdue.
  * @version 1.0
  * @since 19.07.2017
  */

@@ -7,17 +7,34 @@ package ru.job4j.frog;
  * @version 1.0
  */
 public class Frog {
+    /**
+     * Limit of recursion depth.
+     */
     private static final int LIMIT = 5;
-    private final static int WIN = 2;
+    /**
+     * Win constant.
+     */
+    private static final int WIN = 2;
+    /**
+     * Constant of tree.
+     */
     private static final int TREE = 0;
 
     /**
      * Main matrix.
      */
     private int[][] labyrinth;
+    /**
+     * Size of axis x.
+     */
     private final int sizeX;
+    /**
+     * Size of axis y.
+     */
     private final int sizeY;
-
+    /**
+     * Possible moves.
+     */
     private final Step[] directs = {
             new Step(1, -2),
             new Step(1, 2),
@@ -39,9 +56,20 @@ public class Frog {
      * Class to make moves.
      */
     private static final class Step {
+        /**
+         * Coord x.
+         */
         private final int x;
+        /**
+         * Coord y.
+         */
         private final int y;
 
+        /**
+         * Main constructor.
+         * @param x - coord x.
+         * @param y - coord y.
+         */
         Step(int x, int y) {
             this.x = x;
             this.y = y;
@@ -52,18 +80,37 @@ public class Frog {
      * Class to store result of the step.
      */
     private  class Way {
+        /**
+         * Count of moves.
+         */
         private final int size;
+        /**
+         * State of way, ended or not.
+         */
         private final boolean win;
 
+        /**
+         * Main constructor.
+         * @param win - state of way.
+         * @param size - count of moves.
+         */
         Way(final boolean win, final int size) {
             this.size = size;
             this.win = win;
         }
 
+        /**
+         * Get count of moves.
+         * @return - count of moves.
+         */
         int getSize() {
             return this.size;
         }
 
+        /**
+         * Get current state.
+         * @return - state of way.
+         */
         boolean isWin() {
             return this.win;
         }
