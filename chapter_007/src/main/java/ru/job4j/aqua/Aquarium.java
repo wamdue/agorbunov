@@ -2,8 +2,11 @@ package ru.job4j.aqua;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.function.Function;
 
 /**
  * Created on 26.10.17.
@@ -21,46 +24,65 @@ public class Aquarium {
      * Fish storage.
      */
     private List<Fish> fishList = new ArrayList<>();
-
     /**
-     * Add new fish to storage.
-     * @return - new fish.
+     * Map for correct responding on the random numbers.
      */
-    public Fish createFish() {
-        Fish fish = new Fish();
-        fishList.add(fish);
-        return fish;
+    private Map<Integer, Function<Integer, Boolean>> moves = new HashMap<>();
+
+    public Aquarium() {
+        this.init();
     }
 
     /**
      * Generates random meeting wish two fishes with opposite gender.
-     * @return - lucky pair, or empty list, if gender is equal.
      */
-    public List<Fish> meeting() {
-        List<Fish> list = new ArrayList<>();
-        Fish one = this.fishList.get(random.nextInt(this.listSize()));
-        Fish two = this.fishList.get(random.nextInt(this.listSize()));
-        if (one != two && one.getGender() != two.getGender()) {
-            list.add(one);
-            list.add(two);
-        }
-        return list;
+    public Function<Integer, Boolean> meeting() {
+        return id -> {
+            Fish first = this.fishList.get(random.nextInt(this.listSize()));
+            Fish second = this.fishList.get(random.nextInt(this.listSize()));
+            boolean result = false;
+            if (first.getGender() != second.getGender()) {
+                System.out.println(String.format("Встретились рыбки № %d и № %d", first.getId(), second.getId()));
+                Fish newFish = new Fish();
+                System.out.println(String.format("Родилась рыбка № %d", newFish.getId()));
+                fishList.add(newFish);
+                result = true;
+            }
+            return result;
+        };
     }
 
     /**
      * Kill fish who live longer then generated lifeTime.
      * @return - fish, or null if cannot find fish in storage.
      */
-    public Fish killFish() {
-        long currentTime = System.currentTimeMillis();
-        Fish victim = null;
-        for (Fish fish : this.fishList) {
-            if (fish.getLifeTime() + fish.getBirthday().getTime() < currentTime) {
-                victim = fish;
-                break;
+    public Function<Integer, Boolean> killFish() {
+        return id -> {
+            long currentTime = System.currentTimeMillis();
+            boolean result = false;
+            Fish victim = null;
+            for (Fish fish : this.fishList) {
+                if (fish.getLifeTime() + fish.getBirthday().getTime() < currentTime) {
+                    victim = fish;
+                    result = true;
+                    break;
+                }
             }
-        }
-        return victim;
+            if (result) {
+                System.out.println(String.format("Умерла рыбка № %d", victim.getId()));
+                fishList.remove(victim);
+            }
+
+            return result;
+        };
+    }
+
+    /**
+     * Primary initialisation.
+     */
+    private void init() {
+        moves.put(0, meeting());
+        moves.put(1, killFish());
     }
 
     /**
@@ -68,29 +90,14 @@ public class Aquarium {
      */
     public void circle() {
         for (int i = 0; i < 10000; i++) {
-            this.createFish();
+            this.fishList.add(new Fish());
         }
         int counter = 0;
         while (true) {
             counter++;
-            int val = this.random.nextInt(4);
-            if (val == 0) {
-                List<Fish> temp = this.meeting();
-                if (temp.size() > 0) {
-                    System.out.println(String.format("Встретились рыбки № %d и № %d", temp.get(0).getId(), temp.get(1).getId()));
-                } else {
-                    continue;
-                }
-            } else if (val == 1) {
-                Fish fish = this.killFish();
-                if (fish != null) {
-                    this.fishList.remove(fish);
-                    System.out.println(String.format("Умерла рыбка № %d", fish.getId()));
-                } else {
-                    continue;
-                }
-            } else if (val == 2) {
-                System.out.println(String.format("Родилась рыбка № %d", this.createFish().getId()));
+            int val = this.random.nextInt(moves.size());
+            if (!this.moves.get(val).apply(val)) {
+                continue;
             }
 
             try {
@@ -111,5 +118,9 @@ public class Aquarium {
      */
     private int listSize() {
         return this.fishList.size();
+    }
+
+    public static void main(String[] args) {
+        new Aquarium().circle();
     }
 }
