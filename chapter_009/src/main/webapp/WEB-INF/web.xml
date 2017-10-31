@@ -11,20 +11,22 @@
 
     <servlet>
         <servlet-name>CrudServlet</servlet-name>
-        <servlet-class>ru.job4j.crud.Users</servlet-class>
+        <servlet-class>ru.job4j.crud.controller.Users</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddServlet</servlet-name>
-        <servlet-class>ru.job4j.crud.AddUser</servlet-class>
+        <servlet-class>ru.job4j.crud.controller.AddUser</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateUser</servlet-name>
-        <servlet-class>ru.job4j.crud.UpdateUser</servlet-class>
+        <servlet-class>ru.job4j.crud.controller.UpdateUser</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteUser</servlet-name>
-        <servlet-class>ru.job4j.crud.DeleteUser</servlet-class>
+        <servlet-class>ru.job4j.crud.controller.DeleteUser</servlet-class>
     </servlet>
+
+    <!--Mappings-->
 
     <servlet-mapping>
         <servlet-name>EchoServlet</servlet-name>
@@ -40,10 +42,12 @@
         <servlet-name>AddServlet</servlet-name>
         <url-pattern>/adduser</url-pattern>
     </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>UpdateUser</servlet-name>
         <url-pattern>/updateuser</url-pattern>
     </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>DeleteUser</servlet-name>
         <url-pattern>/deleteuser</url-pattern>
@@ -55,4 +59,5 @@
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
+
 </web-app>

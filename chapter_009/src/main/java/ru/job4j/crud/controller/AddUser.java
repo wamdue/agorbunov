@@ -1,4 +1,7 @@
-package ru.job4j.crud;
+package ru.job4j.crud.controller;
+
+import ru.job4j.crud.model.DBConnection;
+import ru.job4j.crud.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +19,23 @@ import java.util.Date;
  */
 public class AddUser extends HttpServlet {
     /**
+     * Connecton to db.
+     */
+    private DBConnection connection = DBConnection.getInstance();
+
+    /**
+     * Redirecting to jsp.
+     * @param req - request.
+     * @param resp - response.
+     * @throws ServletException - exception.
+     * @throws IOException - exception.
+     */
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/WEB-INF/views/add_user.jsp").forward(req, resp);
+    }
+
+    /**
      * Submitting new information to db.
      * @param req - request.
      * @param resp - response.
@@ -24,7 +44,6 @@ public class AddUser extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DBConnection connection = DBConnection.getInstance();
         User user = new User();
         user.setName(req.getParameter("name"));
         user.setLogin(req.getParameter("login"));
