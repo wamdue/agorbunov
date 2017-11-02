@@ -1,6 +1,7 @@
 package ru.job4j.crud.controller;
 
 import ru.job4j.crud.model.DBConnection;
+import ru.job4j.crud.model.Role;
 import ru.job4j.crud.model.User;
 
 import javax.servlet.ServletException;
@@ -49,6 +50,10 @@ public class UpdateUser extends HttpServlet {
         user.setName(req.getParameter("newname"));
         user.setLogin(req.getParameter("newlogin"));
         user.setEmail(req.getParameter("newemail"));
+        user.setPassword(req.getParameter("newpassword"));
+        if (req.getParameter("newrole") != null) {
+            user.setRole(Role.valueOf(req.getParameter("newrole")));
+        }
         this.connection.updateUser(user.getId(), user);
         resp.sendRedirect(req.getContextPath());
     }

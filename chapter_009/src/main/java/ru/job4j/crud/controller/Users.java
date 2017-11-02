@@ -32,4 +32,9 @@ public class Users extends HttpServlet {
         req.setAttribute("users", users);
         req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req, resp);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
 }

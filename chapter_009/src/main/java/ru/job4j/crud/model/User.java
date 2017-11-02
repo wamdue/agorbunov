@@ -29,6 +29,14 @@ public class User {
      * User creation time.
      */
     private Timestamp createDate;
+    /**
+     * User password.
+     */
+    private String password;
+    /**
+     * User role.
+     */
+    private Role role;
 
     /**
      * Get user name.
@@ -108,5 +116,37 @@ public class User {
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * Get current user password.
+     * @return - user password.
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Set new user password.
+     * @param password - new password.
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * Get current user role.
+     * @return - user role.
+     */
+    public Role getRole() {
+        return role;
+    }
+
+    /**
+     * Set new user role.
+     * @param role - new Role.
+     */
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

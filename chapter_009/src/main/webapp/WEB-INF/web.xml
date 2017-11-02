@@ -25,6 +25,14 @@
         <servlet-name>DeleteUser</servlet-name>
         <servlet-class>ru.job4j.crud.controller.DeleteUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Sign in</servlet-name>
+        <servlet-class>ru.job4j.crud.controller.SignInController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>ru.job4j.crud.controller.Logout</servlet-class>
+    </servlet>
 
     <!--Mappings-->
 
@@ -52,6 +60,23 @@
         <servlet-name>DeleteUser</servlet-name>
         <url-pattern>/deleteuser</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Sign in</servlet-name>
+        <url-pattern>/signin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>SigninFilter</filter-name>
+        <filter-class>ru.job4j.crud.controller.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SigninFilter</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
 
     <resource-ref>
         <description>Users database connection.</description>

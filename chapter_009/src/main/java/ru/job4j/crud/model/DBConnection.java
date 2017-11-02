@@ -124,6 +124,8 @@ public class DBConnection {
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getEmail());
             statement.setTimestamp(4, user.getCreateDate());
+            statement.setString(5, user.getPassword());
+            statement.setString(6, user.getRole().name());
             statement.executeUpdate();
             LOGGER.info("User Added");
         } catch (SQLException e) {
@@ -155,7 +157,9 @@ public class DBConnection {
             statement.setString(1, user.getName());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getEmail());
-            statement.setInt(4, id);
+            statement.setInt(6, id);
+            statement.setString(4, user.getPassword());
+            statement.setString(5, user.getRole().name());
             statement.executeUpdate();
             LOGGER.info("User successfully updated.");
         } catch (SQLException e) {
@@ -177,6 +181,8 @@ public class DBConnection {
                     user.setName(set.getString("name"));
                     user.setLogin(set.getString("login"));
                     user.setEmail(set.getString("email"));
+                    user.setPassword(set.getString("password"));
+                    user.setRole(Role.valueOf(set.getString("user_role")));
                     user.setCreateDate(set.getTimestamp("createdate"));
                     users.add(user);
                 }
@@ -215,6 +221,8 @@ public class DBConnection {
             user.setLogin(set.getString("login"));
             user.setEmail(set.getString("email"));
             user.setCreateDate(set.getTimestamp("createdate"));
+            user.setRole(Role.valueOf(set.getString("user_role")));
+            user.setPassword(set.getString("password"));
             }
         } catch (SQLException e) {
             LOGGER.error("Cannot get user by id", e.fillInStackTrace());
@@ -238,5 +246,21 @@ public class DBConnection {
             }
         }
         return local;
+    }
+
+    /**
+     * Checks, if user exists in db.
+     * @param login - user login.
+     * @param password - user password.
+     * @return - user, or null if not exist.
+     */
+    public User credentionalUser(String login, String password) {
+        boolean result = false;
+        for (User user : this.listOfUsers()) {
+            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        return null;
     }
 }

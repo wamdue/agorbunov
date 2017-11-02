@@ -5,13 +5,19 @@
     <title>List of users</title>
 </head>
 <body>
+<div>
     <a href="${pageContext.request.contextPath}/adduser">Add new user</a>
+    <form action="${pageContext.request.contextPath}/logout" method="post">
+        <input type="submit" value="Log out"/>
+    </form>
+</div>
     <table style="border: 1px solid black;" cellpadding="1" cellspacing="1" border="1">
         <tr>
             <th>User id</th>
             <th>User name </th>
             <th>Login</th>
             <th>Email</th>
+            <th>Role</th>
             <th>Creation time</th>
             <th>Actions</th>
         </tr>
@@ -21,14 +27,31 @@
                 <td><c:out value="${user.name}"/></td>
                 <td><c:out value="${user.login}"/></td>
                 <td><c:out value="${user.email}"/></td>
+                <td><c:out value="${user.role}"/></td>
                 <td><c:out value="${user.createDate}"/></td>
                 <td>
-                    <form action="${pageContext.request.contextPath}/updateuser" method="get">
-                        <button value="${user.id}" name="id">Edit</button>
-                    </form>
-                    <form action="${pageContext.request.contextPath}/deleteuser" method="post">
-                        <button value="${user.id}" name="id">Delete</button>
-                    </form>
+                    <c:choose>
+                        <c:when test="${sessionScope.get('role') != null}">
+                            <form action="${pageContext.request.contextPath}/updateuser" method="get">
+                                <button value="${user.id}" name="id">Edit</button>
+                            </form>
+                            <form action="${pageContext.request.contextPath}/deleteuser" method="post">
+                                <button value="${user.id}" name="id">Delete</button>
+                            </form>
+                        </c:when>
+                        <c:otherwise>
+                            <c:if test="${sessionScope.get('id').equals(user.id)}">
+                                <form action="${pageContext.request.contextPath}/updateuser" method="get">
+                                    <button value="${user.id}" name="id">Edit</button>
+                                </form>
+                                <form action="${pageContext.request.contextPath}/deleteuser" method="post">
+                                    <button value="${user.id}" name="id">Delete</button>
+                                </form>
+                            </c:if>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:if test="${sessionScope.get('role') != null}">
+                    </c:if>
                 </td>
             </tr>
             </c:forEach>
