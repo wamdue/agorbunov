@@ -258,7 +258,6 @@ public class DBConnection {
      * @return - user, or null if not exist.
      */
     public User credentionalUser(String login, String password) {
-        boolean result = false;
         for (User user : this.listOfUsers()) {
             if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
                 return user;
