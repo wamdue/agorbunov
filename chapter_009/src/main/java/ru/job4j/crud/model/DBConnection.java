@@ -105,6 +105,9 @@ public class DBConnection {
                     user.setName(set.getString("name"));
                     user.setLogin(set.getString("login"));
                     user.setEmail(set.getString("email"));
+                    user.setRole(Role.valueOf(set.getString("user_role")));
+                    user.setPassword(set.getString("password"));
+                    user.setId(set.getInt("id"));
                     user.setCreateDate(set.getTimestamp("createdate"));
                 }
             } catch (SQLException e) {
