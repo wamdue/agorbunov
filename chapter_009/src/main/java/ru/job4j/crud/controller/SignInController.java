@@ -42,7 +42,7 @@ public class SignInController extends HttpServlet {
         DBConnection connection = DBConnection.getInstance();
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        User user = connection.credentionalUser(login, password);
+        User user = connection.credentialUser(login, password);
         if (user != null) {
             HttpSession session = req.getSession();
             synchronized (session) {

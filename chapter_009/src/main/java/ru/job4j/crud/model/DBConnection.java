@@ -1,11 +1,17 @@
 package ru.job4j.crud.model;
 
+import org.apache.commons.dbcp2.ConnectionFactory;
+import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
+import org.apache.commons.dbcp2.PoolableConnection;
+import org.apache.commons.dbcp2.PoolableConnectionFactory;
+import org.apache.commons.dbcp2.PoolingDataSource;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +22,7 @@ import java.util.Properties;
 
 /**
  * Created on 23.10.17.
- *
+ * Connection to DB.
  * @author Wamdue
  * @version 1.0
  */
@@ -43,11 +49,23 @@ public class DBConnection {
      */
     private void connect() {
         try {
+
             Class.forName("org.postgresql.Driver");
             String login = this.props.getProperty("login");
             String password = this.props.getProperty("password");
             String url = this.props.getProperty("url");
-            this.connection = DriverManager.getConnection(url, login, password);
+            Properties p = new Properties();
+            p.setProperty("Username", login);
+            p.setProperty("Password", password);
+
+            ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, p);
+            PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
+            ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(poolableConnectionFactory);
+
+            poolableConnectionFactory.setPool(connectionPool);
+            PoolingDataSource<PoolableConnection> dataSource = new PoolingDataSource<>(connectionPool);
+
+            this.connection = dataSource.getConnection();
             LOGGER.info("Connection to db users established successfully");
             this.createTable();
         } catch (SQLException e) {
@@ -257,7 +275,7 @@ public class DBConnection {
      * @param password - user password.
      * @return - user, or null if not exist.
      */
-    public User credentionalUser(String login, String password) {
+    public User credentialUser(String login, String password) {
         for (User user : this.listOfUsers()) {
             if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
                 return user;
