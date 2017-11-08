@@ -52,6 +52,8 @@ public class AddUser extends HttpServlet {
         user.setPassword(req.getParameter("password"));
         user.setRole(Role.valueOf(req.getParameter("role")));
         user.setCreateDate(new Timestamp(new Date().getTime()));
+        user.setCity(req.getParameter("city"));
+        user.setCountry(req.getParameter("country"));
         connection.addUser(user);
         resp.sendRedirect(req.getContextPath());
     }

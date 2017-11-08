@@ -127,6 +127,8 @@ public class DBConnection {
                     user.setPassword(set.getString("password"));
                     user.setId(set.getInt("id"));
                     user.setCreateDate(set.getTimestamp("createdate"));
+                    user.setCity(set.getString("city"));
+                    user.setCountry(set.getString("country"));
                 }
             } catch (SQLException e) {
                 LOGGER.error("Cannot make search from table users", e.fillInStackTrace());
@@ -147,6 +149,8 @@ public class DBConnection {
             statement.setTimestamp(4, user.getCreateDate());
             statement.setString(5, user.getPassword());
             statement.setString(6, user.getRole().name());
+            statement.setString(7, user.getCity());
+            statement.setString(8, user.getCountry());
             statement.executeUpdate();
             LOGGER.info("User Added");
         } catch (SQLException e) {
@@ -178,9 +182,11 @@ public class DBConnection {
             statement.setString(1, user.getName());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getEmail());
-            statement.setInt(6, id);
             statement.setString(4, user.getPassword());
             statement.setString(5, user.getRole().name());
+            statement.setString(6, user.getCity());
+            statement.setString(7, user.getCountry());
+            statement.setInt(8, id);
             statement.executeUpdate();
             LOGGER.info("User successfully updated.");
         } catch (SQLException e) {
@@ -205,6 +211,8 @@ public class DBConnection {
                     user.setPassword(set.getString("password"));
                     user.setRole(Role.valueOf(set.getString("user_role")));
                     user.setCreateDate(set.getTimestamp("createdate"));
+                    user.setCity(set.getString("city"));
+                    user.setCountry(set.getString("country"));
                     users.add(user);
                 }
             }
@@ -244,6 +252,8 @@ public class DBConnection {
             user.setCreateDate(set.getTimestamp("createdate"));
             user.setRole(Role.valueOf(set.getString("user_role")));
             user.setPassword(set.getString("password"));
+            user.setCity(set.getString("city"));
+            user.setCountry(set.getString("country"));
             }
         } catch (SQLException e) {
             LOGGER.error("Cannot get user by id", e.fillInStackTrace());

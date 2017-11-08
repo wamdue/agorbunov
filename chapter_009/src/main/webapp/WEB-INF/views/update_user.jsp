@@ -3,26 +3,53 @@
 <html>
 <head>
     <title>Update User</title>
+    <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>"/>
 </head>
 <body>
+<div class="container">
+    <div class="page-header">
+        <h3>Update user.</h3>
+    </div>
     <form method="post" action="${pageContext.request.contextPath}/updateuser">
-        Name <input type="text" name="newname" value="${user.name}"/>
-        <br>
-        Login <input type="text" name="newlogin" value="${user.login}"/>
-        <br>
-        Email <input type="text" name="newemail" value="${user.email}"/>
-        <br>
-        Password <input type="password" name="newpassword" value="${user.password}"/>
-        <br>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="newname" autocomplete="off" value="${user.name}">
+        </div>
+        <div class="form-group">
+            <label for="login">Login:</label>
+            <input type="text" class="form-control" id="login" name="newlogin" autocomplete="off" value="${user.login}">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="newpassword" autocomplete="off" value="${user.password}">
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" class="form-control" id="email" name="newemail"
+                   pattern="^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z0-9\.]{2, 6})$" title="Must contain @ and ." value="${user.email}">
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" class="form-control" id="city" name="newcity" pattern="[A-Za-z]+"
+                   title="Must contain only letters." value="${user.city}">
+        </div>
+        <div class="form-group">
+            <label for="country">Country:</label>
+            <input type="text" class="form-control" id="country" name="newcountry" pattern="[A-Za-z]+"
+                   title="Must contain only letters." value="${user.country}">
+        </div>
         <c:if test="${sessionScope.get('id') == null}">
-            Role <select name="newrole">
-            <option c:if test="${user.role.equals('ADMIN')}" selected c:if value="ADMIN">Administrator</option>
-            <option c:if test="${user.role.equals('USER')}" selected c:if value="USER">User</option>
-        </select>
-            <br>
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <select class="form-control" id="role" name="newrole">
+                    <option c:if test="${user.role.equals('ADMIN')}" selected c:if value="ADMIN">Administrator</option>
+                    <option c:if test="${user.role.equals('USER')}" selected c:if value="USER">User</option>
+                </select>
+            </div>
         </c:if>
         <input type="text" name="id" hidden value="${user.id}"/>
-        <input type="submit" value="Update  user">
+        <input class="btn btn-default" type="submit" value="Update user">
     </form>
+</div>
 </body>
 </html>

@@ -54,6 +54,8 @@ public class UpdateUser extends HttpServlet {
         if (req.getParameter("newrole") != null) {
             user.setRole(Role.valueOf(req.getParameter("newrole")));
         }
+        user.setCity(req.getParameter("newcity"));
+        user.setCountry(req.getParameter("newcountry"));
         this.connection.updateUser(user.getId(), user);
         resp.sendRedirect(req.getContextPath());
     }
