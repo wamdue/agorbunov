@@ -3,7 +3,8 @@
 <html>
 <head>
     <title>Sign in</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"/>
+    <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">--%>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         function validate() {
@@ -33,11 +34,11 @@
     <form onsubmit="return validate();" method="post" action="${pageContext.request.contextPath}/signin">
         <div class="form-group">
             <label for="login">Login:</label>
-            <input type="text" name="login" id="login" class="form-control" placeholder="Enter login"/>
+            <input type="text" name="login" id="login" class="form-control" placeholder="Enter login" autocomplete="off"/>
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" name="password" id="password" class="form-control" placeholder="Enter password"/>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" autocomplete="off"/>
         </div>
         <input type="submit" class="btn btn-default" value="Sing in"/>
     </form>
