@@ -3,7 +3,8 @@
 <html>
 <head>
     <title>Update User</title>
-    <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>"/>
+    <%--<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>"/>--%>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
@@ -26,16 +27,16 @@
         <div class="form-group">
             <label for="email">Email:</label>
             <input type="text" class="form-control" id="email" name="newemail"
-                   pattern="^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z0-9\.]{2, 6})$" title="Must contain @ and ." value="${user.email}">
+                   pattern="^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z0-9\.]{2,6})$" title="Must contain @ and ." value="${user.email}">
         </div>
         <div class="form-group">
             <label for="city">City:</label>
-            <input type="text" class="form-control" id="city" name="newcity" pattern="[A-Za-z]+"
+            <input type="text" class="form-control" id="city" name="newcity" pattern="[A-Za-z\s]+"
                    title="Must contain only letters." value="${user.city}">
         </div>
         <div class="form-group">
             <label for="country">Country:</label>
-            <input type="text" class="form-control" id="country" name="newcountry" pattern="[A-Za-z]+"
+            <input type="text" class="form-control" id="country" name="newcountry" pattern="[A-Za-z\s]+"
                    title="Must contain only letters." value="${user.country}">
         </div>
         <c:if test="${sessionScope.get('id') == null}">

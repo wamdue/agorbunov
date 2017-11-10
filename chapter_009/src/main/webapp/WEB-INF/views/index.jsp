@@ -3,15 +3,17 @@
 <html>
 <head>
     <title>List of users</title>
+    <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">--%>
 </head>
 <body>
 <div class="container">
     <div class="row" style="width: 113%;">
         <div class="col-xs-10 col-md-10"></div>
         <div class="col-xs-1 col-md-1">
-            <form action="${pageContext.request.contextPath}/logout" method="post">
-                <input type="button" class="btn btn-danger" value="Logout"></form>
-            </form>
+            <a href="${pageContext.request.contextPath}/logout">Logout</a>
+            <%--<form action="${pageContext.request.contextPath}/logout" method="post">--%>
+                <%--<input type="button" class="btn btn-danger" value="Logout"></form>--%>
+            <%--</form>--%>
         </div>
     </div>
     <div class="page-header">
@@ -54,10 +56,10 @@
                         <c:if test="${(sessionScope.get('role') != null) ||
                         ((sessionScope.get('id') != null) && (sessionScope.get('id').equals(user.id)))}">
                             <form action="${pageContext.request.contextPath}/updateuser" method="get">
-                                <button value="${user.id}" name="id">Edit</button>
+                                <button class="btn btn-default" value="${user.id}" name="id">Edit</button>
                             </form>
                             <form action="${pageContext.request.contextPath}/deleteuser" method="post">
-                                <button value="${user.id}" name="id">Delete</button>
+                                <button class="btn btn-default" value="${user.id}" name="id">Delete</button>
                             </form>
                         </c:if>
                     </td>

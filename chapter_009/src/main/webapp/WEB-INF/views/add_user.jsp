@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>Add new user</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"/>
+    <%--<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"/>--%>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <script type="text/javascript">
         function validate() {
             var result = true;
@@ -45,12 +46,12 @@
         </div>
         <div class="form-group">
             <label for="city">City:</label>
-            <input type="text" class="form-control" id="city" name="city" pattern="[A-Za-z]+"
+            <input type="text" class="form-control" id="city" name="city" pattern="[A-Za-z\s]+"
                    title="Must contain only letters.">
         </div>
         <div class="form-group">
             <label for="country">Country:</label>
-            <input type="text" class="form-control" id="country" name="country" pattern="[A-Za-z]+"
+            <input type="text" class="form-control" id="country" name="country" pattern="[A-Za-z\s]+"
                    title="Must contain only letters.">
         </div>
         <div class="form-group">

@@ -5,6 +5,16 @@
         version="3.1">
 
     <servlet>
+        <servlet-name>Json</servlet-name>
+        <servlet-class>ru.job4j.crud.controller.JsonUsersController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json</servlet-name>
+        <url-pattern>/json</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>EchoServlet</servlet-name>
         <servlet-class>ru.job4j.servlet.EchoServlet</servlet-class>
     </servlet>

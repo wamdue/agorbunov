@@ -11,7 +11,11 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -50,19 +54,18 @@ public class DBConnection {
             String login = this.props.getProperty("login");
             String password = this.props.getProperty("password");
             String url = this.props.getProperty("url");
-//            Properties p = new Properties();
-//            p.setProperty("Username", login);
-//            p.setProperty("Password", password);
-//
-//            ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, p);
-//            PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
-//            ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(poolableConnectionFactory);
-//
-//            poolableConnectionFactory.setPool(connectionPool);
-//            PoolingDataSource<PoolableConnection> dataSource = new PoolingDataSource<>(connectionPool);
-//
-//            this.connection = dataSource.getConnection();
-            this.connection = DriverManager.getConnection(url, login, password);
+            Properties p = new Properties();
+            p.setProperty("Username", login);
+            p.setProperty("Password", password);
+
+            ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, p);
+            PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
+            ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(poolableConnectionFactory);
+
+            poolableConnectionFactory.setPool(connectionPool);
+            PoolingDataSource<PoolableConnection> dataSource = new PoolingDataSource<>(connectionPool);
+
+            this.connection = dataSource.getConnection();
             LOGGER.info("Connection to db users established successfully");
             this.createTable();
             this.createAdmin();
@@ -110,7 +113,7 @@ public class DBConnection {
      * Create root user if no users in db.
      */
     private void createAdmin() {
-        try(PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("check_root"));
+        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("check_root"));
             ResultSet set = statement.executeQuery();
             PreparedStatement rootStatement = this.connection.prepareStatement(this.props.getProperty("create_root"));) {
             set.next();
