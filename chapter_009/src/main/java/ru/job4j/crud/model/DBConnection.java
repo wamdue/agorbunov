@@ -55,8 +55,8 @@ public class DBConnection {
             String password = this.props.getProperty("password");
             String url = this.props.getProperty("url");
             Properties p = new Properties();
-            p.setProperty("Username", login);
-            p.setProperty("Password", password);
+            p.setProperty("user", login);
+            p.setProperty("password", password);
 
             ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, p);
             PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);

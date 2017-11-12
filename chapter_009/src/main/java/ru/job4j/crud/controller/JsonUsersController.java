@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * Created on 10.11.17.
@@ -30,7 +31,9 @@ public class JsonUsersController extends HttpServlet {
         resp.setContentType("text/json");
         PrintWriter writer = resp.getWriter();
         writer.append("[");
-        for (User user : connection.listOfUsers()) {
+        List<User> users = connection.listOfUsers();
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
             writer.append("{");
             writer.append("\"id\" : \"").append(String.valueOf(user.getId())).append("\", ");
             writer.append("\"name\" : \"").append(user.getName()).append("\", ");
@@ -40,6 +43,9 @@ public class JsonUsersController extends HttpServlet {
             writer.append("\"country\" : \"").append(user.getCountry()).append("\", ");
             writer.append("\"role\" : \"").append(user.getRole().name()).append("\"");
             writer.append("}");
+            if (i + 1 < users.size()) {
+                writer.append(", ");
+            }
         }
         writer.append("]");
     }
