@@ -1,6 +1,7 @@
 package ru.job4j.crud.controller;
 
 import ru.job4j.crud.model.DBConnection;
+import ru.job4j.crud.model.Role;
 import ru.job4j.crud.model.User;
 
 import javax.servlet.ServletException;
@@ -48,5 +49,18 @@ public class JsonUsersController extends HttpServlet {
             }
         }
         writer.append("]");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = new User();
+        user.setName(req.getParameter("name"));
+        user.setLogin(req.getParameter("login"));
+        user.setPassword(req.getParameter("password"));
+        user.setEmail(req.getParameter("email"));
+        user.setCountry(req.getParameter("city"));
+        user.setCity(req.getParameter("city"));
+        user.setRole(Role.valueOf(req.getParameter("role")));
+        DBConnection.getInstance().addUser(user);
     }
 }

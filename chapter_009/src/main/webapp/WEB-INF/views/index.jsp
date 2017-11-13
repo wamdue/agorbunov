@@ -39,8 +39,19 @@
                             "<td>" + users[i].email + "</td>\n" +
                             "<td>" + users[i].city + "</td>\n" +
                             "<td>" + users[i].country + "</td>\n" +
-                            "<td>" + users[i].role + "</td>\n" +
-                            "<td> actions </td>";
+                            "<td>" + users[i].role + "</td>\n";
+                        var role = "${sessionScope.get("role")}";
+                        var id = "${sessionScope.get("id")}";
+                        console.log("role : " + role);
+                        console.log("id : " + id);
+                        if (role !== '' || (id !== '' && id ===users[i].id) ){
+                            result += "<td> " +
+                                    "<form method='post' id='actions'>" +
+                                    "<button class='btn btn-default' id='edit' name='id' value='" +users[i].id +"' onclick='return updateUser();'>edit</button>" +
+                                    "<button class='btn btn-default' id='delete 'name='id' value='" +users[i].id +"' onclick='deleteUser()'>delete</button>"+
+                                    "</form>" +
+                                " </td>";
+                        }
                         result += "</tr>";
                     }
                     result += "</tbody>";
@@ -52,25 +63,39 @@
         );
 
         function createUser() {
-            $.ajax( {
-                method : 'post',
-                success : null
-                });
+            $.ajax("./json", {
+                method: 'post',
+                data: {
+                    name: document.getElementById("name").value,
+                    login: document.getElementById("login").value,
+                    password: document.getElementById("password").value,
+                    email: document.getElementById("email").value,
+                    city: document.getElementById("city").value,
+                    country: document.getElementById("country").value,
+                    role: document.getElementById("role").value
+                }
+            });
             return false;
         }
 
         function updateUser() {
-            $.ajax( {
-                method : "post",
-                success : null
+            $.ajax({
+                method: "post",
+                data: {
+                    newname: document.getElementById("newname").value,
+                    newlogin: document.getElementById("newlogin").value,
+                    newpassword: document.getElementById("newpassword").value,
+                    newemail: document.getElementById("newemail").value,
+                    newcity: document.getElementById("newcity").value,
+                    newcountry: document.getElementById("newcountry").value,
+                    newrole: document.getElementById("newrole").value
+                }
             });
             return false;
         }
 
         function deleteUser() {
-            $.ajax( {
-
-            });
+            $.ajax({});
             return false;
         }
     </script>
@@ -89,10 +114,50 @@
     <div class="table-responsive">
         <table class="table" id="users">
         </table>
-        <a class="btn btn-info" href="${pageContext.request.contextPath}/adduser" onclick="createUser()">Add new user</a>
+        <a class="btn btn-info" id="newUser">Add new user</a>
     </div>
     <div id="create">
-
+        <div class="page-header">
+            <h3>Add new user.</h3>
+        </div>
+        <%--<form action="${pageContext.request.contextPath}/adduser" method="post" onchange="return validate()">--%>\\
+        <form method="post" onchange="validate()">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="login">Login:</label>
+                <input type="text" class="form-control" id="login" name="login" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" name="email"
+                       pattern="^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z0-9\.]{2,6})$" title="Must contain @ and .">
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" class="form-control" id="city" name="city" pattern="[A-Za-z\s]+"
+                       title="Must contain only letters.">
+            </div>
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <input type="text" class="form-control" id="country" name="country" pattern="[A-Za-z\s]+"
+                       title="Must contain only letters.">
+            </div>
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <select class="form-control" id="role" name="role">
+                    <option value="ADMIN">Administrator</option>
+                    <option value="USER">User</option>
+                </select>
+            </div>
+            <input class="btn btn-default" type="button" value="Add new user" onclick="return createUser();">
+        </form>
     </div>
 </div>
 </body>
