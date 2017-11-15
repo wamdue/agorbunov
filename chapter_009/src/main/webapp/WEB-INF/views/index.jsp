@@ -9,7 +9,62 @@
             src="https://code.jquery.com/jquery-3.2.1.js"
             integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
             crossorigin="anonymous"></script>
-    <script>
+    <script type="text/javascript">
+
+        function validate() {
+            var result = true;
+            var name = document.getElementById("name").value;
+            var login = document.getElementById("login").value;
+            var password = document.getElementById("password").value;
+            var email = document.getElementById("email").value;
+            var city = document.getElementById("city").value;
+            var country = document.getElementById("country").value;
+            if (name == "" || login == "" || password =="" || email =="" || city == "" || country =="") {
+                result = false;
+                alert("All fields must be entered!");
+            }
+            return result;
+        }
+
+        function deleteUser(userId) {
+            console.log(userId);
+
+            $.ajax("./deleteuser", {
+                method: 'post',
+                data: {
+                    id : userId
+                },
+                success : $("#users").reload
+            });
+            return false;
+        }
+
+        function showUpdate(user) {
+            $("#updateUser").show();
+            var role = $("#newRole");
+            $("#newName").value = user.name;
+            $("#newLogin").value = user.login;
+            $("#newPassword").value = user.password;
+            $("#newEmail").value = user.email;
+            $("#newCity").value = user.city;
+            $("#newCountry").value = user.country;
+            $("#newRole").value = user.role;
+            $("#newId").value = user.;
+//            document.getElementById("newName").value = user.name;
+//            document.getElementById("newLogin").value = user.login;
+//            document.getElementById("newPassword").value = user.password;
+//            document.getElementById("newEmail").value = user.email;
+//            document.getElementById("newCity").value = user.city;
+//            document.getElementById("newCountry").value = user.country;
+//            document.getElementById("newRole").value = user.role;
+//            document.getElementById("newId").value = user.id;
+            var role = "${sessionScope.get("role")}";
+            if (role === '') {
+                var el = $("#newRole").parent();
+                el.hide();
+            }
+        }
+
         $(
             $.ajax('./json', {
                 method: 'get',
@@ -31,36 +86,50 @@
 
                     result += "<tbody>";
                     for (var i = 0; i < users.length; i++) {
-                        result += "<tr class=\"success\"> +" +
+                        result += "<tr class='success'>" +
                             "<td>" + users[i].id + "</td>\n" +
                             "<td>" + users[i].name + "</td>\n" +
                             "<td>" + users[i].login + "</td>\n" +
-                            "<td>" + users[i].password + "</td>\n" +
                             "<td>" + users[i].email + "</td>\n" +
                             "<td>" + users[i].city + "</td>\n" +
                             "<td>" + users[i].country + "</td>\n" +
-                            "<td>" + users[i].role + "</td>\n";
+                            "<td>" + users[i].role + "</td>\n" +
+                            "<td>" + users[i].createDate + "</td>\n";
                         var role = "${sessionScope.get("role")}";
                         var id = "${sessionScope.get("id")}";
-                        console.log("role : " + role);
-                        console.log("id : " + id);
-                        if (role !== '' || (id !== '' && id ===users[i].id) ){
-                            result += "<td> " +
-                                    "<form method='post' id='actions'>" +
-                                    "<button class='btn btn-default' id='edit' name='id' value='" +users[i].id +"' onclick='return updateUser();'>edit</button>" +
-                                    "<button class='btn btn-default' id='delete 'name='id' value='" +users[i].id +"' onclick='deleteUser()'>delete</button>"+
-                                    "</form>" +
-                                " </td>";
+                        if (role !== '' || (id !== '' && id === users[i].id)) {
+                            result += "<td>" +
+                                "<form method='post' id='actions'>" +
+                                "<button class='btn btn-default' id='edit' name='id' value='" + users[i].id + "' onclick='return showUpdate(+ users[i] +)'>edit</button>" +
+                                "<button class='btn btn-default' id='delete' name='id' value='" + users[i].id + "' onclick='return deleteUser("+ users[i].id +")'>delete</button>" +
+                                "</form>" +
+                                "</td>";
                         }
                         result += "</tr>";
                     }
                     result += "</tbody>";
                     var table = document.getElementById("users");
                     table.innerHTML = result;
+                    $("#create").hide();
+                    $("#update").hide();
                 }
 
             })
         );
+
+        $(function() {
+           $("#newUser").click(function () {
+               $("#create").toggle();
+           })
+            $("#cancelNew").click(function () {
+               $("#create").hide();
+           })
+            $("#updateCancel").click(function () {
+                $("#update").hide();
+            })
+        });
+
+
 
         function createUser() {
             $.ajax("./json", {
@@ -73,31 +142,32 @@
                     city: document.getElementById("city").value,
                     country: document.getElementById("country").value,
                     role: document.getElementById("role").value
-                }
+                },
+                success: $("#create").hide()
             });
+
             return false;
         }
 
         function updateUser() {
-            $.ajax({
+            $.ajax("./updateuser", {
                 method: "post",
                 data: {
-                    newname: document.getElementById("newname").value,
-                    newlogin: document.getElementById("newlogin").value,
-                    newpassword: document.getElementById("newpassword").value,
-                    newemail: document.getElementById("newemail").value,
-                    newcity: document.getElementById("newcity").value,
-                    newcountry: document.getElementById("newcountry").value,
-                    newrole: document.getElementById("newrole").value
-                }
+                    newname: document.getElementById("newName").value,
+                    newlogin: document.getElementById("newLogin").value,
+                    newpassword: document.getElementById("newPassword").value,
+                    newemail: document.getElementById("newEmail").value,
+                    newcity: document.getElementById("newCity").value,
+                    newcountry: document.getElementById("newCountry").value,
+                    newrole: document.getElementById("newRole").value,
+                    id: document.getElementById("newId").value
+                },
+                success: $("#update").hide()
             });
+
             return false;
         }
 
-        function deleteUser() {
-            $.ajax({});
-            return false;
-        }
     </script>
 </head>
 <body>
@@ -116,38 +186,39 @@
         </table>
         <a class="btn btn-info" id="newUser">Add new user</a>
     </div>
+    <%--Add user gui begin.--%>
     <div id="create">
         <div class="page-header">
             <h3>Add new user.</h3>
         </div>
-        <%--<form action="${pageContext.request.contextPath}/adduser" method="post" onchange="return validate()">--%>\\
-        <form method="post" onchange="validate()">
+        <%--<form action="${pageContext.request.contextPath}/adduser" method="post" onchange="return validate()">--%>
+        <form method="post" oninput="return validate()">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name" autocomplete="off">
+                <input type="text" class="form-control" id="name" name="name" autocomplete="off" required>
             </div>
             <div class="form-group">
                 <label for="login">Login:</label>
-                <input type="text" class="form-control" id="login" name="login" autocomplete="off">
+                <input type="text" class="form-control" id="login" name="login" autocomplete="off" required>
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="password" autocomplete="off">
+                <input type="password" class="form-control" id="password" name="password" autocomplete="off" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="text" class="form-control" id="email" name="email"
-                       pattern="^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z0-9\.]{2,6})$" title="Must contain @ and .">
+                       pattern="^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z0-9\.]{2,6})$" title="Must contain @ and ." required>
             </div>
             <div class="form-group">
                 <label for="city">City:</label>
                 <input type="text" class="form-control" id="city" name="city" pattern="[A-Za-z\s]+"
-                       title="Must contain only letters.">
+                       title="Must contain only letters." required>
             </div>
             <div class="form-group">
                 <label for="country">Country:</label>
                 <input type="text" class="form-control" id="country" name="country" pattern="[A-Za-z\s]+"
-                       title="Must contain only letters.">
+                       title="Must contain only letters." required>
             </div>
             <div class="form-group">
                 <label for="role">Role:</label>
@@ -156,9 +227,60 @@
                     <option value="USER">User</option>
                 </select>
             </div>
-            <input class="btn btn-default" type="button" value="Add new user" onclick="return createUser();">
+            <input class="btn btn-default" type="button" value="Add new user" onclick="return validate() && createUser();">
+            <input class="btn btn-default" type="button" value="Cancel" id="cancelNew">
         </form>
     </div>
+    <%--Add user gui end--%>
+
+    <%--Update user gui begin--%>
+    <div id="update">
+        <div class="page-header">
+            <h2>Update User</h2>
+        </div>
+        <form method="post">
+            <div class="form-group">
+                <label for="newName">Name:</label>
+                <input type="text" class="form-control" id="newName" name="newName" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="newLogin">Login:</label>
+                <input type="text" class="form-control" id="newLogin" name="newLogin" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="newPassword">Password:</label>
+                <input type="password" class="form-control" id="newPassword" name="newPassword" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="newEmail">Email:</label>
+                <input type="text" class="form-control" id="newEmail" name="newEmail"
+                       pattern="^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z0-9\.]{2,6})$" title="Must contain @ and .">
+            </div>
+            <div class="form-group">
+                <label for="newCity">City:</label>
+                <input type="text" class="form-control" id="newCity" name="newCity" pattern="[A-Za-z\s]+"
+                       title="Must contain only letters.">
+            </div>
+            <div class="form-group">
+                <label for="newCountry">Country:</label>
+                <input type="text" class="form-control" id="newCountry" name="newCountry" pattern="[A-Za-z\s]+"
+                       title="Must contain only letters.">
+            </div>
+            <c:if test="${sessionScope.get('id') == null}">
+                <div class="form-group">
+                    <label for="newRole">newRole:</label>
+                    <select class="form-control" id="newRole" name="newRole">
+                        <option value="ADMIN">Administrator</option>
+                        <option value="USER">User</option>
+                    </select>
+                </div>
+            </c:if>
+            <input type="text" id="newId" name="id" hidden/>
+            <button class="btn btn-default" type="button" id="update" onclick="return updateUser()">Update user</button>
+            <button class="btn btn-default" type="button" id="updateCancel">Cancel</button>
+        </form>
+    </div>
+    <%--Update user gui end--%>
 </div>
 </body>
 </html>

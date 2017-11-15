@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ import java.util.List;
  * @version 1.0
  */
 public class JsonUsersController extends HttpServlet {
+
     /**
      * Show all users in json format.
      * @param req - request.
@@ -35,6 +38,9 @@ public class JsonUsersController extends HttpServlet {
         List<User> users = connection.listOfUsers();
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
+            if (user.getCreateDate() == null) {
+                user.setCreateDate(new Timestamp(new Date().getTime()));
+            }
             writer.append("{");
             writer.append("\"id\" : \"").append(String.valueOf(user.getId())).append("\", ");
             writer.append("\"name\" : \"").append(user.getName()).append("\", ");
@@ -42,6 +48,7 @@ public class JsonUsersController extends HttpServlet {
             writer.append("\"email\" : \"").append(user.getEmail()).append("\", ");
             writer.append("\"city\" : \"").append(user.getCity()).append("\", ");
             writer.append("\"country\" : \"").append(user.getCountry()).append("\", ");
+            writer.append("\"createDate\" : \"").append(user.getCreateDate().toString()).append("\", ");
             writer.append("\"role\" : \"").append(user.getRole().name()).append("\"");
             writer.append("}");
             if (i + 1 < users.size()) {
@@ -51,6 +58,13 @@ public class JsonUsersController extends HttpServlet {
         writer.append("]");
     }
 
+    /**
+     * Insert new user in to database.
+     * @param req - request.
+     * @param resp - response.
+     * @throws ServletException - servlet exception.
+     * @throws IOException - io exception.
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = new User();
@@ -58,7 +72,7 @@ public class JsonUsersController extends HttpServlet {
         user.setLogin(req.getParameter("login"));
         user.setPassword(req.getParameter("password"));
         user.setEmail(req.getParameter("email"));
-        user.setCountry(req.getParameter("city"));
+        user.setCountry(req.getParameter("country"));
         user.setCity(req.getParameter("city"));
         user.setRole(Role.valueOf(req.getParameter("role")));
         DBConnection.getInstance().addUser(user);
