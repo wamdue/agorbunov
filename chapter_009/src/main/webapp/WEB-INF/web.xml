@@ -5,6 +5,16 @@
         version="3.1">
 
     <servlet>
+        <servlet-name>Json</servlet-name>
+        <servlet-class>ru.job4j.crud.controller.JsonUsersController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json</servlet-name>
+        <url-pattern>/json</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>EchoServlet</servlet-name>
         <servlet-class>ru.job4j.servlet.EchoServlet</servlet-class>
     </servlet>
@@ -32,6 +42,10 @@
     <servlet>
         <servlet-name>Logout</servlet-name>
         <servlet-class>ru.job4j.crud.controller.Logout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>jsonUpdate</servlet-name>
+        <servlet-class>ru.job4j.crud.controller.JsonUserController</servlet-class>
     </servlet>
 
     <!--Mappings-->
@@ -67,6 +81,10 @@
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>jsonUpdate</servlet-name>
+        <url-pattern>/jsonUser</url-pattern>
     </servlet-mapping>
 
     <filter>

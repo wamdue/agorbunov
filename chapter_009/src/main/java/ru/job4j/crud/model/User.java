@@ -37,6 +37,14 @@ public class User {
      * User role.
      */
     private Role role;
+    /**
+     * User city.
+     */
+    private String city;
+    /**
+     * User country.
+     */
+    private String country;
 
     /**
      * Get user name.
@@ -148,5 +156,37 @@ public class User {
      */
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    /**
+     * Get user city.
+     * @return - user city.
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * Set new user city.
+     * @param city - new user city.
+     */
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    /**
+     * Get current user country.
+     * @return - user country.
+     */
+    public String getCountry() {
+        return country;
+    }
+
+    /**
+     * Set new user country.
+     * @param country - new country.
+     */
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

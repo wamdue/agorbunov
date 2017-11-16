@@ -23,20 +23,6 @@ public class UpdateUser extends HttpServlet {
     private DBConnection connection = DBConnection.getInstance();
 
     /**
-     * Shows welcome screen to update user.
-     * @param req - request.
-     * @param resp - response
-     * @throws ServletException - servlet exception.
-     * @throws IOException - io exception.
-     */
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = this.connection.getUserById(Integer.valueOf(req.getParameter("id")));
-        req.setAttribute("user", user);
-        req.getRequestDispatcher("/WEB-INF/views/update_user.jsp").forward(req, resp);
-    }
-
-    /**
      * Updating information about user, and save it to db.
      * Redirecting back to source page.
      * @param req - request.
@@ -54,6 +40,8 @@ public class UpdateUser extends HttpServlet {
         if (req.getParameter("newrole") != null) {
             user.setRole(Role.valueOf(req.getParameter("newrole")));
         }
+        user.setCity(req.getParameter("newcity"));
+        user.setCountry(req.getParameter("newcountry"));
         this.connection.updateUser(user.getId(), user);
         resp.sendRedirect(req.getContextPath());
     }
