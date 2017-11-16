@@ -27,21 +27,20 @@
         }
 
         function deleteUser(userId) {
-            console.log(userId);
-
             $.ajax("./deleteuser", {
                 method: 'post',
+                async: false,
                 data: {
                     id : userId
                 },
-                success : $("#users").reload
+                success: function(data) {
+                    fillDiv();
+                }
             });
             return false;
         }
 
         function showUpdate(user) {
-            $("#updateUser").show();
-            var role = $("#newRole");
             $("#newName").value = user.name;
             $("#newLogin").value = user.login;
             $("#newPassword").value = user.password;
@@ -49,7 +48,13 @@
             $("#newCity").value = user.city;
             $("#newCountry").value = user.country;
             $("#newRole").value = user.role;
-            $("#newId").value = user.;
+            $("#newId").value = user.id;
+            var role = "${sessionScope.get("role")}";
+            if (role === '') {
+                var el = $("#newRole").parent();
+                el.hide();
+            }
+            $("#update").toggle();
 //            document.getElementById("newName").value = user.name;
 //            document.getElementById("newLogin").value = user.login;
 //            document.getElementById("newPassword").value = user.password;
@@ -58,33 +63,17 @@
 //            document.getElementById("newCountry").value = user.country;
 //            document.getElementById("newRole").value = user.role;
 //            document.getElementById("newId").value = user.id;
-            var role = "${sessionScope.get("role")}";
-            if (role === '') {
-                var el = $("#newRole").parent();
-                el.hide();
-            }
+            return false;
         }
 
-        $(
+        function fillDiv() {
+            $("#users").hide('fast');
             $.ajax('./json', {
                 method: 'get',
-                complete: function (data) {
-                    var result = "<thead>\n" +
-                        "            <tr class=\"active\">\n" +
-                        "                <th>User id</th>\n" +
-                        "                <th>User name</th>\n" +
-                        "                <th>Login</th>\n" +
-                        "                <th>Email</th>\n" +
-                        "                <th>City</th>\n" +
-                        "                <th>Country</th>\n" +
-                        "                <th>Role</th>\n" +
-                        "                <th>Creation time</th>\n" +
-                        "                <th>Actions</th>\n" +
-                        "            </tr>\n" +
-                        "            </thead>\n";
+                dataType: 'json',
+                complete: function(data) {
                     var users = JSON.parse(data.responseText);
-
-                    result += "<tbody>";
+                    var result ="";
                     for (var i = 0; i < users.length; i++) {
                         result += "<tr class='success'>" +
                             "<td>" + users[i].id + "</td>\n" +
@@ -99,27 +88,37 @@
                         var id = "${sessionScope.get("id")}";
                         if (role !== '' || (id !== '' && id === users[i].id)) {
                             result += "<td>" +
-                                "<form method='post' id='actions'>" +
-                                "<button class='btn btn-default' id='edit' name='id' value='" + users[i].id + "' onclick='return showUpdate(+ users[i] +)'>edit</button>" +
+//                                "<form method='post' id='actions'>" +
+                                "<button class='btn btn-default' id='edit' name='id' value='" + users[i].id + "' onclick='return showUpdate("+ users[i] +")'>edit</button>" +
                                 "<button class='btn btn-default' id='delete' name='id' value='" + users[i].id + "' onclick='return deleteUser("+ users[i].id +")'>delete</button>" +
-                                "</form>" +
+//                                "</form>" +
                                 "</td>";
                         }
                         result += "</tr>";
                     }
-                    result += "</tbody>";
                     var table = document.getElementById("users");
                     table.innerHTML = result;
+                    $("#users").show('normal');
+                }
+            })
+
+        }
+
+        $(
+            $.ajax({
+                complete: function(data) {
+                    fillDiv();
                     $("#create").hide();
                     $("#update").hide();
                 }
-
-            })
+                })
         );
 
         $(function() {
            $("#newUser").click(function () {
-               $("#create").toggle();
+               var el = $("#create");
+               el.toggle();
+
            })
             $("#cancelNew").click(function () {
                $("#create").hide();
@@ -134,6 +133,7 @@
         function createUser() {
             $.ajax("./json", {
                 method: 'post',
+                async: false,
                 data: {
                     name: document.getElementById("name").value,
                     login: document.getElementById("login").value,
@@ -143,7 +143,11 @@
                     country: document.getElementById("country").value,
                     role: document.getElementById("role").value
                 },
-                success: $("#create").hide()
+                complete: function(data) {
+                    fillDiv();
+                    $("#create").trigger('reset');
+                    $("#create").hide();
+                }
             });
 
             return false;
@@ -151,7 +155,8 @@
 
         function updateUser() {
             $.ajax("./updateuser", {
-                method: "post",
+                method: 'post',
+                async: false,
                 data: {
                     newname: document.getElementById("newName").value,
                     newlogin: document.getElementById("newLogin").value,
@@ -162,7 +167,10 @@
                     newrole: document.getElementById("newRole").value,
                     id: document.getElementById("newId").value
                 },
-                success: $("#update").hide()
+                complete: function(data) {
+                    $("#update").hide();
+                    fillDiv();
+                }
             });
 
             return false;
@@ -182,17 +190,31 @@
         <h3>List of users.</h3>
     </div>
     <div class="table-responsive">
-        <table class="table" id="users">
+        <table class="table">
+            <thead>
+                    <tr class="active">
+                            <th>User id</th>
+                            <th>User name</th>
+                            <th>Login</th>
+                            <th>Email</th>
+                            <th>City</th>
+                            <th>Country</th>
+                            <th>Role</th>
+                            <th>Creation time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+            <tbody id="users">
+            </tbody>
         </table>
         <a class="btn btn-info" id="newUser">Add new user</a>
     </div>
     <%--Add user gui begin.--%>
-    <div id="create">
+    <div id="create" style="width: 20%;">
         <div class="page-header">
             <h3>Add new user.</h3>
         </div>
-        <%--<form action="${pageContext.request.contextPath}/adduser" method="post" onchange="return validate()">--%>
-        <form method="post" oninput="return validate()">
+        <form method="post">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" name="name" autocomplete="off" required>
@@ -208,17 +230,17 @@
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="text" class="form-control" id="email" name="email"
-                       pattern="^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z0-9\.]{2,6})$" title="Must contain @ and ." required>
+                       pattern="^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z0-9\.]{2,6})$" title="Must contain @ and ." required value="">
             </div>
             <div class="form-group">
                 <label for="city">City:</label>
                 <input type="text" class="form-control" id="city" name="city" pattern="[A-Za-z\s]+"
-                       title="Must contain only letters." required>
+                       title="Must contain only letters." required value="">
             </div>
             <div class="form-group">
                 <label for="country">Country:</label>
                 <input type="text" class="form-control" id="country" name="country" pattern="[A-Za-z\s]+"
-                       title="Must contain only letters." required>
+                       title="Must contain only letters." required value="">
             </div>
             <div class="form-group">
                 <label for="role">Role:</label>
@@ -234,7 +256,7 @@
     <%--Add user gui end--%>
 
     <%--Update user gui begin--%>
-    <div id="update">
+    <div id="update" style="width: 20%">
         <div class="page-header">
             <h2>Update User</h2>
         </div>
