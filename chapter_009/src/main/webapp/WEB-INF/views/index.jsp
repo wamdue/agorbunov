@@ -26,6 +26,20 @@
             return result;
         }
 
+        function validateUpdate() {
+            var result = true;
+            var name = $("#newName").val();
+            var login = $("#newLogin").val();
+            var password = $("#newPassword").val();
+            var email = $("#newEmail").val();
+            var city = $("#newCity").val();
+            var country = $("#newCountry").val();
+            if (name == "" || login == "" || password =="" || email =="" || city == "" || country =="") {
+                result = false;
+                alert("All fields must be entered!");
+            }
+        }
+
         function deleteUser(userId) {
             $.ajax("./deleteuser", {
                 method: 'post',
@@ -41,28 +55,24 @@
         }
 
         function showUpdate(user) {
-            $("#newName").value = user.name;
-            $("#newLogin").value = user.login;
-            $("#newPassword").value = user.password;
-            $("#newEmail").value = user.email;
-            $("#newCity").value = user.city;
-            $("#newCountry").value = user.country;
-            $("#newRole").value = user.role;
-            $("#newId").value = user.id;
-            var role = "${sessionScope.get("role")}";
-            if (role === '') {
-                var el = $("#newRole").parent();
-                el.hide();
-            }
-            $("#update").toggle();
-//            document.getElementById("newName").value = user.name;
-//            document.getElementById("newLogin").value = user.login;
-//            document.getElementById("newPassword").value = user.password;
-//            document.getElementById("newEmail").value = user.email;
-//            document.getElementById("newCity").value = user.city;
-//            document.getElementById("newCountry").value = user.country;
-//            document.getElementById("newRole").value = user.role;
-//            document.getElementById("newId").value = user.id;
+            $.ajax("./jsonUser",{
+                method: 'get',
+                async: false,
+                dataType: 'json',
+                data: {id : user},
+                complete: function (data) {
+                    var user = JSON.parse(data.responseText);
+                    $("#newId").val(user.id);
+                    $("#newName").val(user.name);
+                    $("#newLogin").val(user.login);
+                    $("#newPassword").val(user.password);
+                    $("#newEmail").val(user.email);
+                    $("#newCity").val(user.city);
+                    $("#newCountry").val(user.country);
+                    $("#newRole").val(user.role);
+                    $("#update").show();
+                }
+            });
             return false;
         }
 
@@ -88,17 +98,15 @@
                         var id = "${sessionScope.get("id")}";
                         if (role !== '' || (id !== '' && id === users[i].id)) {
                             result += "<td>" +
-//                                "<form method='post' id='actions'>" +
-                                "<button class='btn btn-default' id='edit' name='id' value='" + users[i].id + "' onclick='return showUpdate("+ users[i] +")'>edit</button>" +
+                                "<button class='btn btn-default' id='edit' name='id' value='" + users[i].id + "' onclick='return showUpdate("+ users[i].id +")'>edit</button>" +
                                 "<button class='btn btn-default' id='delete' name='id' value='" + users[i].id + "' onclick='return deleteUser("+ users[i].id +")'>delete</button>" +
-//                                "</form>" +
                                 "</td>";
                         }
                         result += "</tr>";
                     }
                     var table = document.getElementById("users");
                     table.innerHTML = result;
-                    $("#users").show('normal');
+                    $("#users").show('fast');
                 }
             })
 
@@ -131,7 +139,7 @@
 
 
         function createUser() {
-            $.ajax("./json", {
+            $.ajax("./adduser", {
                 method: 'post',
                 async: false,
                 data: {
@@ -298,7 +306,7 @@
                 </div>
             </c:if>
             <input type="text" id="newId" name="id" hidden/>
-            <button class="btn btn-default" type="button" id="update" onclick="return updateUser()">Update user</button>
+            <button class="btn btn-default" type="button" id="update" onclick="return validateUpdate() || updateUser()">Update user</button>
             <button class="btn btn-default" type="button" id="updateCancel">Cancel</button>
         </form>
     </div>

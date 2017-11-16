@@ -25,18 +25,6 @@ public class AddUser extends HttpServlet {
     private DBConnection connection = DBConnection.getInstance();
 
     /**
-     * Redirecting to jsp.
-     * @param req - request.
-     * @param resp - response.
-     * @throws ServletException - exception.
-     * @throws IOException - exception.
-     */
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/add_user.jsp").forward(req, resp);
-    }
-
-    /**
      * Submitting new information to db.
      * @param req - request.
      * @param resp - response.

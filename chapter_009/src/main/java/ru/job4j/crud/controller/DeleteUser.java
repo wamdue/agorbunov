@@ -27,7 +27,5 @@ public class DeleteUser extends HttpServlet {
         DBConnection connection = DBConnection.getInstance();
         int id = Integer.valueOf(req.getParameter("id"));
         connection.deleteUser(id);
-        resp.sendRedirect(req.getContextPath());
-
     }
 }
