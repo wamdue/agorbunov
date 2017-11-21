@@ -1,4 +1,4 @@
-package ru.job4j.fin.controller;
+package ru.job4j.fin.model;
 
 import org.apache.commons.dbcp2.ConnectionFactory;
 import org.apache.commons.dbcp2.DriverManagerConnectionFactory;

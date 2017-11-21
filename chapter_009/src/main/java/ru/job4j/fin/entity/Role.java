@@ -6,17 +6,45 @@ package ru.job4j.fin.entity;
  * @author Wamdue
  * @version 1.0
  */
-public enum Role {
+public class Role {
     /**
-     * Simple user.
+     * Id of the role.
      */
-    USER,
+    private int id;
     /**
-     * User who can make decisions.
+     * Name of the role.
      */
-    MANDATOR,
+    private String name;
+
     /**
-     * User who can do all.
+     * Get role id.
+     * @return - id.
      */
-    ADMIN
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Set new id;
+     * @param id - new id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Get role name.
+     * @return - role name.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Set new role name.
+     * @param name - new name.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 }

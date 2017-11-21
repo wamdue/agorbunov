@@ -1,8 +1,15 @@
 package ru.job4j.fin.dao;
 
-import ru.job4j.fin.controller.PSConnection;
+import org.apache.log4j.Logger;
+import ru.job4j.fin.entity.Address;
 import ru.job4j.fin.entity.User;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,37 +18,130 @@ import java.util.List;
  * @author Wamdue
  * @version 1.0
  */
-public class UserDao implements EntityDao<User> {
+public class UserDao extends AbstractDao implements EntityDao<User> {
+    /**
+     * Logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(UserDao.class);
 
-    private PSConnection psConnection;
-
-    public UserDao(PSConnection connection) {
-        this.psConnection = connection;
+    /**
+     * Main constructor.
+     * @param connection - connection to db.
+     */
+    public UserDao(Connection connection) {
+        super(connection);
     }
 
+    /**
+     * Insert new user into db.
+     * @param user - user to insert.
+     * @return id of the record.
+     */
     @Override
     public int add(User user) {
+        int result = 0;
 
-        return 0;
+        try(PreparedStatement statement = this.connection.prepareStatement(props.getProperty("create_user"))) {
+            statement.setString(1, user.getName());
+            statement.setInt(2, user.getAddress().getId());
+            result = statement.executeUpdate();
+            LOGGER.info("Add user to db.");
+            try (ResultSet set = statement.getGeneratedKeys()) {
+                while (set.next()) {
+                    result = set.getInt("id");
+                }
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("User cannot be inserted to db.", e);
+        }
+
+        return result;
     }
 
+    /**
+     * Delete user from db.
+     * @param user - user to delete.
+     * @return - return true if deleted.
+     */
     @Override
     public boolean delete(User user) {
-        return false;
+        boolean result = false;
+        try (PreparedStatement statement = connection.prepareStatement(props.getProperty("delete_user"))) {
+            statement.setInt(1, user.getId());
+            result = statement.executeUpdate() > 0;
+            LOGGER.info("User has been delete from db.");
+        } catch (SQLException e) {
+            LOGGER.error("User cannot be inserted to db.", e);
+        }
+        return result;
     }
 
+    /**
+     * Update user informations in db.
+     * @param id - entity id to update.
+     * @param user - new user.
+     * @return true if updated.
+     */
     @Override
     public boolean update(int id, User user) {
-        return false;
+        boolean result = false;
+        try (PreparedStatement statement = connection.prepareStatement(props.getProperty("update_user"))) {
+            statement.setString(1, user.getName());
+            statement.setInt(2, user.getAddress().getId());
+            statement.setInt(3, id);
+            result = statement.executeUpdate() > 0;
+            LOGGER.info("User information updated.");
+        } catch (SQLException e) {
+            LOGGER.error("Cannot update user information.", e);
+        }
+           return result;
     }
 
+    /**
+     * Find user by id.
+     * @param id - id to search.
+     * @return - user.
+     */
     @Override
     public User findById(int id) {
-        return null;
+        User user = new User();
+        try (Statement statement = connection.createStatement();
+             ResultSet set = statement.executeQuery(props.getProperty("select_user"))) {
+            set.next();
+            user.setId(set.getInt("id"));
+            user.setName(set.getString("name"));
+            Address address = new Address();
+            address.setId(set.getInt("address_id"));
+            user.setAddress(address);
+            LOGGER.info("User founded successfully");
+        } catch (SQLException e) {
+            LOGGER.error("User cannot be found.", e);
+        }
+        return user;
     }
 
+    /**
+     * Get list of user from db.
+     * @return - list of users.
+     */
     @Override
     public List<User> getAll() {
-        return null;
+        List<User> users = new ArrayList<>();
+        try (Statement statement = connection.createStatement();
+        ResultSet set = statement.executeQuery(props.getProperty("select_users"))) {
+            User user = new User();
+            AddressDao addressDao = new AddressDao(this.connection);
+            while (set.next()) {
+                user.setId(set.getInt("id"));
+                user.setName(set.getString("name"));
+                Address address = addressDao.findById(set.getInt("address_id"));
+                user.setAddress(address);
+                users.add(user);
+            }
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        return users;
     }
 }
