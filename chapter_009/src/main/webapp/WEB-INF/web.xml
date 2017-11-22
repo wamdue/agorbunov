@@ -4,96 +4,113 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
         version="3.1">
 
-    <servlet>
-        <servlet-name>Json</servlet-name>
-        <servlet-class>ru.job4j.crud.controller.JsonUsersController</servlet-class>
-    </servlet>
+    <!--<servlet>-->
+        <!--<servlet-name>Json</servlet-name>-->
+        <!--<servlet-class>ru.job4j.crud.controller.JsonUsersController</servlet-class>-->
+    <!--</servlet>-->
 
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>Json</servlet-name>-->
+        <!--<url-pattern>/json</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet>-->
+        <!--<servlet-name>EchoServlet</servlet-name>-->
+        <!--<servlet-class>ru.job4j.servlet.EchoServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet>-->
+        <!--<servlet-name>CrudServlet</servlet-name>-->
+        <!--<servlet-class>ru.job4j.crud.controller.Users</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet>-->
+        <!--<servlet-name>AddServlet</servlet-name>-->
+        <!--<servlet-class>ru.job4j.crud.controller.AddUser</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet>-->
+        <!--<servlet-name>UpdateUser</servlet-name>-->
+        <!--<servlet-class>ru.job4j.crud.controller.UpdateUser</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet>-->
+        <!--<servlet-name>DeleteUser</servlet-name>-->
+        <!--<servlet-class>ru.job4j.crud.controller.DeleteUser</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet>-->
+        <!--<servlet-name>Sign in</servlet-name>-->
+        <!--<servlet-class>ru.job4j.crud.controller.SignInController</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet>-->
+        <!--<servlet-name>Logout</servlet-name>-->
+        <!--<servlet-class>ru.job4j.crud.controller.Logout</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet>-->
+        <!--<servlet-name>jsonUpdate</servlet-name>-->
+        <!--<servlet-class>ru.job4j.crud.controller.JsonUserController</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--&lt;!&ndash;Mappings&ndash;&gt;-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>EchoServlet</servlet-name>-->
+        <!--<url-pattern>/echo</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>CrudServlet</servlet-name>-->
+        <!--<url-pattern>/</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>AddServlet</servlet-name>-->
+        <!--<url-pattern>/adduser</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>UpdateUser</servlet-name>-->
+        <!--<url-pattern>/updateuser</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>DeleteUser</servlet-name>-->
+        <!--<url-pattern>/deleteuser</url-pattern>-->
+    <!--</servlet-mapping>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>Sign in</servlet-name>-->
+        <!--<url-pattern>/signin</url-pattern>-->
+    <!--</servlet-mapping>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>Logout</servlet-name>-->
+        <!--<url-pattern>/logout</url-pattern>-->
+    <!--</servlet-mapping>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>jsonUpdate</servlet-name>-->
+        <!--<url-pattern>/jsonUser</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<filter>-->
+        <!--<filter-name>SigninFilter</filter-name>-->
+        <!--<filter-class>ru.job4j.crud.controller.AuthFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>SigninFilter</filter-name>-->
+        <!--<url-pattern>*</url-pattern>-->
+    <!--</filter-mapping>-->
+    
+    <servlet>
+        <servlet-name>login</servlet-name>
+        <servlet-class>ru.job4j.fin.controller.LoginController</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>Json</servlet-name>
-        <url-pattern>/json</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>EchoServlet</servlet-name>
-        <servlet-class>ru.job4j.servlet.EchoServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>CrudServlet</servlet-name>
-        <servlet-class>ru.job4j.crud.controller.Users</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>AddServlet</servlet-name>
-        <servlet-class>ru.job4j.crud.controller.AddUser</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UpdateUser</servlet-name>
-        <servlet-class>ru.job4j.crud.controller.UpdateUser</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteUser</servlet-name>
-        <servlet-class>ru.job4j.crud.controller.DeleteUser</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Sign in</servlet-name>
-        <servlet-class>ru.job4j.crud.controller.SignInController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Logout</servlet-name>
-        <servlet-class>ru.job4j.crud.controller.Logout</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>jsonUpdate</servlet-name>
-        <servlet-class>ru.job4j.crud.controller.JsonUserController</servlet-class>
-    </servlet>
-
-    <!--Mappings-->
-
-    <servlet-mapping>
-        <servlet-name>EchoServlet</servlet-name>
-        <url-pattern>/echo</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>CrudServlet</servlet-name>
+        <servlet-name>login</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
+    <servlet>
+        <servlet-name>json_index</servlet-name>
+        <servlet-class>ru.job4j.fin.controller.UsersJsonController</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>AddServlet</servlet-name>
-        <url-pattern>/adduser</url-pattern>
+        <servlet-name>json_index</servlet-name>
+        <url-pattern>/json_index</url-pattern>
     </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>UpdateUser</servlet-name>
-        <url-pattern>/updateuser</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>DeleteUser</servlet-name>
-        <url-pattern>/deleteuser</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Sign in</servlet-name>
-        <url-pattern>/signin</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Logout</servlet-name>
-        <url-pattern>/logout</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>jsonUpdate</servlet-name>
-        <url-pattern>/jsonUser</url-pattern>
-    </servlet-mapping>
-
-    <filter>
-        <filter-name>SigninFilter</filter-name>
-        <filter-class>ru.job4j.crud.controller.AuthFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>SigninFilter</filter-name>
-        <url-pattern>*</url-pattern>
-    </filter-mapping>
-
+    
 </web-app>

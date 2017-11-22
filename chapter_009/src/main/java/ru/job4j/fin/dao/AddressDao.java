@@ -39,7 +39,7 @@ public class AddressDao extends AbstractDao implements EntityDao<Address> {
     @Override
     public int add(Address address) {
         int result = 0;
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("create_address"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("create_address"))) {
             statement.setString(1, address.getAddress());
             statement.executeUpdate();
             LOGGER.info("Address added to db.");
@@ -62,7 +62,7 @@ public class AddressDao extends AbstractDao implements EntityDao<Address> {
     @Override
     public boolean delete(Address address) {
         boolean result = false;
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("delete_address"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("delete_address"))) {
             statement.setInt(1, address.getId());
             result = statement.executeUpdate() > 0;
             LOGGER.info("Address deleted successfully.");
@@ -81,7 +81,7 @@ public class AddressDao extends AbstractDao implements EntityDao<Address> {
     @Override
     public boolean update(int id, Address address) {
         boolean result = false;
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("update_address"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("update_address"))) {
             statement.setString(1, address.getAddress());
             statement.setInt(2, id);
             result = statement.executeUpdate() > 0;
@@ -100,7 +100,7 @@ public class AddressDao extends AbstractDao implements EntityDao<Address> {
     @Override
     public Address findById(int id) {
         Address address = new Address();
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("select_address"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("select_address"))) {
             statement.setInt(1, id);
             try (ResultSet set = statement.executeQuery()) {
                 while (set.next()) {
@@ -122,8 +122,8 @@ public class AddressDao extends AbstractDao implements EntityDao<Address> {
     @Override
     public List<Address> getAll() {
         List<Address> addresses = new ArrayList<>();
-        try (Statement statement = this.connection.createStatement();
-        ResultSet set = statement.executeQuery(this.props.getProperty("select_addresses"))) {
+        try (Statement statement = this.getConnection().createStatement();
+        ResultSet set = statement.executeQuery(this.getProps().getProperty("select_addresses"))) {
             Address address;
             while (set.next()) {
                 address = new Address();

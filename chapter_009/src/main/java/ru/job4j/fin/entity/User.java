@@ -16,7 +16,7 @@ public class User {
      */
     private String name;
     /**
-     * User id;
+     * User id.
      */
     private int id;
     /**

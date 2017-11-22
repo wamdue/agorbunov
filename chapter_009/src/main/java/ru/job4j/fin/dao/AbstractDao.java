@@ -21,11 +21,11 @@ public class AbstractDao {
     /**
      * Connection to db.
      */
-    protected Connection connection;
+    private Connection connection;
     /**
      * Properties.
      */
-    protected Properties props = new Properties();
+    private Properties props = new Properties();
 
     /**
      * Main constructor.
@@ -48,5 +48,21 @@ public class AbstractDao {
         } catch (IOException e) {
             LOGGER.error("Properties cannot be loaded", e.fillInStackTrace());
         }
+    }
+
+    /**
+     * Get properties.
+     * @return - properties.
+     */
+    public Properties getProps() {
+        return props;
+    }
+
+    /**
+     * Get connection.
+     * @return - connection.
+     */
+    public Connection getConnection() {
+        return connection;
     }
 }

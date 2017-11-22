@@ -7,6 +7,7 @@ import java.util.List;
  * Interface for work with user.
  * @author Wamdue
  * @version 1.0
+ * @param <E> - class storage.
  */
 public interface EntityDao<E> {
     /**

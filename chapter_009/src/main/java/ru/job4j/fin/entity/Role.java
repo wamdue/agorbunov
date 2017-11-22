@@ -25,7 +25,7 @@ public class Role {
     }
 
     /**
-     * Set new id;
+     * Set new id.
      * @param id - new id
      */
     public void setId(int id) {

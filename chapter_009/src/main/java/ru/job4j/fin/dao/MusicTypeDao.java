@@ -39,7 +39,7 @@ public class MusicTypeDao extends AbstractDao implements EntityDao<MusicType> {
     @Override
     public int add(MusicType musicType) {
         int result = 0;
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("create_music_type"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("create_music_type"))) {
             statement.setString(1, musicType.getName());
             statement.executeUpdate();
             try (ResultSet set = statement.getGeneratedKeys()) {
@@ -62,7 +62,7 @@ public class MusicTypeDao extends AbstractDao implements EntityDao<MusicType> {
     @Override
     public boolean delete(MusicType musicType) {
         boolean result = false;
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("delete_music_type"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("delete_music_type"))) {
             statement.setInt(1, musicType.getId());
             result = statement.executeUpdate() > 0;
             LOGGER.info("Music type deleted successfully.");
@@ -81,7 +81,7 @@ public class MusicTypeDao extends AbstractDao implements EntityDao<MusicType> {
     @Override
     public boolean update(int id, MusicType musicType) {
         boolean result = false;
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("update_music_type"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("update_music_type"))) {
             statement.setString(1, musicType.getName());
             statement.setInt(2, id);
             result = statement.executeUpdate() > 0;
@@ -100,10 +100,10 @@ public class MusicTypeDao extends AbstractDao implements EntityDao<MusicType> {
     @Override
     public MusicType findById(int id) {
         MusicType musicType = new MusicType();
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("select_music_type"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("select_music_type"))) {
             statement.setInt(1, id);
             try (ResultSet set = statement.executeQuery()) {
-                while(set.next()) {
+                while (set.next()) {
                     musicType.setId(set.getInt("id"));
                     musicType.setName(set.getString("name"));
                 }
@@ -122,8 +122,8 @@ public class MusicTypeDao extends AbstractDao implements EntityDao<MusicType> {
     @Override
     public List<MusicType> getAll() {
         List<MusicType> types = new ArrayList<>();
-        try (Statement statement = this.connection.createStatement();
-        ResultSet set = statement.executeQuery(this.props.getProperty("select_music_types"))) {
+        try (Statement statement = this.getConnection().createStatement();
+        ResultSet set = statement.executeQuery(this.getProps().getProperty("select_music_types"))) {
             MusicType type;
             while (set.next()) {
                 type = new MusicType();

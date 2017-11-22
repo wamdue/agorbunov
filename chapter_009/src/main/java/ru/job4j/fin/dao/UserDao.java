@@ -41,7 +41,7 @@ public class UserDao extends AbstractDao implements EntityDao<User> {
     public int add(User user) {
         int result = 0;
 
-        try(PreparedStatement statement = this.connection.prepareStatement(props.getProperty("create_user"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("create_user"))) {
             statement.setString(1, user.getName());
             statement.setInt(2, user.getAddress().getId());
             result = statement.executeUpdate();
@@ -67,7 +67,7 @@ public class UserDao extends AbstractDao implements EntityDao<User> {
     @Override
     public boolean delete(User user) {
         boolean result = false;
-        try (PreparedStatement statement = connection.prepareStatement(props.getProperty("delete_user"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("delete_user"))) {
             statement.setInt(1, user.getId());
             result = statement.executeUpdate() > 0;
             LOGGER.info("User has been delete from db.");
@@ -86,7 +86,7 @@ public class UserDao extends AbstractDao implements EntityDao<User> {
     @Override
     public boolean update(int id, User user) {
         boolean result = false;
-        try (PreparedStatement statement = connection.prepareStatement(props.getProperty("update_user"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("update_user"))) {
             statement.setString(1, user.getName());
             statement.setInt(2, user.getAddress().getId());
             statement.setInt(3, id);
@@ -106,14 +106,15 @@ public class UserDao extends AbstractDao implements EntityDao<User> {
     @Override
     public User findById(int id) {
         User user = new User();
-        try (Statement statement = connection.createStatement();
-             ResultSet set = statement.executeQuery(props.getProperty("select_user"))) {
-            set.next();
-            user.setId(set.getInt("id"));
-            user.setName(set.getString("name"));
-            Address address = new Address();
-            address.setId(set.getInt("address_id"));
-            user.setAddress(address);
+        try (Statement statement = this.getConnection().createStatement();
+             ResultSet set = statement.executeQuery(this.getProps().getProperty("select_user"))) {
+
+            while (set.next()) {
+                user.setId(set.getInt("id"));
+                user.setName(set.getString("name"));
+                Address address = new Address();
+                address.setId(set.getInt("address_id"));
+            }
             LOGGER.info("User founded successfully");
         } catch (SQLException e) {
             LOGGER.error("User cannot be found.", e);
@@ -128,19 +129,18 @@ public class UserDao extends AbstractDao implements EntityDao<User> {
     @Override
     public List<User> getAll() {
         List<User> users = new ArrayList<>();
-        try (Statement statement = connection.createStatement();
-        ResultSet set = statement.executeQuery(props.getProperty("select_users"))) {
-            User user = new User();
-            AddressDao addressDao = new AddressDao(this.connection);
+        try (Statement statement = this.getConnection().createStatement();
+        ResultSet set = statement.executeQuery(this.getProps().getProperty("select_users"))) {
+            User user;
             while (set.next()) {
+                user = new User();
                 user.setId(set.getInt("id"));
                 user.setName(set.getString("name"));
-                Address address = addressDao.findById(set.getInt("address_id"));
-                user.setAddress(address);
                 users.add(user);
             }
-        } catch (SQLException e1) {
-            e1.printStackTrace();
+            LOGGER.info("All users loaded!");
+        } catch (SQLException e) {
+            LOGGER.error("Cannot load oll users from db.", e);
         }
         return users;
     }

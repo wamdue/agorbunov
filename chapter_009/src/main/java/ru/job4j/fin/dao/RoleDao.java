@@ -24,21 +24,21 @@ public class RoleDao extends AbstractDao implements EntityDao<Role> {
     private static final Logger LOGGER = Logger.getLogger(RoleDao.class);
     /**
      * Main constructor.
-     * @param connection
+     * @param connection - connection.
      */
     public RoleDao(Connection connection) {
         super(connection);
     }
 
     /**
-     * Add new role to db,
+     * Add new role to db.
      * @param role - role to insert.
      * @return - id of the role.
      */
     @Override
     public int add(Role role) {
         int result = 0;
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("create_role"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("create_role"))) {
             statement.setString(1, role.getName());
             statement.executeUpdate();
             try (ResultSet set = statement.getGeneratedKeys()) {
@@ -61,7 +61,7 @@ public class RoleDao extends AbstractDao implements EntityDao<Role> {
     @Override
     public boolean delete(Role role) {
         boolean result = false;
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("delete_role"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("delete_role"))) {
             statement.setInt(1, role.getId());
             result = statement.executeUpdate() > 0;
             LOGGER.info("Role deleted from db.");
@@ -80,7 +80,7 @@ public class RoleDao extends AbstractDao implements EntityDao<Role> {
     @Override
     public boolean update(int id, Role role) {
         boolean result = false;
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("update_role"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("update_role"))) {
             statement.setString(1, role.getName());
             statement.setInt(2, id);
             result = statement.executeUpdate() > 0;
@@ -99,10 +99,10 @@ public class RoleDao extends AbstractDao implements EntityDao<Role> {
     @Override
     public Role findById(int id) {
         Role role = new Role();
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("select_role"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("select_role"))) {
             statement.setInt(1, id);
             try (ResultSet set = statement.executeQuery()) {
-                while(set.next()) {
+                while (set.next()) {
                     role.setId(set.getInt("id"));
                     role.setName(set.getString("name"));
                 }
@@ -121,8 +121,8 @@ public class RoleDao extends AbstractDao implements EntityDao<Role> {
     @Override
     public List<Role> getAll() {
         List<Role> roles = new ArrayList<>();
-        try (Statement statement = this.connection.createStatement();
-        ResultSet set = statement.executeQuery(this.props.getProperty("select_roles"))) {
+        try (Statement statement = this.getConnection().createStatement();
+        ResultSet set = statement.executeQuery(this.getProps().getProperty("select_roles"))) {
             Role role;
             while (set.next()) {
                 role = new Role();
@@ -134,6 +134,6 @@ public class RoleDao extends AbstractDao implements EntityDao<Role> {
         } catch (SQLException e) {
             LOGGER.error("Cannot fill list of roles.", e);
         }
-        return null;
+        return roles;
     }
 }
