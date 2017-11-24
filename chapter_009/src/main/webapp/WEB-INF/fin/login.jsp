@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -6,6 +7,13 @@
 </head>
 <body>
 <div class="container">
+    <div class="page-header">
+    <c:if test="${error != ''}">
+        <div style="background-color: red">
+            <c:out value="${error}"/>
+        </div>
+    </c:if>
+    </div>
     <div>
     <div class="page-header">
         <h1>Login page</h1>

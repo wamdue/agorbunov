@@ -100,7 +100,7 @@ public class MusicTypeDao extends AbstractDao implements EntityDao<MusicType> {
     @Override
     public MusicType findById(int id) {
         MusicType musicType = new MusicType();
-        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("select_music_type"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("select_music_type"), Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, id);
             try (ResultSet set = statement.executeQuery()) {
                 while (set.next()) {

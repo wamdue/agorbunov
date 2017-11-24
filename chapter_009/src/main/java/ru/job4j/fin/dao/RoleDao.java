@@ -99,7 +99,7 @@ public class RoleDao extends AbstractDao implements EntityDao<Role> {
     @Override
     public Role findById(int id) {
         Role role = new Role();
-        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("select_role"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("select_role"), Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, id);
             try (ResultSet set = statement.executeQuery()) {
                 while (set.next()) {

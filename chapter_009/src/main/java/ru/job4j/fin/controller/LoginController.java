@@ -26,14 +26,22 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String val = req.getParameter("checkIn");
+        String val = req.getParameter("login");
         UserDao userDao = new UserDao(PSConnection.getInstance().getConnection());
+        boolean result = false;
         for (User user : userDao.getAll()) {
             if (val.equals(user.getName())) {
                 HttpSession session = req.getSession();
-                session.setAttribute("name", val);
-
+                session.setAttribute("login", val);
+                result = true;
+                break;
             }
+        }
+        if (result) {
+            resp.sendRedirect(String.format("%s/", req.getContextPath()));
+        } else {
+            req.setAttribute("error", "Login incorrect.");
+            doGet(req, resp);
         }
     }
 }

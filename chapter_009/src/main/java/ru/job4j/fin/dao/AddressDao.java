@@ -39,10 +39,12 @@ public class AddressDao extends AbstractDao implements EntityDao<Address> {
     @Override
     public int add(Address address) {
         int result = 0;
-        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("create_address"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("create_address"), Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, address.getAddress());
-            statement.executeUpdate();
-            LOGGER.info("Address added to db.");
+            int rows = statement.executeUpdate();
+            if (rows > 0) {
+                LOGGER.info("Address added to db.");
+            }
             try (ResultSet set = statement.getGeneratedKeys()) {
                 while (set.next()) {
                     result = set.getInt("id");

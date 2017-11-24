@@ -10,15 +10,12 @@ import ru.job4j.fin.entity.MusicType;
 import ru.job4j.fin.entity.Role;
 import ru.job4j.fin.entity.User;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Created on 22.11.17.
@@ -26,23 +23,11 @@ import java.util.Properties;
  * @author Wamdue
  * @version 1.0
  */
-public class UserRepository {
+public class UserRepository extends UserDao {
     /**
      * Logger.
      */
     private static final Logger LOGGER = Logger.getLogger(RoleRepository.class);
-    /**
-     * Connection to db.
-     */
-    private Connection connection;
-    /**
-     * Properties.
-     */
-    private Properties props = new Properties();
-    /**
-     * User dao copy..
-     */
-    private UserDao userDao;
     /**
      * Role dao copy.
      */
@@ -61,26 +46,10 @@ public class UserRepository {
      * @param connection - connection to db.
      */
     public UserRepository(Connection connection) {
-        this.connection = connection;
-        this.init();
-        this.userDao = new UserDao(this.connection);
-        this.roleDao = new RoleDao(this.connection);
-        this.musicTypeDao = new MusicTypeDao(this.connection);
-        this.addressDao = new AddressDao(this.connection);
-    }
-
-    /**
-     * Loading properties.
-     */
-    private void init() {
-        try {
-            ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            InputStream input = cl.getResourceAsStream("psinit.properties");
-            props.load(input);
-            LOGGER.info("Init properties loaded successfully!");
-        } catch (IOException e) {
-            LOGGER.error("Init properties cannot be loaded", e);
-        }
+        super(connection);
+        this.roleDao = new RoleDao(this.getConnection());
+        this.musicTypeDao = new MusicTypeDao(this.getConnection());
+        this.addressDao = new AddressDao(this.getConnection());
     }
 
     /**
@@ -88,13 +57,13 @@ public class UserRepository {
      * @param id - user id.
      * @return - full user information.
      */
-    public User getUserbyId(int id) {
-        User user = this.userDao.findById(id);
+    public User getUserById(int id) {
+        User user = this.findById(id);
         Address address = user.getAddress();
-        if (address != null && address.getId() > 0) {
+        if (address != null && address.getId() == -1) {
             user.setAddress(this.addressDao.findById(address.getId()));
         }
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("select_user_roles"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("select_user_roles"))) {
             statement.setInt(1, user.getId());
             try (ResultSet set = statement.executeQuery()) {
                 while (set.next()) {
@@ -106,11 +75,11 @@ public class UserRepository {
             LOGGER.error("Cannot load user roles from DB.", e);
         }
 
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("select_user_music"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("select_user_music"))) {
             statement.setInt(1, user.getId());
             try (ResultSet set = statement.executeQuery()) {
                 while (set.next()) {
-                    int i = (set.getInt("typeid"));
+                    int i = (set.getInt("type_id"));
                     user.addMusicType(this.musicTypeDao.findById(i));
                 }
             }
@@ -126,16 +95,17 @@ public class UserRepository {
      * @param user - user to add.
      */
     public void createUser(User user) {
+
         int addressId = this.addressDao.add(user.getAddress());
         if (addressId > 0) {
             user.getAddress().setId(addressId);
         }
 
-        int userId = this.userDao.add(user);
+        int userId = this.add(user);
 
         if (userId > 0) {
             for (Role role : user.getRoles()) {
-                try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("add_role2user"))) {
+                try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("add_role2user"))) {
                     statement.setInt(1, userId);
                     statement.setInt(2, role.getId());
                     statement.executeUpdate();
@@ -145,7 +115,7 @@ public class UserRepository {
             }
 
             for (MusicType musicType : user.getMusicTypes()) {
-                try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("add_music2user"))) {
+                try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("add_music2user"))) {
                     statement.setInt(1, userId);
                     statement.setInt(2, musicType.getId());
                     statement.executeUpdate();
@@ -166,7 +136,7 @@ public class UserRepository {
     public List<User> getUsersByAddress(String address) {
         List<User> users = new ArrayList<>();
 
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("find_users_by_address"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("find_users_by_address"))) {
             statement.setString(1, address);
             users = this.fillListOfUsers(statement.executeQuery());
         } catch (SQLException e) {
@@ -182,7 +152,7 @@ public class UserRepository {
      */
     public List<User> getUsersByRole(Role role) {
         List<User> users = new ArrayList<>();
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("find_users_by_role"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("find_users_by_role"))) {
             statement.setInt(1, role.getId());
             users = this.fillListOfUsers(statement.executeQuery());
         } catch (SQLException e) {
@@ -200,7 +170,7 @@ public class UserRepository {
     public List<User> getUsersByMusicType(MusicType type) {
         List<User> users = new ArrayList<>();
 
-        try (PreparedStatement statement = this.connection.prepareStatement(this.props.getProperty("find_users_by_music_type"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("find_users_by_music_type"))) {
             statement.setInt(1, type.getId());
             users = this.fillListOfUsers(statement.executeQuery());
         } catch (SQLException e) {
@@ -218,7 +188,7 @@ public class UserRepository {
         List<User> users = new ArrayList<>();
         try (ResultSet s = set) {
             while (s.next()) {
-                users.add(this.getUserbyId(s.getInt("user_id")));
+                users.add(this.getUserById(s.getInt("user_id")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

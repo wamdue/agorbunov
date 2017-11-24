@@ -14,7 +14,7 @@ public class Address {
     /**
      * Address id.
      */
-    private int id;
+    private int id = -1;
 
     /**
      * get current user Address.

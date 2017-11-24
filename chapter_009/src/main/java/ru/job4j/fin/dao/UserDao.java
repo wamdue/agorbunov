@@ -41,7 +41,7 @@ public class UserDao extends AbstractDao implements EntityDao<User> {
     public int add(User user) {
         int result = 0;
 
-        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("create_user"))) {
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("create_user"), Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getName());
             statement.setInt(2, user.getAddress().getId());
             result = statement.executeUpdate();
@@ -106,16 +106,17 @@ public class UserDao extends AbstractDao implements EntityDao<User> {
     @Override
     public User findById(int id) {
         User user = new User();
-        try (Statement statement = this.getConnection().createStatement();
-             ResultSet set = statement.executeQuery(this.getProps().getProperty("select_user"))) {
-
-            while (set.next()) {
-                user.setId(set.getInt("id"));
-                user.setName(set.getString("name"));
-                Address address = new Address();
-                address.setId(set.getInt("address_id"));
+        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("select_user"))) {
+            statement.setInt(1, id);
+            try (ResultSet set = statement.executeQuery()) {
+                while (set.next()) {
+                    user.setId(set.getInt("id"));
+                    user.setName(set.getString("name"));
+                    Address address = new Address();
+                    address.setId(set.getInt("address_id"));
+                }
+                LOGGER.info("User founded successfully");
             }
-            LOGGER.info("User founded successfully");
         } catch (SQLException e) {
             LOGGER.error("User cannot be found.", e);
         }
