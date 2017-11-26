@@ -111,7 +111,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>json_users</servlet-name>
-        <url-pattern>/json_users</url-pattern>
+        <url-pattern>/json_users.do</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -120,7 +120,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>json_types</servlet-name>
-        <url-pattern>/json_types</url-pattern>
+        <url-pattern>/json_types.do</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -129,7 +129,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>json_roles</servlet-name>
-        <url-pattern>/json_roles</url-pattern>
+        <url-pattern>/json_roles.do</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -149,14 +149,23 @@
         <servlet-name>/createUser.do</servlet-name>
         <url-pattern>/createUser</url-pattern>
     </servlet-mapping>
-
-    <filter>
-        <filter-name>login</filter-name>
-        <filter-class>ru.job4j.fin.filters.LoginFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>login</filter-name>
-        <url-pattern>*</url-pattern>
-    </filter-mapping>
     
+    <servlet>
+        <servlet-name>json_search</servlet-name>
+        <servlet-class>ru.job4j.fin.controller.SearchJsonController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>json_search</servlet-name>
+        <url-pattern>/json_search.do</url-pattern>
+    </servlet-mapping>
+
+    <!--<filter>-->
+        <!--<filter-name>login</filter-name>-->
+        <!--<filter-class>ru.job4j.fin.filters.LoginFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>login</filter-name>-->
+        <!--<url-pattern>*.do</url-pattern>-->
+    <!--</filter-mapping>-->
+    <!---->
 </web-app>

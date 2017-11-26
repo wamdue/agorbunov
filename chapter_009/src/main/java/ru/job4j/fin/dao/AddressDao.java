@@ -40,15 +40,11 @@ public class AddressDao extends AbstractDao implements EntityDao<Address> {
     public int add(Address address) {
         int result = 0;
         try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("create_address"), Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, address.getAddress());
-            int rows = statement.executeUpdate();
-            if (rows > 0) {
+            statement.setInt(1, address.getId());
+            statement.setString(2, address.getAddress());
+            result = statement.executeUpdate();
+            if (result > 0) {
                 LOGGER.info("Address added to db.");
-            }
-            try (ResultSet set = statement.getGeneratedKeys()) {
-                while (set.next()) {
-                    result = set.getInt("id");
-                }
             }
         } catch (SQLException e) {
             LOGGER.error("Cannot insert address to db.", e);
@@ -110,7 +106,7 @@ public class AddressDao extends AbstractDao implements EntityDao<Address> {
                     address.setAddress(set.getString(2));
                 }
             }
-            LOGGER.info("User found.");
+            LOGGER.info("Address found.");
         } catch (SQLException e) {
             LOGGER.error("Cannot find address in db.", e);
         }
@@ -129,7 +125,7 @@ public class AddressDao extends AbstractDao implements EntityDao<Address> {
             Address address;
             while (set.next()) {
                 address = new Address();
-                address.setId(set.getInt("id"));
+                address.setId(set.getInt("user_id"));
                 address.setAddress(set.getString("name"));
                 addresses.add(address);
             }

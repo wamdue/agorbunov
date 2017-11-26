@@ -104,7 +104,7 @@ public class MusicTypeDao extends AbstractDao implements EntityDao<MusicType> {
             statement.setInt(1, id);
             try (ResultSet set = statement.executeQuery()) {
                 while (set.next()) {
-                    musicType.setId(set.getInt("id"));
+                    musicType.setId(id);
                     musicType.setName(set.getString("name"));
                 }
             }

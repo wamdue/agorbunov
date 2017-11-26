@@ -3,6 +3,7 @@ package ru.job4j.fin.controller;
 import ru.job4j.fin.dao.MusicTypeDao;
 import ru.job4j.fin.dao.RoleDao;
 import ru.job4j.fin.entity.Address;
+import ru.job4j.fin.entity.MusicType;
 import ru.job4j.fin.entity.User;
 import ru.job4j.fin.model.PSConnection;
 import ru.job4j.fin.repository.UserRepository;
@@ -33,8 +34,8 @@ public class CreateUserController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String address = req.getParameter("address");
-        String types[] = req.getParameterValues("musicTypes");
-        String roles[] = req.getParameterValues("roles");
+        String types[] = req.getParameterValues("musicTypes[]");
+        String roles[] = req.getParameterValues("roles[]");
 
         Connection connection = PSConnection.getInstance().getConnection();
         UserRepository repository = new UserRepository(connection);
@@ -50,7 +51,8 @@ public class CreateUserController extends HttpServlet {
         if (types != null) {
             for (String id : types) {
                 int i = Integer.valueOf(id);
-                user.addMusicType(musicTypeDao.findById(i));
+                MusicType type = musicTypeDao.findById(i);
+                user.addMusicType(type);
             }
         }
 

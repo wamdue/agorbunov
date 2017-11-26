@@ -43,7 +43,6 @@ public class UserDao extends AbstractDao implements EntityDao<User> {
 
         try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("create_user"), Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getName());
-            statement.setInt(2, user.getAddress().getId());
             result = statement.executeUpdate();
             LOGGER.info("Add user to db.");
             try (ResultSet set = statement.getGeneratedKeys()) {
@@ -112,8 +111,6 @@ public class UserDao extends AbstractDao implements EntityDao<User> {
                 while (set.next()) {
                     user.setId(set.getInt("id"));
                     user.setName(set.getString("name"));
-                    Address address = new Address();
-                    address.setId(set.getInt("address_id"));
                 }
                 LOGGER.info("User founded successfully");
             }
