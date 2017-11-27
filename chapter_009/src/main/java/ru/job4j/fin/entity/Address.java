@@ -47,4 +47,28 @@ public class Address {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Address address1 = (Address) o;
+
+        if (id != address1.id) {
+            return false;
+        }
+        return address != null ? address.equals(address1.address) : address1.address == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = address != null ? address.hashCode() : 0;
+        result = 31 * result + id;
+        return result;
+    }
 }

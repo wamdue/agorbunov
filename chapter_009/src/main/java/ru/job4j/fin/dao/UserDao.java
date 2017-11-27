@@ -1,7 +1,6 @@
 package ru.job4j.fin.dao;
 
 import org.apache.log4j.Logger;
-import ru.job4j.fin.entity.Address;
 import ru.job4j.fin.entity.User;
 
 import java.sql.Connection;

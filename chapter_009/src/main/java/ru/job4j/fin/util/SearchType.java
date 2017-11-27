@@ -1,6 +1,6 @@
 package ru.job4j.fin.util;
 
-/**Container for search pattern
+/**Container for search pattern.
  * @author Wamdue
  * @version 1.0
  * @since 26.11.2017

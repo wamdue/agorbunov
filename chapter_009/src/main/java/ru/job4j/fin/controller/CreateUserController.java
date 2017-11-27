@@ -34,15 +34,15 @@ public class CreateUserController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String address = req.getParameter("address");
-        String types[] = req.getParameterValues("musicTypes[]");
-        String roles[] = req.getParameterValues("roles[]");
+        String[] types = req.getParameterValues("musicTypes[]");
+        String[] roles = req.getParameterValues("roles[]");
 
         Connection connection = PSConnection.getInstance().getConnection();
         UserRepository repository = new UserRepository(connection);
         RoleDao roleDao = new RoleDao(connection);
-        MusicTypeDao musicTypeDao= new MusicTypeDao(connection);
+        MusicTypeDao musicTypeDao = new MusicTypeDao(connection);
 
-        User user= new User();
+        User user = new User();
         Address addr = new Address();
         addr.setAddress(address);
         user.setName(name);

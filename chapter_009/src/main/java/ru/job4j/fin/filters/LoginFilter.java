@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 public class LoginFilter implements Filter {
     /**
-     * Not implemented
+     * Not implemented.
      * @param filterConfig - filter config.
      * @throws ServletException - servlet exception.
      */

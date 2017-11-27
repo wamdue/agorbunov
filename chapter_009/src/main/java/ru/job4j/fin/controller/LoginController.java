@@ -38,7 +38,7 @@ public class LoginController extends HttpServlet {
             }
         }
         if (result) {
-            resp.sendRedirect(String.format("%s/", req.getContextPath()));
+            resp.sendRedirect(String.format("%s/index.do", req.getContextPath()));
         } else {
             req.setAttribute("error", "Login incorrect.");
             doGet(req, resp);

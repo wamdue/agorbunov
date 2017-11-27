@@ -45,6 +45,9 @@ public class UserRepository extends UserDao {
      */
     private AddressDao addressDao;
 
+    /**
+     * Dispatch pattern, for search type.
+     */
     private final Map<String, Function<SearchType, List<User>>> search = new HashMap<>();
 
     /**
@@ -108,8 +111,9 @@ public class UserRepository extends UserDao {
     /**
      * Adding new user to db.
      * @param user - user to add.
+     * @return - user id in db.
      */
-    public void createUser(User user) {
+    public int createUser(User user) {
 
         int userId = this.add(user);
 
@@ -140,59 +144,29 @@ public class UserRepository extends UserDao {
             }
             LOGGER.info(String.format("New user id# %d add to db.", userId));
         }
-
+        return userId;
     }
 
     /**
-     * Get list of users with address name.
-     * @param address - address to search.
+     * Get list of users by search string.
+     * @param searchString - address to search.
+     * @param sql - sql statement.
      * @return - list of users.
      */
-    private List<User> getUsersByAddress(String address) {
+    private List<User> getUsersBySearchString(String searchString, String sql) {
         List<User> users = new ArrayList<>();
 
-        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("find_users_by_address"))) {
-            statement.setString(1, "'%" + address + "%'");
+        try (PreparedStatement statement = this.getConnection().prepareStatement(sql)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("%").append(searchString).append("%");
+            statement.setString(1, sb.toString());
             users = this.fillListOfUsers(statement.executeQuery());
         } catch (SQLException e) {
-            LOGGER.error("Cannot load list of users by address", e);
+            LOGGER.error("Cannot load list of users by Search string", e);
         }
         return users;
     }
 
-    /**
-     * Get list of users with current role.
-     * @param role - source role.
-     * @return - list of users.
-     */
-    private List<User> getUsersByRole(Role role) {
-        List<User> users = new ArrayList<>();
-        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("find_users_by_role"))) {
-            statement.setInt(1, role.getId());
-            users = this.fillListOfUsers(statement.executeQuery());
-        } catch (SQLException e) {
-            LOGGER.error("Cannot load list of users by role", e);
-        }
-
-        return users;
-    }
-
-    /**
-     * Get list of user with current music type.
-     * @param type - current music type.
-     * @return - list of users.
-     */
-    private List<User> getUsersByMusicType(MusicType type) {
-        List<User> users = new ArrayList<>();
-
-        try (PreparedStatement statement = this.getConnection().prepareStatement(this.getProps().getProperty("find_users_by_music_type"))) {
-            statement.setInt(1, type.getId());
-            users = this.fillListOfUsers(statement.executeQuery());
-        } catch (SQLException e) {
-            LOGGER.error("Cannot load list of users by music type", e);
-        }
-        return users;
-    }
 
     /**
      * Internal method, to work with result set.
@@ -216,7 +190,7 @@ public class UserRepository extends UserDao {
      * @return - list of users.
      */
     private Function<SearchType, List<User>> addressSearch() {
-        return type-> this.getUsersByAddress(type.getVal());
+        return type-> this.getUsersBySearchString(type.getVal(), this.getProps().getProperty("find_users_by_address"));
     }
 
     /**
@@ -224,7 +198,7 @@ public class UserRepository extends UserDao {
      * @return - list of users.
      */
     private Function<SearchType, List<User>> roleSearch() {
-        return type-> this.getUsersByRole(this.roleDao.findById(Integer.valueOf(type.getVal())));
+        return type-> this.getUsersBySearchString(type.getVal(), this.getProps().getProperty("find_users_by_role"));
     }
 
     /**
@@ -232,7 +206,7 @@ public class UserRepository extends UserDao {
      * @return - list of users.
      */
     private Function<SearchType, List<User>> musicTypeSearch() {
-        return type-> this.getUsersByMusicType(this.musicTypeDao.findById(Integer.valueOf(type.getVal())));
+        return type-> this.getUsersBySearchString(type.getVal(), this.getProps().getProperty("find_users_by_music_type"));
     }
 
     /**

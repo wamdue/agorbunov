@@ -127,4 +127,58 @@ public class User {
     public void removeMusicType(MusicType type) {
         this.musicTypes.remove(type);
     }
+
+    /**
+     * Overriding equals method.
+     * @param o - object for check equality.
+     * @return result of compare.
+     */
+    @Override
+    public boolean equals(Object o) {
+        boolean result = true;
+
+        if (this == o) {
+            result = true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            result = false;
+        }
+
+        User user = (User) o;
+
+        if (id != user.id) {
+            result = false;
+        }
+        if (!name.equals(user.name)) {
+            result = false;
+        }
+        if (roles != null ? !roles.equals(user.roles) : user.roles != null) {
+            result = false;
+        }
+
+        if (musicTypes != null ? !musicTypes.equals(user.musicTypes) : user.musicTypes != null) {
+            result = false;
+        }
+
+        if (!address.getAddress().equals(user.address.getAddress())) {
+            result = false;
+        }
+
+        return result;
+    }
+
+    /**
+     * Calculating new hashcode.
+     * @return - hashcode.
+     */
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + id;
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + address.hashCode();
+        result = 31 * result + (musicTypes != null ? musicTypes.hashCode() : 0);
+        return result;
+    }
+
 }
