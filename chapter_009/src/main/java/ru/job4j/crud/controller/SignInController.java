@@ -45,13 +45,11 @@ public class SignInController extends HttpServlet {
         User user = connection.credentialUser(login, password);
         if (user != null) {
             HttpSession session = req.getSession();
-            synchronized (session) {
-                session.setAttribute("login", login);
-                if (user.getRole() == Role.ADMIN) {
-                    session.setAttribute("role", user.getRole());
-                } else {
-                    session.setAttribute("id", user.getId());
-                }
+            session.setAttribute("login", login);
+            if (user.getRole() == Role.ADMIN) {
+                session.setAttribute("role", user.getRole());
+            } else {
+                session.setAttribute("id", user.getId());
             }
             resp.sendRedirect(String.format("%s/index.cr", req.getContextPath()));
         } else {
