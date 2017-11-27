@@ -1,5 +1,6 @@
 package ru.job4j.crud.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.job4j.crud.model.DBConnection;
 import ru.job4j.crud.model.User;
 
@@ -8,9 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -31,29 +30,10 @@ public class JsonUsersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DBConnection connection = DBConnection.getInstance();
-        resp.setContentType("text/json");
-        PrintWriter writer = resp.getWriter();
-        writer.append("[");
+        resp.setContentType("application/json");
+        OutputStream out = resp.getOutputStream();
+        ObjectMapper mapper = new ObjectMapper();
         List<User> users = connection.listOfUsers();
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
-            if (user.getCreateDate() == null) {
-                user.setCreateDate(new Timestamp(new Date().getTime()));
-            }
-            writer.append("{");
-            writer.append("\"id\" : \"").append(String.valueOf(user.getId())).append("\", ");
-            writer.append("\"name\" : \"").append(user.getName()).append("\", ");
-            writer.append("\"login\" : \"").append(user.getLogin()).append("\", ");
-            writer.append("\"email\" : \"").append(user.getEmail()).append("\", ");
-            writer.append("\"city\" : \"").append(user.getCity()).append("\", ");
-            writer.append("\"country\" : \"").append(user.getCountry()).append("\", ");
-            writer.append("\"createDate\" : \"").append(user.getCreateDate().toString()).append("\", ");
-            writer.append("\"role\" : \"").append(user.getRole().name()).append("\"");
-            writer.append("}");
-            if (i + 1 < users.size()) {
-                writer.append(", ");
-            }
-        }
-        writer.append("]");
+        mapper.writeValue(out, users);
     }
 }

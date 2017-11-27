@@ -53,7 +53,7 @@ public class SignInController extends HttpServlet {
                     session.setAttribute("id", user.getId());
                 }
             }
-            resp.sendRedirect(String.format("%s/", req.getContextPath()));
+            resp.sendRedirect(String.format("%s/index.cr", req.getContextPath()));
         } else {
             req.setAttribute("error", "User login or password incorrect.");
             doGet(req, resp);

@@ -3,8 +3,7 @@
 <html>
 <head>
     <title>Update User</title>
-    <%--<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>"/>--%>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" media="all" href="<c:url value="/css/bootstrap.min.css"/>"/>
 </head>
 <body>
 <div class="container">

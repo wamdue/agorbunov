@@ -3,12 +3,8 @@
 <html>
 <head>
     <title>List of users</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.js"
-            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-            crossorigin="anonymous"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="<c:url value="/css/bootstrap.min.css"/>"/>
+    <script src="<c:url value="/js/jquery-3.2.1.min.js"/>" type="text/javascript"> </script>
     <script type="text/javascript">
 
         function validate() {
@@ -41,7 +37,7 @@
         }
 
         function deleteUser(userId) {
-            $.ajax("./deleteuser", {
+            $.ajax("./deleteuser.cr", {
                 method: 'post',
                 async: false,
                 data: {
@@ -55,7 +51,7 @@
         }
 
         function showUpdate(user) {
-            $.ajax("./jsonUser",{
+            $.ajax("./jsonUser.cr",{
                 method: 'get',
                 async: false,
                 dataType: 'json',
@@ -78,13 +74,14 @@
 
         function fillDiv() {
             $("#users").hide('fast');
-            $.ajax('./json', {
+            $.ajax('./json.cr', {
                 method: 'get',
                 dataType: 'json',
                 complete: function(data) {
                     var users = JSON.parse(data.responseText);
                     var result ="";
                     for (var i = 0; i < users.length; i++) {
+                        var date = new Date(users[i].createDate);
                         result += "<tr class='success'>" +
                             "<td>" + users[i].id + "</td>\n" +
                             "<td>" + users[i].name + "</td>\n" +
@@ -93,7 +90,7 @@
                             "<td>" + users[i].city + "</td>\n" +
                             "<td>" + users[i].country + "</td>\n" +
                             "<td>" + users[i].role + "</td>\n" +
-                            "<td>" + users[i].createDate + "</td>\n";
+                            "<td>" + date.toLocaleString() + "</td>\n";
                         var role = "${sessionScope.get("role")}";
                         var id = "${sessionScope.get("id")}";
                         if (role !== '' || (id !== '' && id === users[i].id)) {
@@ -139,7 +136,7 @@
 
 
         function createUser() {
-            $.ajax("./adduser", {
+            $.ajax("./adduser.cr", {
                 method: 'post',
                 async: false,
                 data: {
@@ -162,7 +159,7 @@
         }
 
         function updateUser() {
-            $.ajax("./updateuser", {
+            $.ajax("./updateuser.cr", {
                 method: 'post',
                 async: false,
                 data: {
