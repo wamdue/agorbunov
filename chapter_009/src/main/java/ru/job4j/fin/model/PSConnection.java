@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 
@@ -116,6 +117,24 @@ public class PSConnection {
     private PSConnection() {
         this.init();
         this.connect();
+        this.checkTables();
     }
 
+    /**
+     * Create tables if needed.
+     */
+    private void checkTables() {
+        try (Statement statement = this.connection.createStatement()) {
+            statement.addBatch(this.props.getProperty("create_users_table"));
+            statement.addBatch(this.props.getProperty("create_roles_table"));
+            statement.addBatch(this.props.getProperty("create_musictype_table"));
+            statement.addBatch(this.props.getProperty("create_address_table"));
+            statement.addBatch(this.props.getProperty("create_user_role_table"));
+            statement.addBatch(this.props.getProperty("create_user_music_table"));
+            statement.executeBatch();
+            LOGGER.info("Tables created.");
+        } catch (SQLException e) {
+            LOGGER.error("Cannot create tables.", e);
+        }
+    }
 }
