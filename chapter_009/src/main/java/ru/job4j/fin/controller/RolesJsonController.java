@@ -3,7 +3,7 @@ package ru.job4j.fin.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.job4j.fin.dao.RoleDao;
 import ru.job4j.fin.entity.Role;
-import ru.job4j.fin.model.PSConnection;
+import ru.job4j.fin.enums.Connect;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +24,7 @@ public class RolesJsonController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         OutputStream out = resp.getOutputStream();
-        RoleDao roleDao = new RoleDao(PSConnection.getInstance().getConnection());
+        RoleDao roleDao = new RoleDao(Connect.INSTANCE.getConnection());
         ObjectMapper mapper = new ObjectMapper();
         List<Role> roles = roleDao.getAll();
         mapper.writeValue(out, roles);

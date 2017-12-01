@@ -2,7 +2,7 @@ package ru.job4j.fin.controller;
 
 import ru.job4j.fin.dao.UserDao;
 import ru.job4j.fin.entity.User;
-import ru.job4j.fin.model.PSConnection;
+import ru.job4j.fin.enums.Connect;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,7 +27,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String val = req.getParameter("login");
-        UserDao userDao = new UserDao(PSConnection.getInstance().getConnection());
+        UserDao userDao = new UserDao(Connect.INSTANCE.getConnection());
         boolean result = false;
         for (User user : userDao.getAll()) {
             if (val.equals(user.getName())) {

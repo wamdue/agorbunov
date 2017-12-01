@@ -3,7 +3,7 @@ package ru.job4j.fin.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.job4j.fin.dao.UserDao;
 import ru.job4j.fin.entity.User;
-import ru.job4j.fin.model.PSConnection;
+import ru.job4j.fin.enums.Connect;
 import ru.job4j.fin.repository.UserRepository;
 
 import javax.servlet.ServletException;
@@ -35,7 +35,7 @@ public class UsersJsonController extends HttpServlet {
         OutputStream out = resp.getOutputStream();
         resp.setContentType("application/json");
         ObjectMapper mapper = new ObjectMapper();
-        Connection connection = PSConnection.getInstance().getConnection();
+        Connection connection = Connect.INSTANCE.getConnection();
         UserDao userDao = new UserDao(connection);
         UserRepository repository = new UserRepository(connection);
         List<User> list = userDao.getAll();

@@ -86,24 +86,6 @@ public class PSConnection {
     }
 
     /**
-     * Creating single class.
-     * @return local variable of the current class.
-     */
-    public static PSConnection getInstance() {
-        PSConnection local = instance;
-        if (local == null) {
-            synchronized (PSConnection.class) {
-                local = instance;
-                if (local == null) {
-                    instance = new PSConnection();
-                    local = instance;
-                }
-            }
-        }
-        return local;
-    }
-
-    /**
      * Get current connection to db.
      * @return - connection.
      */
@@ -112,9 +94,9 @@ public class PSConnection {
     }
 
     /**
-     * Private constructor.
+     * Constructor constructor.
      */
-    private PSConnection() {
+    public  PSConnection() {
         this.init();
         this.connect();
         this.checkTables();

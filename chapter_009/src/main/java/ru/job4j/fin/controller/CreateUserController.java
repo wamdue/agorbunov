@@ -5,7 +5,7 @@ import ru.job4j.fin.dao.RoleDao;
 import ru.job4j.fin.entity.Address;
 import ru.job4j.fin.entity.MusicType;
 import ru.job4j.fin.entity.User;
-import ru.job4j.fin.model.PSConnection;
+import ru.job4j.fin.enums.Connect;
 import ru.job4j.fin.repository.UserRepository;
 
 import javax.servlet.ServletException;
@@ -37,7 +37,7 @@ public class CreateUserController extends HttpServlet {
         String[] types = req.getParameterValues("musicTypes[]");
         String[] roles = req.getParameterValues("roles[]");
 
-        Connection connection = PSConnection.getInstance().getConnection();
+        Connection connection = Connect.INSTANCE.getConnection();
         UserRepository repository = new UserRepository(connection);
         RoleDao roleDao = new RoleDao(connection);
         MusicTypeDao musicTypeDao = new MusicTypeDao(connection);
