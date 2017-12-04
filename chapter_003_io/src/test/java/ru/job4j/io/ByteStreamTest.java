@@ -3,6 +3,7 @@ package ru.job4j.io;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -23,8 +24,11 @@ public class ByteStreamTest {
         ByteStream stream = new ByteStream();
         boolean expect = true;
         String number = "500";
-        ByteArrayInputStream in = new ByteArrayInputStream(number.getBytes());
-        assertThat(expect, is(stream.isNumber(in)));
+        try (ByteArrayInputStream in = new ByteArrayInputStream(number.getBytes())) {
+            assertThat(expect, is(stream.isNumber(in)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -36,8 +40,11 @@ public class ByteStreamTest {
         ByteStream stream = new ByteStream();
         boolean expect = false;
         String number = "501";
-        ByteArrayInputStream in = new ByteArrayInputStream(number.getBytes());
-        assertThat(expect, is(stream.isNumber(in)));
+        try (ByteArrayInputStream in = new ByteArrayInputStream(number.getBytes())) {
+            assertThat(expect, is(stream.isNumber(in)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
