@@ -7,7 +7,6 @@
     <script src="<c:url value="/js/jquery-3.2.1.min.js"/>" type="text/javascript"> </script>
 
     <script type="text/javascript">
-
         function drawTable(users) {
             var result = '';
             for (var i = 0; i < users.length; i++) {
@@ -36,7 +35,6 @@
             }
             return result;
         }
-
         function fillUsers() {
             $("#users").hide();
             $.ajax('./json_users.do', {
@@ -51,7 +49,6 @@
                 }
             })
         }
-
         function fillMusicTypes() {
             $.ajax('./json_types.do', {
                 method: 'get',
@@ -68,7 +65,6 @@
                 }
             })
         }
-
         function fillRoles() {
             $.ajax('./json_roles.do', {
                 method: 'get',
@@ -82,11 +78,9 @@
                     }
                     var div = document.getElementById("roles");
                     div.innerHTML = text;
-
                 }
             })
         }
-
         $(
             $.ajax({
                 complete: function () {
@@ -94,7 +88,6 @@
                 }
             })
         );
-
         $(function () {
             $("#add").click(function () {
                 fillMusicTypes();
@@ -107,18 +100,14 @@
             $("#srch").click(function () {
                 searchResult($("#search").val());
             })
-
         })
-
         function showUsers() {
             var element = $("#create");
             element.hide();
             fillUsers();
             $("#list").show();
-
             return false;
         }
-
         function createUser() {
             var types = document.getElementsByName("type");
             var arr = [];
@@ -129,7 +118,6 @@
                     console.log(types[i].value);
                 }
             }
-
             var roles = document.getElementsByName("role");
             var arrRole = [];
             for (var i = 0; i < roles.length; i++) {
@@ -137,7 +125,6 @@
                     arrRole.push(roles[i].value)
                 }
             }
-
             $.ajax("./createUser.do", {
                 method: 'post',
                 async: false,
@@ -153,7 +140,6 @@
             });
             return false;
         }
-
         function searchResult(data) {
             if (data === undefined || data === '') {
                 fillUsers();
@@ -175,8 +161,6 @@
             }
             return false;
         }
-
-
     </script>
 </head>
 <body>
