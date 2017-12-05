@@ -6,7 +6,7 @@ import ru.job4j.fin.dao.RoleDao;
 import ru.job4j.fin.dao.UserDao;
 import ru.job4j.fin.entity.Address;
 import ru.job4j.fin.entity.User;
-import ru.job4j.fin.model.PSConnection;
+import ru.job4j.fin.enums.Connect;
 import ru.job4j.fin.repository.UserRepository;
 
 import javax.servlet.ServletException;
@@ -35,7 +35,7 @@ public class CreateUserControllerTest {
     /**
      * Current db connection.
      */
-    private Connection connection = PSConnection.getInstance().getConnection();
+    private Connection connection = Connect.INSTANCE.getConnection();
     /**
      * Properties of connection.
      */
