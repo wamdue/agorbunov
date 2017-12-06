@@ -1,18 +1,31 @@
 package ru.job4j.jdbc;
 
-import javax.xml.stream.*;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.*;
-import java.sql.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 /**
- * Created on 04.10.17
- * Xml xslt
+ * Created on 04.10.17.
+ * Xml xslt.
  * @author Wamdue
  * @version 1.0
  */
@@ -39,7 +52,7 @@ public class XmlXsd {
     private final String dbName = "test.db";
 
     /**
-     * main constructor
+     * Main constructor.
      * @param entries - count of rows to create.
      */
     public XmlXsd(int entries) {
@@ -107,7 +120,7 @@ public class XmlXsd {
     /**
      * Create table if not created.
      * @param st - statement of the connection.
-     * @throws SQLException
+     * @throws SQLException - exception.
      */
     private void createTable(Statement st) throws SQLException {
         st.execute("CREATE TABLE IF NOT EXISTS TEST (field integer);");
@@ -117,7 +130,7 @@ public class XmlXsd {
      * Fills table with default data.
      * @param st - statement of the connection.
      * @param n - count of row.
-     * @throws SQLException
+     * @throws SQLException - exception.
      */
     private void insertVaules(Statement st, int n) throws SQLException {
         for (int i = 0; i < n; i++) {
@@ -162,7 +175,7 @@ public class XmlXsd {
     }
 
     /**
-     * Convertion from xml to xml xslt
+     * Convertion from xml to xml xslt.
      */
     private void convertXmlToXslt() {
         try {
@@ -209,6 +222,10 @@ public class XmlXsd {
         return result;
     }
 
+    /**
+     * Start method.
+     * @param args - not in use.
+     */
     public static void main(String[] args) {
         new XmlXsd(1_000_000);
     }

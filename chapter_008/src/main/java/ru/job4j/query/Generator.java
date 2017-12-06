@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created on 02.10.17
- * Query generator
+ * Created on 02.10.17.
+ * Query generator.
  * @author Wamdue
  * @version 1.0
  */
@@ -17,7 +17,7 @@ public class Generator {
     private Map<Action, String> actions = new HashMap<>();
 
     /**
-     * init map actions with possible actions, end response on them
+     * Init map actions with possible actions, end response on them.
      */
     private void init() {
         actions.put(Action.CONTAIN, "LIKE");
@@ -40,10 +40,10 @@ public class Generator {
     }
 
     /**
-     * generator method
-     * @param begin - beginning of the query
-     * @param lines - lines of the filter to convert to query
-     * @return target query to fileter
+     * Generator method.
+     * @param begin - beginning of the query.
+     * @param lines - lines of the filter to convert to query.
+     * @return target query to fileter.
      */
     public String generateSelect(String begin, List<Line> lines) {
         StringBuilder sb = new StringBuilder();
@@ -57,7 +57,7 @@ public class Generator {
     /**
      *
      * @param line - parameter line to convert.
-     * @return - target string to append to query
+     * @return - target string to append to query.
      */
     private String getLine(Line line) {
         StringBuilder sb = new StringBuilder();

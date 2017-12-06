@@ -9,13 +9,14 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created on 02.10.17
+ * Created on 02.10.17.
  * Query generator test class.
  * @author Wamdue
  * @version 1.0
  */
 public class GeneratorTest {
     /**
+     * Filter test.
      * begin of query : select * from items where
      * Have lines:
      * first : behave = Behave.NULL

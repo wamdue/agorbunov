@@ -5,21 +5,37 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 
 /**
- * Created on 13.10.17
+ * Created on 13.10.17.
  * Working with database.
  * @author Wamdue
  * @version 1.0
  */
 public class Connect {
+    /**
+     * Connection to db.
+     */
     private Connection conn;
+    /**
+     * Properties for connection and communication with db.
+     */
     private Properties prop = new Properties();
+    /**
+     * Logger.
+     */
     private final Logger log = Logger.getLogger(Connect.class);
 
+    /**
+     * Main constructor.
+     */
     public Connect() {
         init();
     }
@@ -36,7 +52,7 @@ public class Connect {
     }
 
     /**
-     * Connect to db
+     * Connect to db.
      */
     public void connect() {
         try {
@@ -71,7 +87,7 @@ public class Connect {
     }
 
     /**
-     * Close connection to db
+     * Close connection to db.
      */
     public void close() {
         if (conn != null) {
@@ -83,6 +99,11 @@ public class Connect {
         }
     }
 
+    /**
+     * Check, if record if new.
+     * @param entry - record.
+     * @return true if new.
+     */
     private boolean isNewRecord(Entry entry) {
         boolean result = true;
         try (PreparedStatement preparedStatement = conn.prepareStatement(prop.getProperty("check_record"))) {
@@ -118,6 +139,9 @@ public class Connect {
         return result;
     }
 
+    /**
+     * Create tables, if needed.
+     */
     public void createTables() {
         try (PreparedStatement preparedStatement = conn.prepareStatement(prop.getProperty("table"))) {
             preparedStatement.executeUpdate();

@@ -8,28 +8,60 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- * Created on 11.10.17
+ * Created on 11.10.17.
  * Parser.
  * @author Wamdue
  * @version 1.0
  */
 public class LoadData {
-
+    /**
+     * Logger.
+     */
     private static final Logger LOG = Logger.getLogger(LoadData.class);
-
+    /**
+     * List of months.
+     */
     private Map<String, Integer> months = new HashMap<>();
-
+    /**
+     * List of entries.
+     */
     private List<Entry> entries = new ArrayList<>();
+    /**
+     * Pattern of search word.
+     */
     private Pattern pattern = Pattern.compile(".*[jJ][aA][vV][aA].*");
+    /**
+     * Pattern of exclude word.
+     */
     private Pattern scriptPattern = Pattern.compile(".*[sS]cript.*");
+    /**
+     * Current locale.
+     */
     private Locale locale = new Locale("ru_Ru");
+    /**
+     * Get calendar instance.
+     */
     private Calendar nextStart = Calendar.getInstance();
+    /**
+     * Working mode.
+     */
     private char mode;
+    /**
+     * Waiting time.
+     */
     private int waitTime;
+    /**
+     * Status.
+     */
     private boolean isWorking = true;
 
     /**
@@ -128,7 +160,7 @@ public class LoadData {
     /**
      * Parse string to create Timestamp.
      *
-     * @param value - string with date / time information
+     * @param value - string with date / time information.
      * @return actual Timestamp.
      */
     private Calendar getTime(String value) {
@@ -193,6 +225,10 @@ public class LoadData {
         LOG.info("Next time, will start at: " + nextStart.getTime());
     }
 
+    /**
+     * Start method.
+     * @param args - not in use.
+     */
     public static void main(String[] args) {
         new LoadData('M', 1).start();
     }
