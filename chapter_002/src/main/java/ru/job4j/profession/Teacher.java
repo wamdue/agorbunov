@@ -16,12 +16,16 @@ public class Teacher extends Profession {
     */
     private int age;
     /**
-    * Empty constructor, stub;
+    * Empty constructor, stub.
     */
-    public Teacher() {}
+    public Teacher() { }
     /**
-    * Main constructor.
-    */
+     * Constructor with parameters.
+     * @param name - name.
+     * @param experience - working time.
+     * @param diploma - grade.
+     * @param speciality - speciality.
+     */
     public Teacher(String name, int experience, String diploma, String speciality) {
 	super(name, experience, diploma, speciality);
     }

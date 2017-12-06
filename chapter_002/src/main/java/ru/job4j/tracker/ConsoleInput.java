@@ -25,6 +25,7 @@ public class ConsoleInput implements Input {
      * @param question - message to console.
      * @param range    - range of values.
      * @return - digit input from console.
+     * @throws MenuOutException - exception.
      */
     public int ask(String question, ArrayList<Integer> range) throws MenuOutException {
         int key = Integer.valueOf(this.ask(question));

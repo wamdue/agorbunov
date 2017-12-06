@@ -1,18 +1,25 @@
 package ru.job4j.chess;
-import ru.job4j.chess.figures.*;
+
+import ru.job4j.chess.figures.Figure;
+import ru.job4j.chess.figures.NullFigure;
+import ru.job4j.chess.figures.Side;
 
 /**
 * Runtime test.
 */
 public class Run {
+	/**
+	 * Main start class.
+	 * @param args - not in use.
+	 */
 	public static void main(String[] args) {
 		Board board = new Board();
 		board.init();
 		board.draw();
-		for (int i = 0; i < board.figures.length; i++) {
-			Figure f = board.figures[i];
-			if (f.position.getX() == 1 && f.position.getY() == 2) {
-				board.figures[i] = new NullFigure(new Cell(1, 2), Side.EMPTY);
+		for (int i = 0; i < board.getFigures().length; i++) {
+			Figure f = board.getFigures()[i];
+			if (f.getPosition().getX() == 1 && f.getPosition().getY() == 2) {
+				board.getFigures()[i] = new NullFigure(new Cell(1, 2), Side.EMPTY);
 				break;
 			}
 		}

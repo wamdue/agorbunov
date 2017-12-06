@@ -19,6 +19,9 @@ public class Item {
      * @param desc - description of the task.
      */
     private String desc;
+    /**
+     * List of comments.
+     */
     private ArrayList<Comment> comments;
     /**
      * @param created - time of creation in mls.
@@ -105,6 +108,10 @@ public class Item {
         this.created = created;
     }
 
+    /**
+     * Set new list of comments.
+     * @param comments - list of comments.
+     */
     public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
     }

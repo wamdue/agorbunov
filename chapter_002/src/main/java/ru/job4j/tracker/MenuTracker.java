@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class MenuTracker {
     /**
-     * @param ADD - add new item to tracker.
+     * Add new item to tracker.
      */
     public static final int ADD = 0;
     /**
@@ -85,11 +85,14 @@ public class MenuTracker {
         System.out.println("	6 Exit.");
     }
 
+    /**
+     * Close connection to db.
+     */
     public void close() {
         this.tracker.close();
     }
     /**
-     * Internal class for implemention UserAction.
+     * Internal class for implementation UserAction.
      */
     private class AddItem extends BaseAction {
         /**
@@ -98,7 +101,7 @@ public class MenuTracker {
          * @param key  - menu key.
          * @param name - menu name.
          */
-        public AddItem(int key, String name) {
+        AddItem(int key, String name) {
             super(key, name);
         }
 
@@ -125,7 +128,7 @@ public class MenuTracker {
          * @param key  - menu key.
          * @param name - menu name.
          */
-        public ShowAll(int key, String name) {
+        ShowAll(int key, String name) {
             super(key, name);
         }
 
@@ -153,7 +156,7 @@ class EditItem extends BaseAction {
      * @param key  - menu key.
      * @param name - menu name.
      */
-    public EditItem(int key, String name) {
+    EditItem(int key, String name) {
         super(key, name);
     }
 
@@ -182,7 +185,7 @@ class DeleteItem extends BaseAction {
      * @param key  - menu key.
      * @param name - menu name.
      */
-    public DeleteItem(int key, String name) {
+    DeleteItem(int key, String name) {
         super(key, name);
     }
 
@@ -208,7 +211,7 @@ class FindItemById extends BaseAction {
      * @param key  - menu key.
      * @param name - menu name.
      */
-    public FindItemById(int key, String name) {
+    FindItemById(int key, String name) {
         super(key, name);
     }
 
@@ -239,7 +242,7 @@ class FindItemsByName extends BaseAction {
      * @param key  - menu key.
      * @param name - menu name.
      */
-    public FindItemsByName(int key, String name) {
+    FindItemsByName(int key, String name) {
         super(key, name);
     }
 

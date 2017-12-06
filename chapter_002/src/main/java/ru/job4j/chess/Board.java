@@ -3,26 +3,37 @@ package ru.job4j.chess;
 import ru.job4j.chess.exceptions.FigureNotFoundException;
 import ru.job4j.chess.exceptions.ImpossibleMoveException;
 import ru.job4j.chess.exceptions.OccupiedWayException;
-import ru.job4j.chess.figures.*;
+import ru.job4j.chess.figures.Bishop;
+import ru.job4j.chess.figures.Figure;
+import ru.job4j.chess.figures.King;
+import ru.job4j.chess.figures.Knight;
+import ru.job4j.chess.figures.NullFigure;
+import ru.job4j.chess.figures.Pawn;
+import ru.job4j.chess.figures.Queen;
+import ru.job4j.chess.figures.Rook;
+import ru.job4j.chess.figures.Side;
 
 /**
  * Playing board.
  */
 public class Board {
     /**
-     * @param figures - main array of figures on the field;
+     * Main array of figures on the field.
      */
-    Figure[] figures;
+    private Figure[] figures;
     /**
-     * @param HEIGHT - size of the board;
+     * Size of the board.
      */
     public static final int HEIGHT = 8;
 
     /**
      * @param source - source position of figure.
      * @param dist   - desierable position.
+     * @throws ImpossibleMoveException - cannot move exception.
+     * @throws OccupiedWayException - cell is budy exception.
+     * @throws FigureNotFoundException - figure not found exception.
      * @return true if we can move, otherwise false.
-     * @throw exceptions if move cannot be done.
+     *
      */
     public boolean move(Cell source, Cell dist)
             throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
@@ -39,8 +50,8 @@ public class Board {
         int idSource = getFigureId(source);
 
         if (freeRoute(route, src)) {
-            figures[idSource].position.setX(dist.getX());
-            figures[idSource].position.setY(dist.getY());
+            figures[idSource].getPosition().setX(dist.getX());
+            figures[idSource].getPosition().setY(dist.getY());
             figures[idDist] = new NullFigure(new Cell(tmpX, tmpY), Side.EMPTY);
         } else {
             throw new OccupiedWayException();
@@ -66,7 +77,7 @@ public class Board {
                         figures[id++] = new Knight(new Cell(x, y), getSide(y));
                     } else if (x == 4) {
                         figures[id++] = new King(new Cell(x, y), getSide(y));
-                    } else if (x == 5) {
+                    } else {
                         figures[id++] = new Queen(new Cell(x, y), getSide(y));
                     }
                 } else if (y == 2 || y == 7) {
@@ -87,7 +98,7 @@ public class Board {
             System.out.print(y + " ");
             for (int x = 1; x <= HEIGHT; x++) {
                 for (Figure f : figures) {
-                    if (f.position.getX() == x && f.position.getY() == y) {
+                    if (f.getPosition().getX() == x && f.getPosition().getY() == y) {
                         System.out.print(f + " ");
                     }
                 }
@@ -98,6 +109,7 @@ public class Board {
 
     /**
      * @param y - param.
+     * @return - side of the figure.
      */
     private Side getSide(int y) {
         if (y >= 2) {
@@ -126,8 +138,8 @@ public class Board {
         int result = -1;
         for (int i = 0; i < figures.length; i++) {
             Figure f = figures[i];
-            if (f.position.getX() == source.getX()
-                    && f.position.getY() == source.getY()) {
+            if (f.getPosition().getX() == source.getX()
+                    && f.getPosition().getY() == source.getY()) {
                 result = i;
                 break;
             }
@@ -147,14 +159,22 @@ public class Board {
         for (int i = 0; i < len; i++) {
             Figure figure = getFigure(route[i]);
             if (figure != null) {
-                if (i == len - 1 && figure.side == f.side) {
+                if (i == len - 1 && figure.getSide() == f.getSide()) {
                     result = false;
-                } else if (figure.side != Side.EMPTY && i < len - 1) {
+                } else if (figure.getSide() != Side.EMPTY && i < len - 1) {
                     result = false;
                     break;
                 }
             }
         }
         return result;
+    }
+
+    /**
+     * Link to figures.
+     * @return - all figures.
+     */
+    public Figure[] getFigures() {
+        return figures;
     }
 }

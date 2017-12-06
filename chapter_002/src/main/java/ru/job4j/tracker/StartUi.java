@@ -32,6 +32,8 @@ public class StartUi {
 
     /**
      * Constructor.
+     * @param input - input type.
+     * @param tracker - current tracker.
      */
     public StartUi(Input input, Tracker tracker) {
         this.input = input;

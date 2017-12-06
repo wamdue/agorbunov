@@ -15,7 +15,7 @@ public class StubInput implements Input {
     */
     private int position = 0;
     /**
-    *
+    * @param answers - list of answers.
     */
     public StubInput(ArrayList<String> answers) {
 	this.answers = answers;

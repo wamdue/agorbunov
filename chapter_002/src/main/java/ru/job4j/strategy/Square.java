@@ -9,7 +9,7 @@ public class Square implements Shape {
     public String pic() {
 	String s = "";
 	for (int i = 0; i < 5; i++) {
-	    s+= "XXXXX\n";
+	    s += "XXXXX\n";
 	}
 	return s;
     }

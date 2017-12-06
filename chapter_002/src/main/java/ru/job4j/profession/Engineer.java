@@ -6,10 +6,15 @@ public class Engineer extends Profession {
     /**
     * Empty constructor, stub.
     */
-    public Engineer() {}
+    public Engineer() { }
+
     /**
-    * Main constructor.
-    */
+     * Constructor with parameters.
+     * @param name - name.
+     * @param experience - working time.
+     * @param diploma - grade.
+     * @param speciality - speciality.
+     */
     public Engineer(String name, int experience, String diploma, String speciality) {
 	super(name, experience, diploma, speciality);
     }

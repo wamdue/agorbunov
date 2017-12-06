@@ -1,15 +1,16 @@
 package ru.job4j.chess;
-/**
-* Test class for rook move.
-*/
+
 import org.junit.Test;
 import ru.job4j.chess.exceptions.ImpossibleMoveException;
 import ru.job4j.chess.figures.Figure;
 import ru.job4j.chess.figures.NullFigure;
 import ru.job4j.chess.figures.Side;
 
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+/**
+ * Test class for rook move.
+ */
 public class TestRook {
     /**
     * Making route.
@@ -23,10 +24,10 @@ public class TestRook {
 		Cell[] expect = new Cell[] {new Cell(1, 7), new Cell(1, 6), new Cell(1, 5)};
 		board.init();
 		Figure victim = null;
-		for (Figure f : board.figures) {
-		    if (f.position.getX() == 1 && f.position.getY() == 7) {
+		for (Figure f : board.getFigures()) {
+		    if (f.getPosition().getX() == 1 && f.getPosition().getY() == 7) {
 			f = new NullFigure(new Cell(1, 7), Side.EMPTY);
-		    } else if (f.position.getX() == 1 && f.position.getY() == 8) {
+		    } else if (f.getPosition().getX() == 1 && f.getPosition().getY() == 8) {
 			victim = f;
 	    }
 	}
@@ -49,10 +50,10 @@ public class TestRook {
 		Cell[] expect = new Cell[] {new Cell(1, 2), new Cell(1, 3), new Cell(1, 4), new Cell(1, 5)};
 		board.init();
 		Figure victim = null;
-		for (Figure f : board.figures) {
-		    if (f.position.getX() == 1 && f.position.getY() == 2) {
+		for (Figure f : board.getFigures()) {
+		    if (f.getPosition().getX() == 1 && f.getPosition().getY() == 2) {
 			f = new NullFigure(new Cell(1, 2), Side.EMPTY);
-		    } else if (f.position.getX() == 1 && f.position.getY() == 1) {
+		    } else if (f.getPosition().getX() == 1 && f.getPosition().getY() == 1) {
 			victim = f;
 	    }
 	}
@@ -74,17 +75,17 @@ public class TestRook {
 		board.init();
 		Cell expect = new Cell(1, 5);
 		Figure victim = null;
-		for (int i = 0; i < board.figures.length; i++) {
-			Figure f = board.figures[i];
-			if (f.position.getX() == 1 && f.position.getY() == 1) {
-				victim = board.figures[i];
+		for (int i = 0; i < board.getFigures().length; i++) {
+			Figure f = board.getFigures()[i];
+			if (f.getPosition().getX() == 1 && f.getPosition().getY() == 1) {
+				victim = board.getFigures()[i];
 			}
-			if (f.position.getX() == 1 && f.position.getY() == 2) {
-				board.figures[i] = new NullFigure(new Cell(1, 2), Side.EMPTY);
+			if (f.getPosition().getX() == 1 && f.getPosition().getY() == 2) {
+				board.getFigures()[i] = new NullFigure(new Cell(1, 2), Side.EMPTY);
 				break;
 			}
 		}
 		board.move(new Cell(1, 1), new Cell(1, 5));
-		assertThat(victim.position, is(expect));
+		assertThat(victim.getPosition(), is(expect));
 	}
 }

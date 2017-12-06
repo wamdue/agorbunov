@@ -35,7 +35,7 @@ public class StubInputTest {
 	    assertThat(tracker.findById(item.getId()).getName(), is("new name"));
 	}
 	/**
-	* Add 3 items. 
+	* Add 3 items.
 	* expect match.
 	*/
 	@Test
@@ -43,7 +43,7 @@ public class StubInputTest {
 	    Tracker tracker = new Tracker();
 	    ArrayList<Item> items = new ArrayList<>();
 	    for (int i = 0; i < 3; i++) {
-		items.add(tracker.add(new Item("name"+i, "desc"+i)));
+		items.add(tracker.add(new Item("name" + i, "desc" + i)));
 	    }
 	    Input input = new StubInput(new ArrayList<>(Arrays.asList("1", "6")));
 	    new StartUi(input, tracker).init();
@@ -59,9 +59,9 @@ public class StubInputTest {
         ArrayList<Item> items = new ArrayList<>();
 	int expected = 2;
         for (int i = 0; i < 3; i++) {
-	    items.add(tracker.add(new Item("name"+i, "desc"+i)));
+	    items.add(tracker.add(new Item("name" + i, "desc" + i)));
 	}
-        Input input = new StubInput(new ArrayList<>(Arrays.asList("3", String.valueOf(items.get(1).getId()),"1", "6")));
+        Input input = new StubInput(new ArrayList<>(Arrays.asList("3", String.valueOf(items.get(1).getId()), "1", "6")));
 	new StartUi(input, tracker).init();
         assertThat(tracker.size(), is(expected));
     }

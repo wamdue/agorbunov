@@ -3,5 +3,16 @@ package ru.job4j.chess.figures;
 * Sides.
 */
 public enum Side {
-	BLACK, WHITE, EMPTY
+	/**
+	 * Black side.
+	 */
+	BLACK,
+	/**
+	 * White side.
+	 */
+	WHITE,
+	/**
+	 * Empty slot.
+	 */
+ 	EMPTY
 }

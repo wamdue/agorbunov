@@ -4,15 +4,17 @@ package ru.job4j.chess;
 */
 public class Cell {
 	/**
-	* @param x - horizontal position.
+	* Horizontal position.
 	*/
 	private int x;
 	/**
-	* @param y - vertical position.
+	* Vertical position.
 	*/
 	private int y;
 	/**
 	* Main constructor.
+	 * @param x - position by axis x.
+	 * @param y - position by axis y.
 	*/
 	public Cell(int x, int y) {
 		this.x = x;
@@ -41,21 +43,25 @@ public class Cell {
 	*/
 	public void setY(int y) {
 		this.y = y;
-	}   
+	}
 	@Override
 	public String toString() {
 		return String.format("x = %d, y = %d", this.x, this.y);
 	}
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
 
-		Cell cell = (Cell) o;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-		if (x != cell.x) return false;
-		return y == cell.y;
-	}
+        Cell cell = (Cell) o;
+
+        return x == cell.x && y == cell.y;
+    }
 
 	@Override
 	public int hashCode() {

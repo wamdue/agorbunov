@@ -1,54 +1,66 @@
 package ru.job4j.profession;
+
 /**
-* Class for doctores.
-*/
+ * Class for doctores.
+ */
 public class Doctor extends Profession {
     /**
-    * @param grade - current grade.
-    */
+     * @param grade - current grade.
+     */
     private String grade;
     /**
-    * @param practice - where did he practice.
-    */
+     * @param practice - where did he practice.
+     */
     private String practice;
+
     /**
-    * Empty constructor, stub.
-    */
-    public Doctor() {}
+     * Empty constructor, stub.
+     */
+    public Doctor() { }
+
     /**
-    * Main constructor.
-    */
+     * Main constructor.
+     * @param name - name of the doctor.
+     * @param experience - experience.
+     * @param diploma - current diplome.
+     * @param speciality - current speciality.
+     */
     public Doctor(String name, int experience, String diploma, String speciality) {
-	super(name, experience, diploma, speciality);
+        super(name, experience, diploma, speciality);
     }
+
     /**
-    * @return grade - get current grade.
-    */
+     * @return grade - get current grade.
+     */
     public String getGrade() {
-	return this.grade;
+        return this.grade;
     }
+
     /**
-    * @return practice - get practice info.
-    */
+     * @return practice - get practice info.
+     */
     public String getPractice() {
-	return this.practice;
+        return this.practice;
     }
+
     /**
-    * @param practice - set practice info.
-    */
+     * @param practice - set practice info.
+     */
     public void setPractice(String practice) {
-	this.practice = practice;
+        this.practice = practice;
     }
+
     /**
-    * @param grade - set current grade.
-    */
+     * @param grade - set current grade.
+     */
     public void incraseGrade(String grade) {
-	this.grade = grade;
+        this.grade = grade;
     }
+
     /**
-    * @param pacient - cure pacient.
-    */
+     * @param pacient - cure pacient.
+     */
     public void heal(Pacient pacient) {
-	System.out.println("Doctor " + getName() + " heals " + pacient.getName());
+        System.out.println("Doctor " + getName() + " heals " + pacient.getName());
     }
 }

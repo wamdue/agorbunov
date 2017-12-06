@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created on 25.07.17
- *
+ * Created on 25.07.17.
+ * Bank machine main class.
  * @author Wamdue
  * @version 1.0
  */

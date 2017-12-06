@@ -22,11 +22,16 @@ public class Profession {
     /**
     * Empty constructor, stub.
     */
-    public Profession() {}
+    public Profession() { }
+
     /**
-    * Main constructor with all fields.
-    */
-    public Profession(String name, int experience, String diploma, String specility) {
+     * Constructor with fields.
+     * @param name - name.
+     * @param experience - working time.
+     * @param diploma - grade.
+     * @param speciality - speciality.
+     */
+    public Profession(String name, int experience, String diploma, String speciality) {
 	this.name = name;
 	this.experience = experience;
 	this.diploma = diploma;
