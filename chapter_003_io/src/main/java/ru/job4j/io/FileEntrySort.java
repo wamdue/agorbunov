@@ -14,9 +14,13 @@ import java.io.RandomAccessFile;
  */
 public class FileEntrySort {
     /**
-     * Storage of temp files.
+     * First temp file.
      */
-    private final File[] files = new File[2];
+    private File first;
+    /**
+     * Second temp file.
+     */
+    private File second;
     /**
      * Sorting file.
      *
@@ -25,8 +29,8 @@ public class FileEntrySort {
      */
     public void sort(File source, File distance) {
         try {
-            this.files[0] = File.createTempFile("first", "01");
-            this.files[1] = File.createTempFile("second", "01");
+            this.first = File.createTempFile("first", "01");
+            this.second = File.createTempFile("second", "01");
             boolean complete;
             this.fillTempFiles(source);
             complete = !this.mergeTempFiles(distance);
@@ -45,8 +49,8 @@ public class FileEntrySort {
      */
     private void fillTempFiles(File source) {
         try (RandomAccessFile raf = new RandomAccessFile(source, "r");
-        FileWriter out1 = new FileWriter(files[0]);
-        FileWriter out2 = new FileWriter(files[1])) {
+        FileWriter out1 = new FileWriter(this.first);
+        FileWriter out2 = new FileWriter(this.second)) {
             String cur = "";
             String prev = null;
             boolean queue = true;
@@ -82,9 +86,9 @@ public class FileEntrySort {
     private boolean mergeTempFiles(File target) {
         boolean cont = true;
         boolean result = true;
-        if (files[0].length() > 0 && files[1].length() > 0) {
-            try (RandomAccessFile rafOne = new RandomAccessFile(files[0], "r");
-            RandomAccessFile rafTwo = new RandomAccessFile(files[1], "r");
+        if (this.first.length() > 0 && this.second.length() > 0) {
+            try (RandomAccessFile rafOne = new RandomAccessFile(this.first, "r");
+            RandomAccessFile rafTwo = new RandomAccessFile(this.second, "r");
             FileWriter writer = new FileWriter(target)) {
                 String lineOne = rafOne.readLine();
                 String lineTwo = rafTwo.readLine();
