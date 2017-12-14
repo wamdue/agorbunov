@@ -19,7 +19,7 @@ public class ConsoleChatTest {
     /**
      * Line separator.
      */
-    private final static String LN = System.getProperty("line.separator");
+    private static final String LN = System.getProperty("line.separator");
 
     /**
      * Exit test.
@@ -38,7 +38,7 @@ public class ConsoleChatTest {
      */
     @Test
     public void whenEnterStopWordThenNoAnswer() {
-        this.taskCase(Joiner.on(LN).join("стоп", "not important","закончить"), false);
+        this.taskCase(Joiner.on(LN).join("стоп", "not important", "закончить"), false);
     }
 
     /**

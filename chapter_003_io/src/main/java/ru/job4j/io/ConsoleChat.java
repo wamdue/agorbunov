@@ -59,6 +59,8 @@ public class ConsoleChat {
 
     /**
      * Start chat method.
+     * @param inputStream - stream to enter words.
+     * @param outputStream - output stream (console or other).
      */
     public void startChat(InputStream inputStream, OutputStream outputStream) {
         if (answers.size() > 0) {
