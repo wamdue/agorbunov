@@ -14,7 +14,10 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import java.util.function.Function;
 
 /**
  * Created on 13.12.17.
@@ -33,6 +36,11 @@ public class NetworkManager implements NetworkServerApi {
     private Socket socket;
 
     /**
+     * Map of the actions.
+     */
+    private Map<String, Function<String, Boolean>> map = new HashMap<>();
+
+    /**
      * Basic constructor.
      * Read port number from file.
      * @param currentDir - set current server dir.
@@ -40,6 +48,7 @@ public class NetworkManager implements NetworkServerApi {
     public NetworkManager(File currentDir) {
         this.currentDir = currentDir;
         this.loadProperties();
+        this.init();
     }
     /**
      * Main constructor.
@@ -47,7 +56,7 @@ public class NetworkManager implements NetworkServerApi {
      * @param socket - connection information.
      */
     public NetworkManager(File currentDir, Socket socket) {
-        this.currentDir = currentDir;
+        this(currentDir);
         this.socket = socket;
     }
 
@@ -167,22 +176,14 @@ public class NetworkManager implements NetworkServerApi {
                 System.out.println(request);
                 if (STOP.equals(request)) {
                     System.out.println("Server stopped.");
-                } else if (LIST.equals(request)) {
-                    this.listOfFiles();
                 } else if (CURRENT.equals(request)) {
                     writer.println(this.getCurrentDir());
-                } else if (PARENT.equals(request)) {
-                    this.setToParentDir();
-                    System.out.println("Directory set to parent");
-                } else if (SET.equals(request.split(" ")[0])) {
-                    this.setCurrentDir(request.split(" ")[1]);
-                } else if (SAVE.equals(request.split(" ")[0])) {
-                    this.sendFile(new File(this.getPath(request.split(" ")[1])));
-                } else if (LOAD.equals(request.split(" ")[0])) {
-                    File file = new File(this.getPath(request.split(" ")[1]));
-                    this.receiveFile(file);
                 } else {
-                    writer.println("Unknown command");
+                    if (map.containsKey(request.split(" ")[0])) {
+                        map.get(request.split(" ")[0]).apply(request);
+                    } else {
+                        writer.println("Unknown command");
+                    }
                 }
                 writer.println();
             }
@@ -213,6 +214,79 @@ public class NetworkManager implements NetworkServerApi {
             e.printStackTrace();
         }
     }
+
+    /**
+     * List of files and directories.
+     * Adapting executing via function.
+     * @return true.
+     */
+    private Function<String, Boolean> list() {
+        return msg -> {
+            this.listOfFiles();
+            return true;
+        };
+    }
+
+    /**
+     * Move to parent dir.
+     * Adapting executing via function.
+     * @return true.
+     */
+    private Function<String, Boolean> parentDir() {
+        return msg -> {
+            this.setToParentDir();
+            return true;
+        };
+    }
+
+    /** Set new current dir.
+     * Adapting executing via function.
+     * @return true.
+     */
+    private Function<String, Boolean> setDir() {
+        return msg -> {
+            this.setCurrentDir(msg.split(" ")[1]);
+            return true;
+        };
+    }
+
+    /**
+     * Send file.
+     * Adapting executing via function.
+     * @return true.
+     */
+    private Function<String, Boolean> send() {
+        return msg -> {
+            File file = new File(this.getPath(msg.split(" ")[1]));
+            this.sendFile(file);
+            return true;
+        };
+    }
+
+    /**
+     * Receive file.
+     * Adapting executing via function.
+     * @return true.
+     */
+    private Function<String, Boolean> receive() {
+        return msg -> {
+            File file = new File(this.getPath(msg.split(" ")[1]));
+            this.receiveFile(file);
+            return true;
+        };
+    }
+
+    /**
+     * Fill map with possible moves.
+     */
+    private void init() {
+        this.map.put(LIST, this.list());
+        this.map.put(PARENT, this.parentDir());
+        this.map.put(SET, this.setDir());
+        this.map.put(SAVE, this.send());
+        this.map.put(LOAD, this.receive());
+    }
+
     /**
      * Main start method.
      * @param args - not in use.
@@ -226,4 +300,5 @@ public class NetworkManager implements NetworkServerApi {
             e.printStackTrace();
         }
     }
+
 }
