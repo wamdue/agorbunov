@@ -44,9 +44,11 @@ public class BotClient {
                 ask = console.nextLine();
                 out.println(ask);
                 str = in.readLine();
-                while (!str.isEmpty()) {
-                    System.out.println(str);
-                    str = in.readLine();
+                if (str != null) {
+                    while (!str.isEmpty()) {
+                        System.out.println(str);
+                        str = in.readLine();
+                    }
                 }
             } while (!ask.equals("пока"));
             out.println("exit");

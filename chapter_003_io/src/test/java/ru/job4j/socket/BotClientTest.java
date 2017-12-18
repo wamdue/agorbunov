@@ -14,7 +14,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * Created on 12.12.17.
- *
+ * Testing bot chat, client side.
  * @author Wamdue
  * @version 1.0
  */
@@ -26,8 +26,17 @@ public class BotClientTest {
      * @throws Exception - exception.
      */
     @Test
-    public void connect() throws Exception {
-        this.testCase("пока", null);
+    public void whenTryToExitThenExit() throws Exception {
+        this.testCase("пока\r\n\r\n", "пока\nexit\n");
+    }
+
+    /**
+     * When send greetings, and want to receive answer.
+     * @throws Exception - exception.
+     */
+    @Test
+    public void whenEnterHelloThenReceiveAnswer() throws Exception {
+        this.testCase("hello\r\n\r\nпока\r\n\r\n", "hello\n\nпока\nexit\n");
     }
 
     /**
@@ -38,6 +47,7 @@ public class BotClientTest {
     private void testCase(String question, String expected) {
         try {
             Socket socketClient = mock(Socket.class);
+            ByteArrayInputStream console = new ByteArrayInputStream(question.getBytes());
             ByteArrayInputStream in = new ByteArrayInputStream(question.getBytes());
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             when(socketClient.getInputStream()).thenReturn(in);
@@ -45,7 +55,7 @@ public class BotClientTest {
 
             BotClient client = new BotClient(socketClient);
 
-            client.connect(in);
+            client.connect(console);
 
             assertThat(out.toString(), is(expected));
         } catch (IOException e) {
