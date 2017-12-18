@@ -82,7 +82,7 @@ public class SearchFiles {
      */
     private void saveResult() {
         if (result.size() > 0) {
-            try (PrintStream stream = new PrintStream(new FileOutputStream(new File("outputFile")))) {
+            try (PrintStream stream = new PrintStream(new FileOutputStream(new File(this.outputFile)))) {
                 for (String s : result) {
                     stream.println(s);
                 }
@@ -138,7 +138,7 @@ public class SearchFiles {
      */
     public static void main(String[] args) {
         String error = "not enough parameters, example string: -d <search path> -n <file mask, "
-                + "file name or regular expression> <tipe of mask -m mask, -f full compare, -r - regular expression> "
+                + "file name or regular expression> <type of mask -m mask, -f full compare, -r - regular expression> "
                 + "-o <result file name>";
         if (args.length < 7 || args.length > 7) {
             System.out.println(error);
