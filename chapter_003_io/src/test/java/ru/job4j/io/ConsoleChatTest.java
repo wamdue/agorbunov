@@ -28,7 +28,7 @@ public class ConsoleChatTest {
      */
     @Test
     public void whenEnterEndWordThenExit() {
-        this.taskCase("закончить", false);
+        this.taskCase("закончить", "До встречи!\n");
     }
 
     /**
@@ -38,7 +38,7 @@ public class ConsoleChatTest {
      */
     @Test
     public void whenEnterStopWordThenNoAnswer() {
-        this.taskCase(Joiner.on(LN).join("стоп", "not important", "закончить"), false);
+        this.taskCase(Joiner.on(LN).join("стоп", "one", "закончить"), "Отойду на минутку.\n", "До встречи!\n");
     }
 
     /**
@@ -48,8 +48,9 @@ public class ConsoleChatTest {
      */
     @Test
     public void whenEnterWordThenHaveAnswer() {
-        this.taskCase(Joiner.on(LN).join("one", "two", "three", "закончить"), true);
+        this.taskCase(Joiner.on(LN).join("one", "two", "three", "закончить"), "", "До встречи!\n");
     }
+
     /**
      * Answers test.
      * When word : стоп
@@ -59,22 +60,34 @@ public class ConsoleChatTest {
      */
     @Test
     public void whenEnterStopWordAndContinueThenHaveAnswer() {
-        this.taskCase(Joiner.on(LN).join("стоп", "продолжить", "three", "закончить"), true);
+        this.taskCase(Joiner.on(LN).join("стоп", "продолжить", "three", "закончить"), "Отойду на минутку.\nПродолжаем разговор.\nДо встречи!\n");
     }
 
     /**
      * Frequency used code.
+     *
      * @param example - example string.
-     * @param expect - expected result.
+     * @param expect  - expected result.
      */
-    private void taskCase(String example, boolean expect) {
+    private void taskCase(String example, String expect) {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(example.getBytes());
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         ConsoleChat chat = new ConsoleChat();
         chat.startChat(inputStream, outputStream);
-        assertThat(expect, is(outputStream.toString().length() > 0));
+        assertThat(expect, is(outputStream.toString()));
+    }
 
+    private void taskCase(String example, String start, String end) {
+
+    ByteArrayInputStream inputStream = new ByteArrayInputStream(example.getBytes());
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+    ConsoleChat chat = new ConsoleChat();
+    chat.startChat(inputStream,outputStream);
+    boolean expect = true;
+
+    assertThat(expect, is(outputStream.toString().startsWith(start) && outputStream.toString().endsWith(end)));
     }
 
 }

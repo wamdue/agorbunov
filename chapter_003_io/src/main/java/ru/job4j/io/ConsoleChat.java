@@ -33,6 +33,19 @@ public class ConsoleChat {
     private static final String END = "закончить";
 
     /**
+     * Phrase when stop answering.
+     */
+    private static final String NO_ANSWER = "Отойду на минутку.";
+    /**
+     * Phrase when continue answering.
+     */
+    private static final String MORE_ANSWERS = "Продолжаем разговор.";
+    /**
+     * Goodbye phrase.
+     */
+    private static final String BYE = "До встречи!";
+
+    /**
      * List of possible answers.
      */
     private List<String> answers;
@@ -77,16 +90,19 @@ public class ConsoleChat {
                     stream.println(line);
                     if (STOP.equals(line)) {
                         isConversation = false;
+                        System.out.println(NO_ANSWER);
                         continue;
                     }
 
                     if (CONTINUE.equals(line)) {
                         isConversation = true;
+                        System.out.println(MORE_ANSWERS);
                         continue;
                     }
 
                     if (END.equals(line)) {
                         isWorking = false;
+                        System.out.println(BYE);
                         continue;
                     }
                     if (isConversation) {
