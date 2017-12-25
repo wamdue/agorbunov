@@ -20,30 +20,30 @@ public class InteractCalcTest {
     /**
      * Template string format answer when do one action, with custom result.
      */
-    private String temp = "1 - plus\n"
-            + "2 - minus\n"
-            + "3 - multiply\n"
-            + "4 - divide\n"
-            + "5 - use previous result\n"
-            + "6 - exit\n"
-            + "Enter value: \n"
-            + "Enter value: \n"
-            + "Result: %f\n"
-            + "\n"
+    private String temp = "-2 - exit\n"
+            + "-1 - use previous result\n"
             + "1 - plus\n"
             + "2 - minus\n"
             + "3 - multiply\n"
             + "4 - divide\n"
-            + "5 - use previous result\n"
-            + "6 - exit\n";
+            + "Enter value: \n"
+            + "Enter value: \n"
+            + "Result: %f\n"
+            + "\n"
+            + "-2 - exit\n"
+            + "-1 - use previous result\n"
+            + "1 - plus\n"
+            + "2 - minus\n"
+            + "3 - multiply\n"
+            + "4 - divide\n";
 
     /**
      * When want to exit menu, then exit.
      */
     @Test
     public void whenEnterExitThenExit() {
-        String expression = "6\n";
-        String expect = "1 - plus\n2 - minus\n3 - multiply\n4 - divide\n5 - use previous result\n6 - exit\n";
+        String expression = "-2\n";
+        String expect = "-2 - exit\n-1 - use previous result\n1 - plus\n2 - minus\n3 - multiply\n4 - divide\n";
         this.taskCase(expression, expect);
     }
 
@@ -54,7 +54,7 @@ public class InteractCalcTest {
      */
     @Test
     public void whenWantPlusActionThenCalculate() {
-        String expression = "1\n4\n6\n6";
+        String expression = "1\n4\n6\n-2";
         String expect = String.format(this.temp, 10d);
         this.taskCase(expression, expect);
     }
@@ -66,7 +66,7 @@ public class InteractCalcTest {
      */
     @Test
     public void whenWantMinusActionThenCalculate() {
-        String expression = "2\n6\n4\n6";
+        String expression = "2\n6\n4\n-2";
         String expect = String.format(this.temp, 2d);
         this.taskCase(expression, expect);
     }
@@ -78,7 +78,7 @@ public class InteractCalcTest {
      */
     @Test
     public void whenWantMultiplyActionThenCalculate() {
-        String expression = "3\n6\n4\n6";
+        String expression = "3\n6\n4\n-2";
         String expect = String.format(this.temp, 24d);
         this.taskCase(expression, expect);
     }
@@ -90,7 +90,7 @@ public class InteractCalcTest {
      */
     @Test
     public void whenWantDivideActionThenCalculate() {
-        String expression = "4\n6\n2\n6";
+        String expression = "4\n6\n2\n-2";
         String expect = String.format(this.temp, 3d);
         this.taskCase(expression, expect);
     }
@@ -104,7 +104,7 @@ public class InteractCalcTest {
      */
     @Test
     public void whenWantUsePreviousResultThenCalculate() {
-        String expression = "4\n6\n2\n5\n1\n2\n6";
+        String expression = "4\n6\n2\n-1\n1\n2\n-2";
         String tmp = "1 - plus\n"
                 + "2 - minus\n"
                 + "3 - multiply\n"
@@ -112,12 +112,12 @@ public class InteractCalcTest {
                 + "Enter value: \n"
                 + "Result: %f\n"
                 + "\n"
+                + "-2 - exit\n"
+                + "-1 - use previous result\n"
                 + "1 - plus\n"
                 + "2 - minus\n"
                 + "3 - multiply\n"
-                + "4 - divide\n"
-                + "5 - use previous result\n"
-                + "6 - exit\n";
+                + "4 - divide\n";
         String expect = String.format(this.temp + tmp, 3d, 5d);
         this.taskCase(expression, expect);
     }

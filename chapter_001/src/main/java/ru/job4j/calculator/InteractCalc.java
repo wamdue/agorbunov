@@ -45,11 +45,11 @@ public class InteractCalc {
     /**
      * User previous result of calculation.
      */
-    private static final int PREVIOUS = 5;
+    private static final int PREVIOUS = -1;
     /**
      * Exit number.
      */
-    private static final int EXIT = 6;
+    private static final int EXIT = -2;
     /**
      * List of menu strings.
      */
@@ -74,22 +74,39 @@ public class InteractCalc {
      * Loading menu strings.
      */
     private void init() {
+        this.list.add(String.format("%d - exit", EXIT));
+        this.list.add(String.format("%d - use previous result", PREVIOUS));
         this.list.add(String.format("%d - plus", PLUS));
         this.list.add(String.format("%d - minus", MINUS));
         this.list.add(String.format("%d - multiply", MULTIPLY));
         this.list.add(String.format("%d - divide", DIVIDE));
-        this.list.add(String.format("%d - use previous result", PREVIOUS));
-        this.list.add(String.format("%d - exit", EXIT));
+    }
+
+    /**
+     * Add new item to main menu.
+     * @param item - string to add.
+     */
+    public void addMenuItem(String item) {
+        this.list.add(item);
     }
 
     /**
      * Loading possible actions.
      */
     private void loadActions() {
-        this.actions.put(1, this.plus());
-        this.actions.put(2, this.minus());
-        this.actions.put(3, this.multiply());
-        this.actions.put(4, this.divide());
+        this.actions.put(PLUS, this.plus());
+        this.actions.put(MINUS, this.minus());
+        this.actions.put(MULTIPLY, this.multiply());
+        this.actions.put(DIVIDE, this.divide());
+    }
+
+    /**
+     * Add new Action to map.
+     * @param num - num of action.
+     * @param action - calc action.
+     */
+    public void addAction(int num, BiFunction<Double, Double, Double> action) {
+        this.actions.put(num, action);
     }
 
     /**
@@ -146,10 +163,10 @@ public class InteractCalc {
 
     /**
      * Draw menu in console.
-     * @param x - lengs of menu.
+     * @param x - shift from begining.
      */
     private void show(int x) {
-        for (int i = 0; i < x; i++) {
+        for (int i = x; i < this.list.size(); i++) {
             System.out.println(this.list.get(i));
         }
     }
@@ -164,6 +181,22 @@ public class InteractCalc {
     }
 
     /**
+     * Get current value.
+     * @return current result.
+     */
+    public double getResult() {
+        return result;
+    }
+
+    /**
+     * Set new result.
+     * @param result - new result.
+     */
+    public void setResult(double result) {
+        this.result = result;
+    }
+
+    /**
      * Start main loop.
      */
     public void start() {
@@ -171,12 +204,12 @@ public class InteractCalc {
         double val;
         double val1;
         while (!(EXIT == pos)) {
-            this.show(this.list.size());
+            this.show(0);
             pos = scanner.nextInt();
             if (pos == EXIT) {
                 continue;
             } else if (pos == PREVIOUS) {
-                this.show(4);
+                this.show(2);
                 pos = scanner.nextInt();
                 val = this.result;
             } else {
