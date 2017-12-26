@@ -78,13 +78,19 @@ public class ConsoleChatTest {
         assertThat(expect, is(outputStream.toString()));
     }
 
+    /**
+     * Temp method.
+     * @param example - example string.
+     * @param start - string starts.
+     * @param end - string ends.
+     */
     private void taskCase(String example, String start, String end) {
 
     ByteArrayInputStream inputStream = new ByteArrayInputStream(example.getBytes());
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
     ConsoleChat chat = new ConsoleChat();
-    chat.startChat(inputStream,outputStream);
+    chat.startChat(inputStream, outputStream);
     boolean expect = true;
 
     assertThat(expect, is(outputStream.toString().startsWith(start) && outputStream.toString().endsWith(end)));
