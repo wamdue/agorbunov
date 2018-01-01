@@ -38,7 +38,7 @@ public class NetworkManager implements NetworkServerApi {
     /**
      * Map of the actions.
      */
-    private Map<String, Function<String, Boolean>> map = new HashMap<>();
+    private Map<String, Function<Answer, Boolean>> map = new HashMap<>();
 
     /**
      * Basic constructor.
@@ -170,17 +170,17 @@ public class NetworkManager implements NetworkServerApi {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
              PrintStream writer = new PrintStream(this.socket.getOutputStream(), true)) {
             System.out.println("Server starts.");
-            String request = "";
-            while (!STOP.equals(request)) {
-                request = reader.readLine();
-                System.out.println(request);
-                if (STOP.equals(request)) {
+            Answer answer = new Answer("");
+            while (!STOP.equals(answer.getFullLine())) {
+                answer = new Answer(reader.readLine());
+                System.out.println(answer.getFullLine());
+                if (STOP.equals(answer.getFullLine())) {
                     System.out.println("Server stopped.");
-                } else if (CURRENT.equals(request)) {
+                } else if (CURRENT.equals(answer.getFullLine())) {
                     writer.println(this.getCurrentDir());
                 } else {
-                    if (map.containsKey(request.split(" ")[0])) {
-                        map.get(request.split(" ")[0]).apply(request);
+                    if (map.containsKey(answer.getCommand())) {
+                        map.get(answer.getCommand()).apply(answer);
                     } else {
                         writer.println("Unknown command");
                     }
@@ -220,7 +220,7 @@ public class NetworkManager implements NetworkServerApi {
      * Adapting executing via function.
      * @return true.
      */
-    private Function<String, Boolean> list() {
+    private Function<Answer, Boolean> list() {
         return msg -> {
             this.listOfFiles();
             return true;
@@ -232,7 +232,7 @@ public class NetworkManager implements NetworkServerApi {
      * Adapting executing via function.
      * @return true.
      */
-    private Function<String, Boolean> parentDir() {
+    private Function<Answer, Boolean> parentDir() {
         return msg -> {
             this.setToParentDir();
             return true;
@@ -243,9 +243,9 @@ public class NetworkManager implements NetworkServerApi {
      * Adapting executing via function.
      * @return true.
      */
-    private Function<String, Boolean> setDir() {
+    private Function<Answer, Boolean> setDir() {
         return msg -> {
-            this.setCurrentDir(msg.split(" ")[1]);
+            this.setCurrentDir(msg.getDir());
             return true;
         };
     }
@@ -255,9 +255,9 @@ public class NetworkManager implements NetworkServerApi {
      * Adapting executing via function.
      * @return true.
      */
-    private Function<String, Boolean> send() {
+    private Function<Answer, Boolean> send() {
         return msg -> {
-            File file = new File(this.getPath(msg.split(" ")[1]));
+            File file = new File(this.getPath(msg.getDir()));
             this.sendFile(file);
             return true;
         };
@@ -268,9 +268,9 @@ public class NetworkManager implements NetworkServerApi {
      * Adapting executing via function.
      * @return true.
      */
-    private Function<String, Boolean> receive() {
+    private Function<Answer, Boolean> receive() {
         return msg -> {
-            File file = new File(this.getPath(msg.split(" ")[1]));
+            File file = new File(msg.getDir());
             this.receiveFile(file);
             return true;
         };
@@ -294,7 +294,7 @@ public class NetworkManager implements NetworkServerApi {
     public static void main(String[] args) {
 
         try (Socket socket = new ServerSocket(5000).accept()) {
-            NetworkManager manager = new NetworkManager(new File("/home/alexey/Java/"));
+            NetworkManager manager = new NetworkManager(new File("d:/"));
             manager.startServer(5000);
         } catch (IOException e) {
             e.printStackTrace();

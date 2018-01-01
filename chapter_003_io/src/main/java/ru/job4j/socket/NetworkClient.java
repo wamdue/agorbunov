@@ -99,15 +99,15 @@ public class NetworkClient implements NetworkClientApi {
         try (Scanner console = new Scanner(System.in);
              BufferedReader in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
              PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true)) {
-            String line = "";
+            Answer answer = new Answer("");
             String str;
-            while (!NetworkManager.STOP.equals(line)) {
-                line = console.nextLine();
-                if (NetworkManager.SAVE.equals(line.split(" ")[0])) {
-                    out.println(line);
-                    this.receiveFile(line.split(" ")[1]);
-                } else if (NetworkManager.LOAD.equals(line.split(" ")[0])) {
-                    String name = line.substring(line.indexOf(" ") + 1, line.length());
+            while (!NetworkManager.STOP.equals(answer.getFullLine())) {
+                answer =  new Answer(console.nextLine());
+                if (NetworkManager.SAVE.equals(answer.getCommand())) {
+                    out.println(answer.getFullLine());
+                    this.receiveFile(answer.getDir());
+                } else if (NetworkManager.LOAD.equals(answer.getCommand())) {
+                    String name = answer.getDir();
                     File file = new File(name);
                     if (file.exists()) {
                         out.println(String.format("%s %s", NetworkManager.LOAD, file.getName()));
@@ -117,7 +117,7 @@ public class NetworkClient implements NetworkClientApi {
                         System.out.println("File not found.");
                     }
                 } else {
-                    out.println(line);
+                    out.println(answer.getFullLine());
                     str = in.readLine();
                     if (str != null) {
                         while (!str.isEmpty()) {
