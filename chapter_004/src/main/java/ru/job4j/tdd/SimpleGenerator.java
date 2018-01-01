@@ -20,7 +20,7 @@ public class SimpleGenerator implements Template {
     /**
      * Pattern for get key in string.
      */
-    private static final String PATT = "\\$\\{\\w*\\}";
+    private static final Pattern PATT = Pattern.compile("\\$\\{\\w*\\}");
     /**
      * Pattern for remove extra symbols from key.
      */
@@ -39,9 +39,8 @@ public class SimpleGenerator implements Template {
             throw new UnsupportedOperationException();
         }
 
-        Pattern pattern = Pattern.compile(PATT);
         Set<String> phrases = new HashSet<>();
-        Matcher matcher = pattern.matcher(template);
+        Matcher matcher = PATT.matcher(template);
         while (matcher.find()) {
             phrases.add(matcher.group());
         }
