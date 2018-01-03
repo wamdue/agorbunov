@@ -56,4 +56,56 @@ public class TemplateTest {
         assertThat(result, is(expect));
     }
 
+    /**
+     * Temp string contain key, but map don`t.
+     * Expecting UnsupportedOperationException.
+     */
+    @Test (expected = UnsupportedOperationException.class)
+    public void whenDoNotHaveParameterInListThenException() {
+        Map<String, String> map = new HashMap<>();
+
+        String temp = "Hello ${name}";
+        String result = this.generator.generate(temp, map);
+    }
+
+    /**
+     * Temp string do no contain key, but map do.
+     * Expecting UnsupportedOperationException.
+     */
+    @Test (expected = UnsupportedOperationException.class)
+    public void whenStringWithoutKeyButMapWithThenException() {
+        Map<String, String> map = new HashMap<>();
+        map.put("name", "Vasya");
+
+        String temp = "Hello";
+        String result = this.generator.generate(temp, map);
+    }
+
+    /**
+     * Temp string contain key, but map do.
+     * Expecting UnsupportedOperationException.
+     */
+    @Test (expected = UnsupportedOperationException.class)
+    public void whenStringHaveKeyButMapDontHasveThatkeyThenException() {
+        Map<String, String> map = new HashMap<>();
+        map.put("name", "Vasya");
+
+        String temp = "Hello ${help}";
+        String result = this.generator.generate(temp, map);
+    }
+
+    /**
+     * Temp string contains less key then map do.
+     * Expecting UnsupportedOperationException.
+     */
+    @Test (expected = UnsupportedOperationException.class)
+    public void whenMapHaveMoreKeysThenStrngThenException() {
+        Map<String, String> map = new HashMap<>();
+        map.put("name", "Vasya");
+        map.put("surname", "Vasiliev");
+
+        String temp = "Hello, ${name}";
+        String result = this.generator.generate(temp, map);
+    }
+
 }

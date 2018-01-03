@@ -68,27 +68,4 @@ public class Menu {
         drawTree(this.elementList, 1);
     }
 
-
-    /**
-     * Main method.
-     * @param args - not in use.
-     */
-    public static void main(String[] args) {
-        Menu menu = new Menu("Задача 1.");
-        Element e1 = new ElementImpl("Задача 1.1");
-        Element e2 = new ElementImpl("Задача 1.1.1");
-        Element e3 = new ElementImpl("Задача 1.1.2");
-        Element e4 = new ElementImpl("Задача 1.2");
-        Element e5 = new ElementImpl("Задача 1.2.1");
-        Element e6 = new ElementImpl("Задача 1.2.2");
-        Element e7 = new ElementImpl("Задача 1.1.1.1");
-        menu.elementList.add(e1);
-        e1.getElements().add(e2);
-        e1.getElements().add(e3);
-        menu.elementList.add(e4);
-        e4.getElements().add(e5);
-        e4.getElements().add(e6);
-        e2.getElements().add(e7);
-        menu.drawMenu();
-    }
 }

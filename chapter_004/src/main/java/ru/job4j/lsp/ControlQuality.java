@@ -4,6 +4,7 @@ import ru.job4j.lsp.food.Food;
 import ru.job4j.lsp.storage.Storage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,11 +13,11 @@ import java.util.List;
  * @author Wamdue
  * @version 1.0
  */
-public class ControllQuality {
+public class ControlQuality {
     /**
      * List of storages.
      */
-    private List<Storage> list = new ArrayList<>();
+    private final List<Storage> list = new ArrayList<>();
 
     /**
      * Add new storage to list.
@@ -29,12 +30,24 @@ public class ControllQuality {
     /**
      * Add food to storage.
      * @param food - food to add.
+     * @return - true if have available storage, otherwise false.
      */
-    public void add(Food food) {
+    public boolean  add(Food food) {
+        boolean result = false;
         for (Storage storage : this.list) {
             if (storage.addFood(food)) {
+                result = true;
                 break;
             }
         }
+        return result;
+    }
+
+    /**
+     * Get storage list.
+     * @return - storage list.
+     */
+    public List<Storage> getList() {
+        return Collections.unmodifiableList(list);
     }
 }

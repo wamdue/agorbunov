@@ -17,7 +17,7 @@ public class Trash extends Storage {
     @Override
     public boolean addFood(Food food) {
         boolean condition = false;
-        if (food.getExpireDate().getTime() > System.currentTimeMillis()) {
+        if (food.getExpireDate().getTime() <= System.currentTimeMillis()) {
             condition = super.addFood(food);
         }
         return condition;

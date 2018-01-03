@@ -23,7 +23,6 @@ public class Storage {
      * @return - true if food stored.
      */
     public boolean addFood(Food food) {
-
         this.storage.add(food);
         return true;
     }
