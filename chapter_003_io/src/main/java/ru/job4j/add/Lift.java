@@ -1,6 +1,7 @@
 package ru.job4j.add;
 
-import java.util.Scanner;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created on 25.12.17.
@@ -37,6 +38,15 @@ public class Lift {
      * Floor number string.
      */
     private static final String FLOOR = "Этаж № %d\n";
+    /**
+     * Queue of calls from the cabin.
+     */
+    private final Queue<Integer> cabinCalls;
+    /**
+     * Queue of calls makes on floors.
+     */
+    private final Queue<Integer> floorCalls;
+
 
     /**
      * Main constructor.
@@ -44,9 +54,13 @@ public class Lift {
      * @param floorHeight - height of the floor.
      * @param liftSpeed - lift speed.
      * @param openClose - open/close lift doors.
+     * @param cabinCalls - cabin calls queue.
+     * @param floorCalls - floor calls queue.
      */
-    public Lift(int floors, double floorHeight, double liftSpeed, double openClose) {
+    public Lift(int floors, double floorHeight, double liftSpeed, double openClose, Queue<Integer> cabinCalls, Queue<Integer> floorCalls) {
         this.floors = floors;
+        this.cabinCalls = cabinCalls;
+        this.floorCalls = floorCalls;
         this.floorPassTime = (int) ((floorHeight / liftSpeed) * 1000);
         this.openClose = (int) (openClose * 1000);
     }
@@ -105,21 +119,32 @@ public class Lift {
      */
     public void start() {
         System.out.printf("Лифт стоит на %d этаже\n", this.currentFloor);
-        try (Scanner scanner = new Scanner(System.in)) {
-            int position = 1;
-            while (position != -1) {
-                System.out.println("Введите номер этажа: ");
-                position = scanner.nextInt();
-                if (position == -1) {
-                    System.out.println("Goodbye");
-                    continue;
+        int position = 1;
+        while (position > 0) {
+            if (this.cabinCalls.size() == 0 && this.floorCalls.size() == 0) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                continue;
+            }
 
-                if (position > this.currentFloor) {
-                    this.moveUp(position);
-                } else if (position < this.currentFloor) {
-                    this.moveDown(position);
-                }
+            if (this.cabinCalls.size() > 0) {
+                position = this.cabinCalls.poll();
+            } else {
+                position = this.floorCalls.poll();
+            }
+
+            if (position <= 0) {
+                System.out.println("Lift stopped");
+                continue;
+            }
+
+            if (position > this.currentFloor) {
+                this.moveUp(position);
+            } else if (position < this.currentFloor) {
+                this.moveDown(position);
             }
         }
     }
@@ -129,7 +154,11 @@ public class Lift {
      * @param args not in use.
      */
     public static void main(String[] args) {
-        Lift lift = new Lift(20, 3.5, 1.1, 3);
+        Queue<Integer> cabinCalls = new ConcurrentLinkedQueue<>();
+        Queue<Integer> floorCalls = new ConcurrentLinkedQueue<>();
+        Thread thread = new Thread(new EnterCalls(cabinCalls, floorCalls, System.in));
+        thread.start();
+        Lift lift = new Lift(20, 3.5, 1.1, 3, cabinCalls, floorCalls);
         lift.start();
     }
 
