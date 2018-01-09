@@ -50,4 +50,19 @@ public class ControlQuality {
     public List<Storage> getList() {
         return Collections.unmodifiableList(list);
     }
+
+    /**
+     * Resort food from all warehouses.
+     */
+    public void resort() {
+        List<Food> foods = new ArrayList<>();
+        for (Storage s : this.getList()) {
+            foods.addAll(s.getStorage());
+            s.getStorage().clear();
+        }
+
+        for (Food f : foods) {
+            this.add(f);
+        }
+    }
 }
