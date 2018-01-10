@@ -23,7 +23,11 @@ public class CrossTest {
      */
     @Test
     public void whenStartGameEndExitGameThenReturnGoodBye() {
-        this.testCase("-1 1\n", "- - - \n- - - \n- - - \n");
+        String input = "p x\np o\n-1 1\n";
+        String expect = "Choose sides c - computer, p - player, figure x or o. "
+               + "Example string c x - computer control, figure x\nPlayer 1:\nPlayer 2:\n"
+               + "- - - \n- - - \n- - - \nX make move: ";
+        this.testCase(input, expect);
     }
 
     /**
@@ -33,8 +37,13 @@ public class CrossTest {
      */
     @Test
     public void whenHaveWinnerThenShowIt() {
-        String moves = "1 1\n1 2\n2 1\n1 3\n3 1";
-        String expect = "- - - \n- - - \n- - - \nX - - \n- - - \n- - - \nX - - \nO - - \n- - - \nX X - \nO - - \n- - - \nX X - \nO - - \nO - - \nPlayer X is winner!\nX X X \nO - - \nO - - \n";
+        String moves = "p x\np o\n1 1\n1 2\n2 1\n1 3\n3 1";
+        String expect = "Choose sides c - computer, p - player, "
+               + "figure x or o. Example string c x - computer control, "
+               + "figure x\nPlayer 1:\nPlayer 2:\n- - - \n- - - \n- - - \nX "
+               + "make move: X - - \n- - - \n- - - \nO make move: X - - \nO -"
+               + " - \n- - - \nX make move: X X - \nO - - \n- - - \nO make move: "
+               + "X X - \nO - - \nO - - \nX make move: X X X \nO - - \nO - - \nPlayer X is winner!\n";
         this.testCase(moves, expect);
     }
 
@@ -44,9 +53,15 @@ public class CrossTest {
      * Expect: no free cells, expecting warning message and stop the game.
      */
     @Test
-    public void whenNoMoreFreeCellsThenShowItAndStop() {
-        String moves = "1 1\n2 1\n2 2\n3 3\n1 2\n1 3\n2 3\n3 2\n3 1\n";
-        String expect = "- - - \n- - - \n- - - \nX - - \n- - - \n- - - \nX O - \n- - - \n- - - \nX O - \n- X - \n- - - \nX O - \n- X - \n- - O \nX O - \nX X - \n- - O \nX O - \nX X - \nO - O \nX O - \nX X - \nO X O \nX O - \nX X O \nO X O \nX O X \nX X O \nO X O \nNo more moves.\n";
+    public void whenNoMoreFreeCellsThenShowItAndStartNewGame() {
+        String moves = "p x\np o\n1 1\n2 1\n2 2\n3 3\n1 2\n1 3\n2 3\n3 2\n3 1\n-1 1\n";
+        String expect = "Choose sides c - computer, p - player, figure x or o. Example string c x "
+                + "- computer control, figure x\nPlayer 1:\nPlayer 2:\n- - - \n- - - \n- - - \nX make move: "
+                + "X - - \n- - - \n- - - \nO make move: X O - \n- - - \n- - - \nX make move: X O - \n- X - \n"
+                + "- - - \nO make move: X O - \n- X - \n- - O \nX make move: X O - \nX X - \n- - O \nO make "
+                + "move: X O - \nX X - \nO - O \nX make move: X O - \nX X - \nO X O \nO make move: X O - \n"
+                + "X X O \nO X O \nX make move: X O X \nX X O \nO X O \nNo more moves.\n- - - \n- - - \n- - - "
+                + "\nO make move: ";
         this.testCase(moves, expect);
     }
 
