@@ -86,96 +86,6 @@ public class Cross {
     }
 
     /**
-     * Check if have all figures on horizontal lines.
-     * @return true or false if not.
-     */
-    private boolean isHorizontalWinner() {
-        boolean result = false;
-            for (int i = 0; i < this.size; i++) {
-                char temp = this.board[i][0];
-                if (temp == FREE) {
-                    continue;
-                }
-
-                boolean check = true;
-                for (int j = 0; j < this.size; j++) {
-                    if (this.board[i][j] != temp) {
-                        check = false;
-                        break;
-                    }
-                }
-                if (check) {
-                    result = true;
-                    break;
-                }
-            }
-        return result;
-    }
-    /**
-     * Check if have all figures on diagonal lines.
-     * @return true or false if not.
-     */
-    private boolean isVerticalWinner() {
-        boolean result = false;
-        for (int i = 0; i < this.size; i++) {
-            char temp = this.board[0][i];
-            if (temp == FREE) {
-                continue;
-            }
-            boolean check = true;
-            for (int j = 0; j < this.size; j++) {
-                if (this.board[j][i] != temp) {
-                    check = false;
-                    break;
-                }
-            }
-            if (check) {
-                result = true;
-                break;
-            }
-        }
-
-        return result;
-    }
-    /**
-     * Check if have all figures on right diagonal.
-     * @return true or false if not.
-     */
-    private boolean isDiagonalRightWinner() {
-        boolean result = false;
-        char temp = this.board[0][0];
-        if (temp != FREE) {
-            result = true;
-            for (int i = 0; i < this.size; i++) {
-                if (this.board[i][i] != temp) {
-                    result = false;
-                    break;
-                }
-            }
-        }
-        return result;
-    }
-    /**
-     * Check if have all figures on left diagonal.
-     * @return true or false if not.
-     */
-    private boolean isDiagonalLeftWinner() {
-        boolean result = false;
-        int val = this.size - 1;
-        char temp = this.board[0][val];
-        if (temp != FREE) {
-            result = true;
-            for (int i = 0; i < this.size; i++) {
-                if (this.board[i][val - i] != temp) {
-                    result = false;
-                    break;
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
      * Checks, if turn can be done on this coords.
      * @param x - coord x.
      * @param y - coord y.
@@ -207,22 +117,49 @@ public class Cross {
     }
 
     /**
+     * Recursive call method, to check full line.
+     * @param x - current position on horizontal.
+     * @param y - current position on vertical.
+     * @param counter - current step.
+     * @param shiftX - shift on horizontal.
+     * @param shiftY - shift of vertical.
+     * @return - result of check.
+     */
+    private boolean check(int x, int y, int counter, int shiftX, int shiftY) {
+        boolean result = false;
+        if (this.board[y][x] != FREE) {
+            if (counter == this.size - 1) {
+                result = true;
+            } else {
+                if (this.board[y][x] == this.board[y + shiftY][x + shiftX]) {
+                    result = check(x + shiftX, y + shiftY, counter + 1, shiftX, shiftY);
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
      * Checks all possible directions for winners.
      * @return true if has winner.
      */
     private boolean isWinner() {
-        boolean result = isHorizontalWinner();
+        boolean result = false;
+
+        for (int i = 0; i < this.size; i++) {
+            if (this.check(i, 0, 0, 0, 1)
+                    || this.check(0, i, 0, 1, 0)) {
+                result = true;
+                break;
+            }
+        }
         if (!result) {
-            result = isVerticalWinner();
+            result = this.check(0, 0, 0, 1, 1);
+        }
+        if (!result) {
+            result = this.check(this.size - 1, 0, 0, -1, 1);
         }
 
-        if (!result) {
-            result = isDiagonalLeftWinner();
-        }
-
-        if (!result) {
-            result = isDiagonalRightWinner();
-        }
 
         return result;
     }
