@@ -12,13 +12,9 @@ import java.util.Scanner;
  */
 public class EnterCalls implements Runnable {
     /**
-     * Queue of cabin calls.
+     * Queue of calls.
      */
-    private final Queue<Integer> cabinCalls;
-    /**
-     * Queue of floor calls.
-     */
-    private final Queue<Integer> floorCalls;
+    private final Queue<Call> calls;
     /**
      * Mark of cabin.
      */
@@ -38,13 +34,11 @@ public class EnterCalls implements Runnable {
 
     /**
      * Main constructor.
-     * @param cabinCalls - queue of calls from cabin.
-     * @param floorCalls - queue of calls on floor.
+     * @param calls - queue of calls.
      * @param is - input method.
      */
-    public EnterCalls(Queue<Integer> cabinCalls, Queue<Integer> floorCalls, InputStream is) {
-        this.cabinCalls = cabinCalls;
-        this.floorCalls = floorCalls;
+    public EnterCalls(Queue<Call> calls, InputStream is) {
+        this.calls = calls;
         this.is = is;
     }
 
@@ -67,10 +61,8 @@ public class EnterCalls implements Runnable {
             if (line.split(" ").length > 1) {
                 String status = line.split(" ")[0];
                 int floor = Integer.valueOf(line.split(" ")[1]);
-                if (CABIN.equals(status)) {
-                    this.cabinCalls.offer(floor);
-                } else if (FLOOR.equals(status)) {
-                    this.floorCalls.offer(floor);
+                if (CABIN.equals(status) || FLOOR.equals(status)) {
+                    this.calls.offer(new Call(floor, status.charAt(0)));
                 } else {
                     System.out.println("Incorrect format, must be 'c' or 'f' and number after space.");
                 }

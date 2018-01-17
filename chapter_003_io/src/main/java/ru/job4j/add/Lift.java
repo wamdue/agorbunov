@@ -1,7 +1,7 @@
 package ru.job4j.add;
 
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * Created on 25.12.17.
@@ -39,13 +39,9 @@ public class Lift {
      */
     private static final String FLOOR = "Этаж № %d\n";
     /**
-     * Queue of calls from the cabin.
+     * Queue of calls.
      */
-    private final Queue<Integer> cabinCalls;
-    /**
-     * Queue of calls makes on floors.
-     */
-    private final Queue<Integer> floorCalls;
+    private final Queue<Call> calls;
 
 
     /**
@@ -54,13 +50,11 @@ public class Lift {
      * @param floorHeight - height of the floor.
      * @param liftSpeed - lift speed.
      * @param openClose - open/close lift doors.
-     * @param cabinCalls - cabin calls queue.
-     * @param floorCalls - floor calls queue.
+     * @param calls - cabin calls queue.
      */
-    public Lift(int floors, double floorHeight, double liftSpeed, double openClose, Queue<Integer> cabinCalls, Queue<Integer> floorCalls) {
+    public Lift(int floors, double floorHeight, double liftSpeed, double openClose, Queue<Call> calls) {
         this.floors = floors;
-        this.cabinCalls = cabinCalls;
-        this.floorCalls = floorCalls;
+        this.calls = calls;
         this.floorPassTime = (int) ((floorHeight / liftSpeed) * 1000);
         this.openClose = (int) (openClose * 1000);
     }
@@ -121,7 +115,7 @@ public class Lift {
         System.out.printf("Лифт стоит на %d этаже\n", this.currentFloor);
         int position = 1;
         while (position > 0) {
-            if (this.cabinCalls.size() == 0 && this.floorCalls.size() == 0) {
+            if (this.calls.size() == 0) {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
@@ -130,11 +124,7 @@ public class Lift {
                 continue;
             }
 
-            if (this.cabinCalls.size() > 0) {
-                position = this.cabinCalls.poll();
-            } else {
-                position = this.floorCalls.poll();
-            }
+                position = this.calls.poll().getFloor();
 
             if (position <= 0) {
                 System.out.println("Lift stopped");
@@ -154,11 +144,10 @@ public class Lift {
      * @param args not in use.
      */
     public static void main(String[] args) {
-        Queue<Integer> cabinCalls = new ConcurrentLinkedQueue<>();
-        Queue<Integer> floorCalls = new ConcurrentLinkedQueue<>();
-        Thread thread = new Thread(new EnterCalls(cabinCalls, floorCalls, System.in));
+        Queue<Call> calls = new PriorityBlockingQueue<>();
+        Thread thread = new Thread(new EnterCalls(calls, System.in));
         thread.start();
-        Lift lift = new Lift(20, 3.5, 1.1, 3, cabinCalls, floorCalls);
+        Lift lift = new Lift(20, 3.5, 1.1, 3, calls);
         lift.start();
     }
 
