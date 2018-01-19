@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome screen</title>
+    <link type="text/css" rel="stylesheet" media="all" href="css/bootstrap.min.css"/>
+    <script src="js/jquery-3.2.1.min.js" type="text/javascript"> </script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function loadCars() {
+            var list = $("#list");
+            list.hide();
+            $.ajax('./list.do', {
+               method: 'get',
+               dataType: 'json',
+               complete: function(data) {
+                   var cars = JSON.parse(data.responseText);
+                    var result = "";
+                   for (var i = 0; i < cars.length; i++) {
+                       result += "<td>" + cars[i].id + "</td>";
+                       result += "<td>" + cars[i].brand.name + "</td>";
+                       result += "<td>" + cars[i].name + "</td>";
+                       result += "<td>" + cars[i].carCreated + "</td>";
+                       result += "<td>" + cars[i].engine.name + "</td>";
+                       result += "<td>" + cars[i].gearbox.name + "</td>";
+                       result += "<td>" + cars[i].axle.name + "</td>";
+                       result += "<td>" + cars[i].body.name + "</td>";
+                       result += "<td>" + cars[i].description + "</td>";
+                       result += "<td>" + cars[i].pic+ + "</td>";
+                       result += "<td>" + new Date(cars[i].post) + "</td>";
+                       result += "<td>" + cars[i].status + "</td>";
+                   }
+                   var table = document.getElementById("list");
+                   table.innerText = result;
+                   list.show();
+               }
+            });
+        }
+        $(
+            $.ajax({
+                complete: function () {
+                    loadCars();
+                }
+            })
+        );
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <button class="btn btn-default" onclick="location.href='/add_car.html'">Добавить объявление </button>
+        </div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Brand</th>
+                        <th>Name</th>
+                        <th>Production date</th>
+                        <th>Engine</th>
+                        <th>Gearbox</th>
+                        <th>Axle</th>
+                        <th>Body</th>
+                        <th>Description</th>
+                        <th>Picture</th>
+                        <th>Posting date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

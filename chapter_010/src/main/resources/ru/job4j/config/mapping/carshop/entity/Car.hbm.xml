@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="ru.job4j.mapping.carshop.entity.Car" table="car">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="name" column="name"/>
+        <property name="description"/>
+        <property name="carCreated" type="date" column="created_date"/>
+        <property name="post" type="timestamp" column="post_date"/>
+        <property name="status" column="status"/>
+        <property name="pic" column="pic"/>
+        <many-to-one name="body" class="ru.job4j.mapping.carshop.entity.Body" fetch="select">
+            <column name="body_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="brand" class="ru.job4j.mapping.carshop.entity.Brand" fetch="select">
+            <column name="brand_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="engine" class="ru.job4j.mapping.carshop.entity.Engine" fetch="select">
+            <column name="engine_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="gearbox" class="ru.job4j.mapping.carshop.entity.Gearbox" fetch="select">
+            <column name="gearbox_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="axle" class="ru.job4j.mapping.carshop.entity.Axle" fetch="select">
+            <column name="axle_id" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

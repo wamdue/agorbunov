@@ -3,36 +3,48 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <!--<welcome-file-list>-->
+        <!--<welcome-file>index.html</welcome-file>-->
+    <!--</welcome-file-list>-->
+    <!--<servlet>-->
+        <!--<servlet-name>items</servlet-name>-->
+        <!--<servlet-class>ru.job4j.config.servlet.LoadToPageServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>items</servlet-name>-->
+        <!--<url-pattern>/items.do</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet>-->
+        <!--<servlet-name>update</servlet-name>-->
+        <!--<servlet-class>ru.job4j.config.servlet.UpdateTaskServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>update</servlet-name>-->
+        <!--<url-pattern>/update.do</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet>-->
+        <!--<servlet-name>add</servlet-name>-->
+        <!--<servlet-class>ru.job4j.config.servlet.AddTaskServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>add</servlet-name>-->
+        <!--<url-pattern>/add.do</url-pattern>-->
+    <!--</servlet-mapping>-->
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>welcome.html</welcome-file>
     </welcome-file-list>
     <servlet>
-        <servlet-name>items</servlet-name>
-        <servlet-class>ru.job4j.config.servlet.LoadToPageServlet</servlet-class>
+        <servlet-name>brands</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonBrandController</servlet-class>
     </servlet>
-
     <servlet-mapping>
-        <servlet-name>items</servlet-name>
-        <url-pattern>/items.do</url-pattern>
+        <servlet-name>brands</servlet-name>
+        <url-pattern>/brands.do</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>update</servlet-name>
-        <servlet-class>ru.job4j.config.servlet.UpdateTaskServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>update</servlet-name>
-        <url-pattern>/update.do</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>add</servlet-name>
-        <servlet-class>ru.job4j.config.servlet.AddTaskServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>add</servlet-name>
-        <url-pattern>/add.do</url-pattern>
-    </servlet-mapping>
 </web-app>
