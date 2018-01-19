@@ -18,7 +18,6 @@ public class RControlQuality {
      * List of storages.
      */
     private final List<RStorage> list = new ArrayList<>();
-
     /**
      * Add new storage to list.
      * @param storage - storage to add.
