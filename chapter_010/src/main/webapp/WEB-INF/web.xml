@@ -47,4 +47,39 @@
         <url-pattern>/brands.do</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>engines</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonEngineController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>engines</servlet-name>
+        <url-pattern>/engine.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bodies</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonBodyController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bodies</servlet-name>
+        <url-pattern>/body.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>gearboxes</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonGearboxController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>gearboxes</servlet-name>
+        <url-pattern>/gearbox.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>axles</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonAxlecontroller</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>axles</servlet-name>
+        <url-pattern>/axle.do</url-pattern>
+    </servlet-mapping>
 </web-app>
