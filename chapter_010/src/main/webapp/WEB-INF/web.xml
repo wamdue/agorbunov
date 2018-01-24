@@ -35,6 +35,14 @@
         <!--<servlet-name>add</servlet-name>-->
         <!--<url-pattern>/add.do</url-pattern>-->
     <!--</servlet-mapping>-->
+    <filter>
+        <filter-name>login</filter-name>
+        <filter-class>ru.job4j.mapping.carshop.controller.ServletFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>login</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
     <welcome-file-list>
         <welcome-file>welcome.html</welcome-file>
     </welcome-file-list>
@@ -81,5 +89,23 @@
     <servlet-mapping>
         <servlet-name>axles</servlet-name>
         <url-pattern>/axle.do</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>signin</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.LoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>signin</servlet-name>
+        <url-pattern>/signin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>newCar</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.NewCarController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>newCar</servlet-name>
+        <url-pattern>/newcar.do</url-pattern>
     </servlet-mapping>
 </web-app>

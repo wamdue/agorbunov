@@ -2,6 +2,7 @@ package ru.job4j.mapping.carshop.entity;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created on 19.01.18.
@@ -65,7 +66,7 @@ public class Car {
     /**
      * Car picture.
      */
-    private String pic;
+    private List<Pic> pics;
 
     /**
      * Get car id.
@@ -279,15 +280,15 @@ public class Car {
      * Get path to car picture.
      * @return - path.
      */
-    public String getPic() {
-        return this.pic;
+    public List<Pic> getPics() {
+        return this.pics;
     }
 
     /**
      * Set new path to car picture.
-     * @param pic - new path.
+     * @param pics - new path.
      */
-    public void setPic(String pic) {
-        this.pic = pic;
+    public void setPics(List<Pic> pics) {
+        this.pics = pics;
     }
 }

@@ -12,7 +12,12 @@
         <property name="carCreated" type="date" column="created_date"/>
         <property name="post" type="timestamp" column="post_date"/>
         <property name="status" column="status"/>
-        <property name="pic" column="pic"/>
+        <bag name="pics" table="pics" fetch="select" inverse="true">
+            <key>
+                <column name="car_id" not-null="true"/>
+            </key>
+            <one-to-many class="ru.job4j.mapping.carshop.entity.Pic"/>
+        </bag>
         <many-to-one name="body" class="ru.job4j.mapping.carshop.entity.Body" fetch="select">
             <column name="body_id" not-null="true"/>
         </many-to-one>

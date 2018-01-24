@@ -29,11 +29,11 @@
         }
 
         function fillAll() {
-            fillData("./brands.do", "brand_id");
-            fillData("./body.do", "body_id");
-            fillData("./engine.do", "engine_id");
-            fillData("./gearbox.do", "gearbox_id");
-            fillData("./axle.do", "axle_id");
+            fillData('./brands.do', "brand_id");
+            fillData('./body.do', "body_id");
+            fillData('./engine.do', "engine_id");
+            fillData('./gearbox.do', "gearbox_id");
+            fillData('./axle.do', "axle_id");
         }
 
         $(
@@ -51,8 +51,8 @@
     <div class="page-header">
         <h3>Add new car</h3>
     </div>
-    <form class="form-group" method="post">
-        <div class="form-control">
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
             <select id="brand_id">
             </select>
             <select id="body_id">
@@ -68,13 +68,17 @@
                 <input type="text" id="car_name"/>
             </div>
             <div class="form-group">
+                <label for="car_price">Car price</label>
+                <input type="text" id="car_price"/>
+            </div>
+            <div class="form-group">
                 <label for="car_description">Description.</label>
                 <textarea id="car_description" rows="5"></textarea>
             </div>
             <div class="form-group">
-                <input type="file"/>
+                <input type="file" id="photo" multiple accept="image/*, image/jpeg"/>
             </div>
-            <button type="submit">Create</button>
+            <button type="submit" onclick="return save()">Create</button>
         </div>
     </form>
 </div>
