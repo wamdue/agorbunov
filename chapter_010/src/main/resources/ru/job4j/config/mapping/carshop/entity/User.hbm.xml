@@ -8,9 +8,5 @@
             <generator class="identity"/>
         </id>
         <property name="name" column="name"/>
-        <bag name="cars" cascade="all">
-            <key column="user_id"/>
-            <one-to-many class="ru.job4j.mapping.carshop.entity.Car"/>
-        </bag>
     </class>
 </hibernate-mapping>

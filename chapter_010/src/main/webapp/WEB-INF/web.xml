@@ -106,6 +106,24 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>newCar</servlet-name>
-        <url-pattern>/newcar.do</url-pattern>
+        <url-pattern>/newcar</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>cars</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonAllCarsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cars</servlet-name>
+        <url-pattern>/list.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>changeSoldStatus</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonChangeStatus</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changeSoldStatus</servlet-name>
+        <url-pattern>/status.do</url-pattern>
     </servlet-mapping>
 </web-app>

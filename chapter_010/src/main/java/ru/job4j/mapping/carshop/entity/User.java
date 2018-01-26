@@ -1,7 +1,5 @@
 package ru.job4j.mapping.carshop.entity;
 
-import java.util.List;
-
 /**
  * Created on 19.01.18.
  * User information.
@@ -17,11 +15,6 @@ public class User {
      * User name.
      */
     private String name;
-    /**
-     * List of cars in sale.
-     */
-    private List<Car> cars;
-
     /**
      * Get User id.
      * @return id.
@@ -52,21 +45,5 @@ public class User {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Get list of cars in sale.
-     * @return - list of cars.
-     */
-    public List<Car> getCars() {
-        return cars;
-    }
-
-    /**
-     * Set new list of cars.
-     * @param cars - new list.
-     */
-    public void setCars(List<Car> cars) {
-        this.cars = cars;
     }
 }

@@ -8,9 +8,13 @@ package ru.job4j.mapping.carshop.entity;
  */
 public class Pic {
     /**
-     * Link to car.
+     * Id.
       */
     private int id;
+    /**
+     * Link to car.
+     */
+    private int car_id;
     /**
      * Path to picture.
      */
@@ -30,6 +34,22 @@ public class Pic {
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * Get car id.
+     * @return car id.
+     */
+    public int getCar_id() {
+        return car_id;
+    }
+
+    /**
+     * Set car id.
+     * @param car_id - new value.
+     */
+    public void setCar_id(int car_id) {
+        this.car_id = car_id;
     }
 
     /**

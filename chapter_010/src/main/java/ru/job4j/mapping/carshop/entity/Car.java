@@ -1,6 +1,5 @@
 package ru.job4j.mapping.carshop.entity;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class Car {
     /**
      * Car creation date.
      */
-    private Date carCreated;
+    private int carCreated;
     /**
      * Car post date.
      */
@@ -200,7 +199,7 @@ public class Car {
      * Get car creation date.
      * @return - creation date.
      */
-    public Date getCarCreated() {
+    public int getCarCreated() {
         return carCreated;
     }
 
@@ -208,7 +207,7 @@ public class Car {
      * Set new car creation date.
      * @param carCreated - date.
      */
-    public void setCarCreated(Date carCreated) {
+    public void setCarCreated(int carCreated) {
         this.carCreated = carCreated;
     }
 

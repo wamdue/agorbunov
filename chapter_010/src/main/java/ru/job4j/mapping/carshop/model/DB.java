@@ -10,6 +10,7 @@ import ru.job4j.mapping.carshop.entity.Brand;
 import ru.job4j.mapping.carshop.entity.Car;
 import ru.job4j.mapping.carshop.entity.Engine;
 import ru.job4j.mapping.carshop.entity.Gearbox;
+import ru.job4j.mapping.carshop.entity.Pic;
 import ru.job4j.mapping.carshop.entity.User;
 
 import java.util.List;
@@ -219,4 +220,50 @@ public class DB {
         return car.getId();
     }
 
+    public void changCarStatus(int carId) {
+        Session session = this.factory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.getTransaction();
+            Car car = session.get(Car.class, carId);
+            car.setId(carId == 0 ? 1 : 0);
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
+        session.close();
+    }
+
+    public void updateCar(Car car) {
+        Session session = this.factory.openSession();
+        Transaction transaction = null;
+        try {
+            session.getTransaction();
+            session.update(car);
+            session.close();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
+    }
+
+    public void savePics(List<Pic> list) {
+        Session session = this.factory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.getTransaction();
+            for (Pic p : list) {
+                session.save(p);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
+        session.close();
+    }
 }
