@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="ru.job4j.mapping.carshop.entity.Car" table="car">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="name" column="name"/>
+        <property name="description"/>
+        <property name="carCreated" column="created_date"/>
+        <property name="post" type="timestamp" column="post_date"/>
+        <property name="status" column="status"/>
+        <property name="price" column="price"/>
+        <bag name="pics" table="pics" fetch="select" inverse="true" lazy="false" cascade="all">
+            <key>
+                <column name="car_id" not-null="true"/>
+            </key>
+            <one-to-many class="ru.job4j.mapping.carshop.entity.Pic"/>
+        </bag>
+        <many-to-one name="body" class="ru.job4j.mapping.carshop.entity.Body" fetch="select" lazy="false">
+            <column name="body_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="brand" class="ru.job4j.mapping.carshop.entity.Brand" fetch="select" lazy="false">
+            <column name="brand_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="engine" class="ru.job4j.mapping.carshop.entity.Engine" fetch="select" lazy="false">
+            <column name="engine_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="gearbox" class="ru.job4j.mapping.carshop.entity.Gearbox" fetch="select" lazy="false">
+            <column name="gearbox_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="axle" class="ru.job4j.mapping.carshop.entity.Axle" fetch="select" lazy="false">
+            <column name="axle_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="user" class="ru.job4j.mapping.carshop.entity.User" fetch="select" lazy="false">
+            <column name="user_id" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

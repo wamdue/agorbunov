@@ -1,0 +1,11 @@
+insert into body (name) values('Седан');
+insert into body (name) values('Хетчбэк');
+insert into body (name) values('Универсал');
+insert into body (name) values('Внедорожник');
+insert into body (name) values('Кабриолет');
+insert into body (name) values('Купе');
+insert into body (name) values('Лимузин');
+insert into body (name) values('Минивэн');
+insert into body (name) values('Пикап');
+insert into body (name) values('Фургон');
+insert into body (name) values('Микроавтобус');

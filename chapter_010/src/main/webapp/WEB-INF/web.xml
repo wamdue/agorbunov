@@ -3,36 +3,127 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <!--<welcome-file-list>-->
+        <!--<welcome-file>index.html</welcome-file>-->
+    <!--</welcome-file-list>-->
+    <!--<servlet>-->
+        <!--<servlet-name>items</servlet-name>-->
+        <!--<servlet-class>ru.job4j.config.servlet.LoadToPageServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>items</servlet-name>-->
+        <!--<url-pattern>/items.do</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet>-->
+        <!--<servlet-name>update</servlet-name>-->
+        <!--<servlet-class>ru.job4j.config.servlet.UpdateTaskServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>update</servlet-name>-->
+        <!--<url-pattern>/update.do</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet>-->
+        <!--<servlet-name>add</servlet-name>-->
+        <!--<servlet-class>ru.job4j.config.servlet.AddTaskServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>add</servlet-name>-->
+        <!--<url-pattern>/add.do</url-pattern>-->
+    <!--</servlet-mapping>-->
+    <filter>
+        <filter-name>login</filter-name>
+        <filter-class>ru.job4j.mapping.carshop.controller.ServletFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>login</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>welcome.html</welcome-file>
     </welcome-file-list>
     <servlet>
-        <servlet-name>items</servlet-name>
-        <servlet-class>ru.job4j.config.servlet.LoadToPageServlet</servlet-class>
+        <servlet-name>brands</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonBrandController</servlet-class>
     </servlet>
-
     <servlet-mapping>
-        <servlet-name>items</servlet-name>
-        <url-pattern>/items.do</url-pattern>
+        <servlet-name>brands</servlet-name>
+        <url-pattern>/brands.do</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>update</servlet-name>
-        <servlet-class>ru.job4j.config.servlet.UpdateTaskServlet</servlet-class>
+        <servlet-name>engines</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonEngineController</servlet-class>
     </servlet>
-
     <servlet-mapping>
-        <servlet-name>update</servlet-name>
-        <url-pattern>/update.do</url-pattern>
+        <servlet-name>engines</servlet-name>
+        <url-pattern>/engine.do</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>add</servlet-name>
-        <servlet-class>ru.job4j.config.servlet.AddTaskServlet</servlet-class>
+        <servlet-name>bodies</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonBodyController</servlet-class>
     </servlet>
-
     <servlet-mapping>
-        <servlet-name>add</servlet-name>
-        <url-pattern>/add.do</url-pattern>
+        <servlet-name>bodies</servlet-name>
+        <url-pattern>/body.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>gearboxes</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonGearboxController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>gearboxes</servlet-name>
+        <url-pattern>/gearbox.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>axles</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonAxlecontroller</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>axles</servlet-name>
+        <url-pattern>/axle.do</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>signin</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.LoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>signin</servlet-name>
+        <url-pattern>/signin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>newCar</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.NewCarController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>newCar</servlet-name>
+        <url-pattern>/newcar</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>cars</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonAllCarsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cars</servlet-name>
+        <url-pattern>/list.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>changeSoldStatus</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.JsonChangeStatus</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changeSoldStatus</servlet-name>
+        <url-pattern>/status.do</url-pattern>
     </servlet-mapping>
 </web-app>

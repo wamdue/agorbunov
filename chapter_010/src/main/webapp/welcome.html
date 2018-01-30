@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome screen</title>
+    <link type="text/css" rel="stylesheet" media="all" href="css/bootstrap.min.css"/>
+    <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function loadCars() {
+            $("#list").hide();
+            $.ajax('./list.do', {
+                method: 'get',
+                dataType: 'json',
+                complete: function (data) {
+                    var cars = JSON.parse(data.responseText);
+                    var result = "";
+                    for (var i = 0; i < cars.length; i++) {
+                        result += "<tr>"
+                            + "<td>" + cars[i].id + "</td>"
+                            + "<td>" + cars[i].brand.name + "</td>"
+                            + "<td>" + cars[i].name + "</td>"
+                            + "<td>" + cars[i].carCreated + "</td>"
+                            + "<td>" + cars[i].engine.name + "</td>"
+                            + "<td>" + cars[i].gearbox.name + "</td>"
+                            + "<td>" + cars[i].axle.name + "</td>"
+                            + "<td>" + cars[i].body.name + "</td>"
+                            + "<td>" + cars[i].price + "</td>"
+                            + "<td>" + cars[i].description + "</td>"
+                            + "<td>";
+                            var p = cars[i].pics;
+                            for (var j = 0; j < p.length; j++) {
+                                result+= "<img width='150' height='150' src='data:image/jpg;base64," + p[j].path + "'/>";
+                            }
+                            result += "</td>"
+                            + "<td>" + new Date(cars[i].post) + "</td>"
+                            + "<td><input type='checkbox' ";
+                              if (cars[i].status > 0) {
+                                  result += "checked"
+                              }
+                            result += " onclick='changeStatus(" + cars[i].id +")'/></td>"
+                            + "</tr>";
+                    }
+                    var table = document.getElementById("list");
+                    table.innerHTML = result;
+                    $("#list").show();
+                }
+            });
+        }
+
+        function changeStatus(id) {
+            $.ajax('./status.do', {
+                method: 'post',
+                dataType: 'json',
+                data: {id : id},
+                success: function () {
+                    loadCars();
+                }
+
+            });
+        }
+
+        $(
+            $.ajax({
+                complete: function () {
+                    loadCars();
+                }
+            })
+        );
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <button class="btn btn-default" onclick="location.href='newcar'">Добавить объявление</button>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Brand</th>
+                <th>Name</th>
+                <th>Production date</th>
+                <th>Engine</th>
+                <th>Gearbox</th>
+                <th>Axle</th>
+                <th>Body</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Picture</th>
+                <th>Posting date</th>
+                <th>Sold status</th>
+            </tr>
+            </thead>
+            <tbody id="list">
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
