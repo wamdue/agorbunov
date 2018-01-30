@@ -1,32 +1,54 @@
 package ru.job4j.mapping.carstorage;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+
 /**
  * Created on 17.01.18.
  * Car information.
- *
  * @author Wamdue
  * @version 1.0
  */
+@Entity
+@Table(name="car")
 public class Car {
     /**
      * Car id.
      */
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     private int id;
     /**
      * Car name.
      */
+    @Column(name = "name")
     private String name;
     /**
      * Car engine.
      */
+    @ManyToOne
+    @JoinColumn(name = "engine_id")
     private Engine engine;
     /**
      * Car gearbox.
      */
+    @ManyToOne
+    @JoinColumn(name = "gearbox_id")
     private Gearbox gearbox;
     /**
      * Car chassy.
      */
+    @ManyToOne
+    @JoinColumn(name = "chassy_id")
     private Chassy chassy;
 
     /**
