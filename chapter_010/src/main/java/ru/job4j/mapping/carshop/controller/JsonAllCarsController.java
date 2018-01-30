@@ -3,7 +3,7 @@ package ru.job4j.mapping.carshop.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.job4j.mapping.carshop.entity.Car;
 import ru.job4j.mapping.carshop.model.Connect;
-import ru.job4j.mapping.carshop.model.DB;
+import ru.job4j.mapping.carshop.model.dao.CarDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,14 +20,11 @@ import java.util.List;
  * @version 1.0
  */
 public class JsonAllCarsController extends HttpServlet {
-    /**
-     * Db connection.
-     */
-    private DB db = Connect.INSTANCE.getConnection();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Car> cars = this.db.getCars();
+        CarDao carDao = new CarDao(Connect.INSTANCE.getConnection());
+        List<Car> cars = carDao.getList();
         OutputStream out = resp.getOutputStream();
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(out, cars);

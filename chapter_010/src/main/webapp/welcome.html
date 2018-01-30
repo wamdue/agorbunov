@@ -25,8 +25,14 @@
                             + "<td>" + cars[i].gearbox.name + "</td>"
                             + "<td>" + cars[i].axle.name + "</td>"
                             + "<td>" + cars[i].body.name + "</td>"
+                            + "<td>" + cars[i].price + "</td>"
                             + "<td>" + cars[i].description + "</td>"
-                            + "<td>" + cars[i].pic + "</td>"
+                            + "<td>";
+                            var p = cars[i].pics;
+                            for (var j = 0; j < p.length; j++) {
+                                result+= "<img width='150' height='150' src='data:image/jpg;base64," + p[j].path + "'/>";
+                            }
+                            result += "</td>"
                             + "<td>" + new Date(cars[i].post) + "</td>"
                             + "<td><input type='checkbox' ";
                               if (cars[i].status > 0) {
@@ -80,6 +86,7 @@
                 <th>Gearbox</th>
                 <th>Axle</th>
                 <th>Body</th>
+                <th>Price</th>
                 <th>Description</th>
                 <th>Picture</th>
                 <th>Posting date</th>

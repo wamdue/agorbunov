@@ -2,7 +2,7 @@ package ru.job4j.mapping.carshop.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.job4j.mapping.carshop.model.Connect;
-import ru.job4j.mapping.carshop.model.DB;
+import ru.job4j.mapping.carshop.model.dao.GearboxDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,8 +23,8 @@ public class JsonGearboxController extends HttpServlet {
         OutputStream out = resp.getOutputStream();
         resp.setContentType("application/json");
         ObjectMapper mapper = new ObjectMapper();
-        DB db = Connect.INSTANCE.getConnection();
-        mapper.writeValue(out, db.getGearboxes());
+        GearboxDao gearboxDao = new GearboxDao(Connect.INSTANCE.getConnection());
+        mapper.writeValue(out, gearboxDao.getList());
     }
 
 }

@@ -10,4 +10,4 @@ create table if not exists car (id serial primary key, name varchar(50), descrip
             , body_id integer references body(id), engine_id integer references engine(id)
             , gearbox_id integer references gearbox(id)
             , status integer, post_date timestamp, price INTEGER, pic VARCHAR(255));
-create table if not EXISTS pics(id SERIAL PRIMARY KEY, car_id integer REFERENCES car(id), path VARCHAR(1024));
+create table if not EXISTS pics(id SERIAL PRIMARY KEY, car_id integer REFERENCES car(id), pic bytea);

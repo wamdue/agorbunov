@@ -2,7 +2,7 @@ package ru.job4j.mapping.carshop.controller;
 
 import ru.job4j.mapping.carshop.entity.User;
 import ru.job4j.mapping.carshop.model.Connect;
-import ru.job4j.mapping.carshop.model.DB;
+import ru.job4j.mapping.carshop.model.repository.UserRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -40,19 +40,16 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("login");
-        DB db = Connect.INSTANCE.getConnection();
-        User user  = db.getUserByName(name);
-        int id = -1;
+        UserRepository userRepository = new UserRepository(Connect.INSTANCE.getConnection());
+        User user  = userRepository.getUserByName(name);
         if (user == null) {
             user = new User();
             user.setName(name);
-            id = db.createUser(user);
-        } else {
-            id = user.getId();
+            userRepository.create(user);
         }
 
         HttpSession session = req.getSession();
-        session.setAttribute("user", String.valueOf(id));
+        session.setAttribute("user", String.valueOf(user.getId()));
         resp.sendRedirect(String.format("%s/welcome.html", req.getContextPath()));
     }
 }

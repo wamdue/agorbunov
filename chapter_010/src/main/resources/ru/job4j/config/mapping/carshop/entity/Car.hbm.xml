@@ -13,7 +13,7 @@
         <property name="post" type="timestamp" column="post_date"/>
         <property name="status" column="status"/>
         <property name="price" column="price"/>
-        <bag name="pics" table="pics" fetch="select" inverse="true" lazy="false">
+        <bag name="pics" table="pics" fetch="select" inverse="true" lazy="false" cascade="all">
             <key>
                 <column name="car_id" not-null="true"/>
             </key>

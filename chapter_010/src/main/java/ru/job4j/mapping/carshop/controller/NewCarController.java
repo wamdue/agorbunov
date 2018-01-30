@@ -8,6 +8,13 @@ import ru.job4j.mapping.carshop.entity.Pic;
 import ru.job4j.mapping.carshop.entity.User;
 import ru.job4j.mapping.carshop.model.Connect;
 import ru.job4j.mapping.carshop.model.DB;
+import ru.job4j.mapping.carshop.model.dao.AxleDao;
+import ru.job4j.mapping.carshop.model.dao.BodyDao;
+import ru.job4j.mapping.carshop.model.dao.BrandDao;
+import ru.job4j.mapping.carshop.model.dao.CarDao;
+import ru.job4j.mapping.carshop.model.dao.EngineDao;
+import ru.job4j.mapping.carshop.model.dao.GearboxDao;
+import ru.job4j.mapping.carshop.model.dao.UserDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -86,6 +93,26 @@ public class NewCarController extends HttpServlet {
      * Map with actions.
      */
     private final Map<String, Function<String, Boolean>> map = new HashMap<>();
+    /**
+     * Engine dao link.
+     */
+    private EngineDao engineDao = new EngineDao(this.db);
+    /**
+     * Body dao link.
+     */
+    private BodyDao bodyDao = new BodyDao(this.db);
+    /**
+     * Brand dao link.
+     */
+    private BrandDao brandDao = new BrandDao(this.db);
+    /**
+     * Gearbox bao link.
+     */
+    private GearboxDao gearboxDao = new GearboxDao(this.db);
+    /**
+     * Axle dao link.
+     */
+    private AxleDao axleDao = new AxleDao(this.db);
 
     {
         this.map.put(BRAND, this.getBrand());
@@ -107,42 +134,47 @@ public class NewCarController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        req.setAttribute("brands", this.db.getBrands());
-        req.setAttribute("engines", this.db.getEngines());
-        req.setAttribute("axles", this.db.getAxles());
-        req.setAttribute("bodies", this.db.getBodies());
-        req.setAttribute("gearboxes", this.db.getGearboxes());
+        req.setAttribute("brands", this.brandDao.getList());
+        req.setAttribute("engines", this.engineDao.getList());
+        req.setAttribute("axles", this.axleDao.getList());
+        req.setAttribute("bodies", this.bodyDao.getList());
+        req.setAttribute("gearboxes", this.gearboxDao.getList());
         req.getRequestDispatcher("/WEB-INF/add_car.jsp").forward(req, resp);
 
     }
 
+    /**
+     * Writing new car to db.
+     *
+     * @param req  - request.
+     * @param resp - response.
+     * @throws ServletException - exception.
+     * @throws IOException      - exception.
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = this.db.getUserById(Integer.valueOf((String)req.getSession().getAttribute("user")));
+        UserDao userDao = new UserDao(this.db);
+        CarDao carDao = new CarDao(this.db);
+        User user = userDao.getById(Integer.valueOf((String) req.getSession().getAttribute("user")));
         this.car = new Car();
         this.car.setUser(user);
         this.car.setPost(new Timestamp(System.currentTimeMillis()));
-        List<String> list = this.saveFile(req, user.getName());
-        List<Pic> pics = new ArrayList<>();
-        this.db.addNewCar(car);
-        for (String s : list) {
-            Pic pic = new Pic();
-            pic.setId(this.car.getId());
-            pic.setPath(s);
-            pics.add(pic);
+        for (Pic p : this.saveFile(req)) {
+            p.setId(this.car.getId());
+            this.car.addPic(p);
         }
-        this.db.savePics(pics);
+        carDao.create(car);
         resp.sendRedirect(String.format("%s/welcome.html", req.getContextPath()));
     }
 
     /**
      * Parse request for fields, and save files to dist.
-     * @param request - request.
-     * @param userName - username.
+     *
+     * @param request  - http servlet request.
      * @return - list of path files.
      */
-    private List<String> saveFile(HttpServletRequest request, String userName) {
-        List<String> files = new ArrayList<>();
+    private List<Pic> saveFile(HttpServletRequest request) {
+        List<Pic> files = new ArrayList<>();
         if (ServletFileUpload.isMultipartContent(request)) {
             DiskFileItemFactory factory = new DiskFileItemFactory();
             factory.setSizeThreshold(MEMORY_THRESHOLD);
@@ -150,16 +182,6 @@ public class NewCarController extends HttpServlet {
             ServletFileUpload upload = new ServletFileUpload(factory);
             upload.setFileSizeMax(MAX_FILE_SIZE);
             upload.setSizeMax(MAX_REQUEST_SIZE);
-            StringBuilder path = new StringBuilder();
-            path.append("/home/alexey/Java");
-//            path.append(File.separator);
-//            path.append("Upload");
-//            path.append(File.separator);
-//            path.append(userName);
-//            path.append(File.separator);
-//            path.append(System.currentTimeMillis());
-
-            File uploadDir = new File(path.toString());
             try {
                 List<FileItem> fileItems = upload.parseRequest(request);
                 if (fileItems != null && fileItems.size() > 0) {
@@ -167,17 +189,9 @@ public class NewCarController extends HttpServlet {
                         if (item.isFormField()) {
                             this.map.get(item.getFieldName()).apply(item.getString());
                         } else {
-                            boolean result = true;
-                            if (!uploadDir.exists()) {
-                                result = uploadDir.mkdir();
-                            }
-                            if (result) {
-                                String fileName = new File(item.getName()).getName();
-                                String filePath = path.toString() + File.separator + fileName;
-                                File storeFile = new File(filePath);
-                                item.write(storeFile);
-                                files.add(storeFile.getAbsolutePath());
-                            }
+                            Pic pic = new Pic();
+                            pic.setPath(item.get());
+                            files.add(pic);
                         }
                     }
                 }
@@ -190,60 +204,67 @@ public class NewCarController extends HttpServlet {
 
     /**
      * Assign brand to the car.
+     *
      * @return result.
      */
     private Function<String, Boolean> getBrand() {
         return msg -> {
-            this.car.setBrand(this.db.getBrandById(Integer.valueOf(msg)));
+            this.car.setBrand(this.brandDao.getById(Integer.valueOf(msg)));
             return true;
         };
     }
 
     /**
      * Assign axle to the car.
+     *
      * @return result.
      */
     private Function<String, Boolean> getAxle() {
         return msg -> {
-            this.car.setAxle(this.db.getAxleById(Integer.valueOf(msg)));
+            this.car.setAxle(this.axleDao.getById(Integer.valueOf(msg)));
             return true;
         };
     }
 
     /**
      * Assign engine to the car.
+     *
      * @return result.
      */
     private Function<String, Boolean> getEngine() {
         return msg -> {
-            this.car.setEngine(this.db.getEngineById(Integer.valueOf(msg)));
+            this.car.setEngine(this.engineDao.getById(Integer.valueOf(msg)));
             return true;
         };
     }
 
     /**
      * Assign gearbox to the car.
+     *
      * @return result.
      */
     private Function<String, Boolean> getGearbox() {
         return msg -> {
-            this.car.setGearbox(this.db.getGearboxById(Integer.valueOf(msg)));
+            this.car.setGearbox(this.gearboxDao.getById(Integer.valueOf(msg)));
             return true;
         };
     }
+
     /**
      * Assign body to the car.
+     *
      * @return result.
      */
     private Function<String, Boolean> getBody() {
         return msg -> {
-            this.car.setBody(this.db.getBodyById(Integer.valueOf(msg)));
+            this.car.setBody(this.bodyDao.getById(Integer.valueOf(msg)));
             return true;
         };
     }
 
     /**
      * Assign price to the car.
+     *
      * @return result.
      */
     private Function<String, Boolean> getPrice() {
@@ -255,6 +276,7 @@ public class NewCarController extends HttpServlet {
 
     /**
      * Assign name to the car.
+     *
      * @return result.
      */
     private Function<String, Boolean> getName() {
@@ -266,6 +288,7 @@ public class NewCarController extends HttpServlet {
 
     /**
      * Assign description to the car.
+     *
      * @return result.
      */
     private Function<String, Boolean> getDescription() {
@@ -274,8 +297,10 @@ public class NewCarController extends HttpServlet {
             return true;
         };
     }
+
     /**
      * Assign date to the car.
+     *
      * @return result.
      */
     private Function<String, Boolean> getDate() {

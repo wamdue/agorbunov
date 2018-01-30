@@ -1,6 +1,9 @@
 package ru.job4j.mapping.carshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,7 +68,8 @@ public class Car {
     /**
      * Car picture.
      */
-    private List<Pic> pics;
+    @JsonManagedReference
+    private List<Pic> pics = new ArrayList<>();
 
     /**
      * Get car id.
@@ -289,5 +293,14 @@ public class Car {
      */
     public void setPics(List<Pic> pics) {
         this.pics = pics;
+    }
+
+    /**
+     * Add pic to car.
+     * @param pic pic to add.
+     */
+    public void addPic(Pic pic) {
+        pic.setCar(this);
+        this.pics.add(pic);
     }
 }

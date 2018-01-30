@@ -1,5 +1,7 @@
 package ru.job4j.mapping.carshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * Created on 23.01.18.
  * Path to pic.
@@ -14,11 +16,12 @@ public class Pic {
     /**
      * Link to car.
      */
-    private int car_id;
+    @JsonBackReference
+    private Car car;
     /**
      * Path to picture.
      */
-    private String path;
+    private byte[] path;
 
     /**
      * Get id.
@@ -40,23 +43,23 @@ public class Pic {
      * Get car id.
      * @return car id.
      */
-    public int getCar_id() {
-        return car_id;
+    public Car getCar() {
+        return this.car;
     }
 
     /**
      * Set car id.
-     * @param car_id - new value.
+     * @param car - new value.
      */
-    public void setCar_id(int car_id) {
-        this.car_id = car_id;
+    public void setCar(Car car) {
+        this.car = car;
     }
 
     /**
      * Get picture path.
      * @return path.
      */
-    public String getPath() {
+    public byte[] getPath() {
         return path;
     }
 
@@ -64,7 +67,7 @@ public class Pic {
      * Set new path to picture.
      * @param path - path.
      */
-    public void setPath(String path) {
+    public void setPath(byte[] path) {
         this.path = path;
     }
 }

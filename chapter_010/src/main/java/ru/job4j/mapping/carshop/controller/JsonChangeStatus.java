@@ -1,7 +1,9 @@
 package ru.job4j.mapping.carshop.controller;
 
+import ru.job4j.mapping.carshop.entity.User;
 import ru.job4j.mapping.carshop.model.Connect;
 import ru.job4j.mapping.carshop.model.DB;
+import ru.job4j.mapping.carshop.model.repository.CarRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,10 +22,12 @@ public class JsonChangeStatus extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DB db = Connect.INSTANCE.getConnection();
-        String user = (String) req.getSession().getAttribute("user");
-        String id = req.getParameter("id");
-        if (id.equals(user)) {
-            db.changCarStatus(Integer.valueOf(id));
+        String userId = (String) req.getSession().getAttribute("user");
+        String carId = req.getParameter("id");
+        CarRepository carRepository = new CarRepository(db);
+        User user = carRepository.getById(Integer.valueOf(carId)).getUser();
+        if (user.getId() == Integer.valueOf(userId)) {
+            carRepository.changCarStatus(Integer.valueOf(carId));
         }
     }
 }
