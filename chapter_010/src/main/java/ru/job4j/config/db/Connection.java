@@ -2,6 +2,7 @@ package ru.job4j.config.db;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import ru.job4j.config.model.Item;
 
@@ -62,11 +63,18 @@ public class Connection {
      * @param id - id of task.
      */
     public void updateStatus(int id) {
-        Session session = this.factory.openSession();
-        session.beginTransaction();
-        Item item = session.get(Item.class, id);
-        item.setStatus(item.getStatus() == 0 ? 1 : 0);
-        session.getTransaction().commit();
+        Transaction transaction = null;
+        try (Session session = this.factory.openSession()) {
+            session.beginTransaction();
+            transaction = session.getTransaction();
+            Item item = session.get(Item.class, id);
+            item.setStatus(item.getStatus() == 0 ? 1 : 0);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
     }
 
     /**
@@ -75,11 +83,17 @@ public class Connection {
      * @return - id of task.
      */
     public int addTask(Item item) {
-        Session session = this.factory.openSession();
-        session.beginTransaction();
-        session.save(item);
-        session.getTransaction().commit();
-        session.close();
+        Transaction transaction = null;
+        try (Session session = this.factory.openSession()) {
+            session.beginTransaction();
+            transaction = session.getTransaction();
+            session.save(item);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
         return item.getId();
     }
 }
