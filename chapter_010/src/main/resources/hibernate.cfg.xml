@@ -11,13 +11,13 @@
         <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
         <property name="show_sql">true</property>
 
-        <mapping resource="ru/job4j/config/mapping/carshop/entity/Brand.hbm.xml"/>
-        <mapping resource="ru/job4j/config/mapping/carshop/entity/Body.hbm.xml"/>
-        <mapping resource="ru/job4j/config/mapping/carshop/entity/User.hbm.xml"/>
-        <mapping resource="ru/job4j/config/mapping/carshop/entity/Axle.hbm.xml"/>
-        <mapping resource="ru/job4j/config/mapping/carshop/entity/Engine.hbm.xml"/>
-        <mapping resource="ru/job4j/config/mapping/carshop/entity/Gearbox.hbm.xml"/>
-        <mapping resource="ru/job4j/config/mapping/carshop/entity/Car.hbm.xml"/>
-        <mapping resource="ru/job4j/config/mapping/carshop/entity/Pic.hbm.xml"/>
+        <mapping resource="ru/job4j/mapping/carshop/entity/Brand.hbm.xml"/>
+        <mapping resource="ru/job4j/mapping/carshop/entity/Body.hbm.xml"/>
+        <mapping resource="ru/job4j/mapping/carshop/entity/User.hbm.xml"/>
+        <mapping resource="ru/job4j/mapping/carshop/entity/Axle.hbm.xml"/>
+        <mapping resource="ru/job4j/mapping/carshop/entity/Engine.hbm.xml"/>
+        <mapping resource="ru/job4j/mapping/carshop/entity/Gearbox.hbm.xml"/>
+        <mapping resource="ru/job4j/mapping/carshop/entity/Car.hbm.xml"/>
+        <mapping resource="ru/job4j/mapping/carshop/entity/Pic.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
