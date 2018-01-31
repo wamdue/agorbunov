@@ -126,4 +126,13 @@
         <servlet-name>changeSoldStatus</servlet-name>
         <url-pattern>/status.do</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>formFilterController</servlet-name>
+        <servlet-class>ru.job4j.mapping.carshop.controller.FormFilterController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>formFilterController</servlet-name>
+        <url-pattern>/filter.do</url-pattern>
+    </servlet-mapping>
 </web-app>
