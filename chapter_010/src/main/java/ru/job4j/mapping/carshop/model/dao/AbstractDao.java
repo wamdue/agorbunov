@@ -62,7 +62,7 @@ public abstract class AbstractDao<E> implements DaoInt<E> {
         Session session = this.getDb().getSession();
         Transaction transaction = null;
         try {
-            transaction = session.getTransaction();
+            transaction = session.beginTransaction();
             session.delete(e);
             transaction.commit();
         } catch (Exception ex) {
@@ -79,10 +79,9 @@ public abstract class AbstractDao<E> implements DaoInt<E> {
      */
     @Override
     public void update(E e) {
-        Session session = this.getDb().getSession();
         Transaction transaction = null;
-        try {
-            transaction = session.getTransaction();
+        try (Session session = this.getDb().getSession()) {
+            transaction = session.beginTransaction();
             session.update(e);
             transaction.commit();
         } catch (Exception ex) {
@@ -90,6 +89,5 @@ public abstract class AbstractDao<E> implements DaoInt<E> {
                 transaction.rollback();
             }
         }
-        session.close();
     }
 }

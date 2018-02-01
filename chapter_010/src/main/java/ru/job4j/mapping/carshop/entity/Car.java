@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created on 19.01.18.
@@ -302,5 +303,34 @@ public class Car {
     public void addPic(Pic pic) {
         pic.setCar(this);
         this.pics.add(pic);
+    }
+
+    /**
+     * Checks equality by id and name.
+     * @param o - object to compare.
+     * @return - result.
+     */
+    @Override
+    public boolean equals(Object o) {
+        boolean result;
+        if (this == o) {
+            result = true;
+        } else if (o == null || getClass() != o.getClass()) {
+            result =  false;
+        } else {
+            Car car = (Car) o;
+            result = id == car.id
+                    &&  Objects.equals(name, car.name);
+        }
+        return result;
+    }
+
+    /**
+     * Calculating hash.
+     * @return - hash.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
