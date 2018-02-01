@@ -188,7 +188,7 @@ public class NewCarController extends HttpServlet {
                     for (FileItem item : fileItems) {
                         if (item.isFormField()) {
                             this.map.get(item.getFieldName()).apply(item.getString());
-                        } else {
+                        } else if (item.getSize() > 0) {
                             Pic pic = new Pic();
                             pic.setPath(item.get());
                             files.add(pic);

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 /**
  * Created on 29.01.18.
- *
+ * Extending car dao class.
  * @author Wamdue
  * @version 1.0
  */
@@ -43,33 +43,12 @@ public class CarRepository extends CarDao {
     }
 
     /**
-     * Get list of cars by brand.
-     * @param brandId - brand id.
-     * @return list.
+     * Apply filter by fields.
+     * @param brand - brand id, if > 0 then apply/
+     * @param pic if > 0 then show only with pics.
+     * @param date if > 0 then show only fresh records.
+     * @return - filtered list.
      */
-    @SuppressWarnings("unchecked")
-    public List<Car> getByBrand(int brandId) {
-        Query query;
-        try (Session session = this.getDb().getSession()) {
-            query = session.createQuery("from Car where brand = :brand");
-            query.setParameter("brand", brandId);
-        }
-        return query.list();
-    }
-
-    /**
-     * Get list of cars with pics.
-     * @return list.
-     */
-    @SuppressWarnings("unchecked")
-    public List<Car> getWithPics() {
-        List<Car> list;
-        try (Session session = this.getDb().getSession()){
-            list = session.createQuery("from Car as c join c.pics").list();
-        }
-        return list.stream().filter(x-> x.getPics().size() > 0).collect(Collectors.toList());
-    }
-
     @SuppressWarnings("unchecked")
     public List<Car> getByFilter(int brand, int pic, int date) {
         StringBuilder sb = new StringBuilder();
@@ -77,7 +56,7 @@ public class CarRepository extends CarDao {
         List<Car> list;
         try (Session session = this.getDb().getSession()) {
             if (brand > 0) {
-                sb.append("and brand = :brand ");
+                sb.append("and brand_id = :brand ");
             }
             if (date > 0) {
                 sb.append("and post >= :time");
@@ -88,7 +67,7 @@ public class CarRepository extends CarDao {
             }
             if (date > 0) {
                 LocalDate local = LocalDate.now();
-                Timestamp timestamp = new Timestamp( local.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+                Timestamp timestamp = new Timestamp(local.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
                 query.setParameter("time", timestamp);
             }
             list = query.list();

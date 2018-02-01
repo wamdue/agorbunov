@@ -27,8 +27,8 @@ public class FormFilterController extends HttpServlet {
         String time = req.getParameter("time");
 
         int brandId = Integer.valueOf(brand);
-        int p = "on".equals(pic) ? 1 : 0;
-        int t = "on".equals(time) ? 1 : 0;
+        int p = "true".equals(pic) ? 1 : 0;
+        int t = "true".equals(time) ? 1 : 0;
 
         CarRepository repository = new CarRepository(Connect.INSTANCE.getConnection());
         List<Car> list = repository.getByFilter(brandId, p, t);

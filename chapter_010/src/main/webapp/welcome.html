@@ -25,8 +25,10 @@
                     + "<td>" + cars[i].description + "</td>"
                     + "<td>";
                 var p = cars[i].pics;
-                for (var j = 0; j < p.length; j++) {
-                    result += "<img width='150' height='150' src='data:image/jpg;base64," + p[j].path + "'/>";
+                if (p.length != null && p.length > 0) {
+                    for (var j = 0; j < p.length; j++) {
+                        result += "<img width='150' height='150' src='data:image/jpg;base64," + p[j].path + "'/>";
+                    }
                 }
                 result += "</td>"
                     + "<td>" + new Date(cars[i].post) + "</td>"
@@ -61,8 +63,8 @@
                 dataType: 'json',
                 data: {
                     brand: document.getElementById("brand").value,
-                    pic: document.getElementById("pic").value,
-                    time: document.getElementById("fresh").value
+                    pic: document.getElementById("pic").checked,
+                    time: document.getElementById("fresh").checked
                 },
                 complete: function (data) {
                     var result = drawTable(data);
@@ -92,18 +94,19 @@
                 complete: function (data) {
                     var result = "";
                     var brands = JSON.parse(data.responseText);
+                    result += "<option value='0'>Любая</option>";
                     for (var i = 0; i < brands.length; i++) {
-                        result += "<option value = '" + brands[i].id + "'>" + brands[i].name + "</option>";
+                        result += "<option value='" + brands[i].id + "'>" + brands[i].name + "</option>";
                     }
                     var element = document.getElementById("brand");
-                    element.innerText = result;
+                    element.innerHTML = result;
                 }
             });
         }
 
         $(
             $.ajax({
-                complete: function () {
+                success: function () {
                     loadList();
                     loadCars();
                 }
@@ -117,13 +120,12 @@
         <button class="btn btn-default" onclick="location.href='newcar'">Добавить объявление</button>
     </div>
     <div>
-        <form>
-            <label for="brand">Марка</label>
+        <form method="get" class="form-group">
             <select id="brand">
             </select>
-            <label for="pic">С картинками</label>
+            <label for="pic">Только с картинками</label>
             <input type="checkbox" id="pic"/>
-            <label for="fresh">Сегодняшние</label>
+            <label for="fresh">За сегодня</label>
             <input type="checkbox" id="fresh">
             <input type="button" class="btn btn-default" onclick="loadFilter()" value="Filter">
         </form>
