@@ -10,5 +10,6 @@
     <context:component-scan base-package="ru.job4j.ioc" />
     <beans>
         <bean id="user" class="ru.job4j.ioc.User"/>
+        <bean id="localStorage" class="ru.job4j.ioc.MemoryStorage"/>
     </beans>
 </beans>
