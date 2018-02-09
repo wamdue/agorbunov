@@ -1,7 +1,6 @@
 package ru.job4j.mapping.carshop.model.dao;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import ru.job4j.mapping.carshop.model.DB;
 
 /**
@@ -39,18 +38,13 @@ public abstract class AbstractDao<E> implements DaoInt<E> {
      */
     @Override
     public void create(E e) {
-        Session session = this.getDb().getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.getTransaction();
+        try(Session session = this.getDb().getSession()) {
+            session.beginTransaction();
             session.save(e);
-            transaction.commit();
+            session.getTransaction().commit();
         } catch (Exception ex) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            this.getDb().getFactory().getCurrentSession().getTransaction().rollback();
         }
-        session.close();
     }
 
     /**
@@ -59,18 +53,13 @@ public abstract class AbstractDao<E> implements DaoInt<E> {
      */
     @Override
     public void delete(E e) {
-        Session session = this.getDb().getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
+        try (Session session = this.getDb().getSession()) {
+            session.beginTransaction();
             session.delete(e);
-            transaction.commit();
+            session.getTransaction().commit();
         } catch (Exception ex) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            this.getDb().getFactory().getCurrentSession().getTransaction().rollback();
         }
-        session.close();
     }
 
     /**
@@ -79,15 +68,12 @@ public abstract class AbstractDao<E> implements DaoInt<E> {
      */
     @Override
     public void update(E e) {
-        Transaction transaction = null;
         try (Session session = this.getDb().getSession()) {
-            transaction = session.beginTransaction();
+            session.beginTransaction();
             session.update(e);
-            transaction.commit();
+            session.getTransaction().commit();
         } catch (Exception ex) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            this.getDb().getFactory().getCurrentSession().getTransaction().rollback();
         }
     }
 }

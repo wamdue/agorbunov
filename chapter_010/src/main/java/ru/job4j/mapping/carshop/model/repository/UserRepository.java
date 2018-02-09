@@ -34,18 +34,20 @@ public class UserRepository extends UserDao {
      * @return - user id, or -1 if not found.
      */
     public User getUserByName(String userName) {
-        Session session = this.getDb().getSession();
-        session.beginTransaction();
-        List list =  session.createQuery(String.format("from User where name = '%s'", userName.toLowerCase())).list();
-        User user;
-        if (list.size() == 0) {
-            user = new User();
-            user.setName(userName);
-            session.save(user);
-        } else {
-            user = (User) list.get(0);
+        User user = new User();
+        try (Session session = this.getDb().getSession()) {
+            session.beginTransaction();
+            List list = session.createQuery(String.format("from User where name = '%s'", userName.toLowerCase())).list();
+            if (list.size() == 0) {
+                user = new User();
+                user.setName(userName);
+                session.save(user);
+            } else {
+                user = (User) list.get(0);
+            }
+        } catch (Exception e) {
+            this.getDb().getFactory().getCurrentSession().getTransaction().rollback();
         }
-        session.close();
         return user;
     }
 

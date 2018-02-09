@@ -40,4 +40,12 @@ public class DB {
         return this.factory.openSession();
     }
 
+    /**
+     * Get link on the session factory.
+     * @return - session factory.
+     */
+    public SessionFactory getFactory() {
+        return this.factory;
+    }
+
 }
