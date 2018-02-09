@@ -21,10 +21,9 @@ public class ServletFilter implements Filter {
     /**
      * Not in use.
      * @param filterConfig - not in use.
-     * @throws ServletException - not in use.
      */
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -41,13 +40,13 @@ public class ServletFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
-        if (req.getRequestURI().contains("signin")) {
+        if (req.getRequestURI().contains("signin.do")) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             HttpSession session = req.getSession();
 
             if (session.getAttribute("user") == null) {
-                resp.sendRedirect(String.format("%s/signin", req.getContextPath()));
+                resp.sendRedirect(String.format("%s/signin.do", req.getContextPath()));
                 return;
             }
             filterChain.doFilter(servletRequest, servletResponse);

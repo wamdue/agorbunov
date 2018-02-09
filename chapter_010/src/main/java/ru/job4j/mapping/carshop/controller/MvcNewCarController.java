@@ -3,11 +3,13 @@ package ru.job4j.mapping.carshop.controller;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import ru.job4j.mapping.carshop.entity.Car;
 import ru.job4j.mapping.carshop.entity.Pic;
 import ru.job4j.mapping.carshop.entity.User;
-import ru.job4j.mapping.carshop.model.Connect;
-import ru.job4j.mapping.carshop.model.DB;
 import ru.job4j.mapping.carshop.model.dao.AxleDao;
 import ru.job4j.mapping.carshop.model.dao.BodyDao;
 import ru.job4j.mapping.carshop.model.dao.BrandDao;
@@ -16,12 +18,9 @@ import ru.job4j.mapping.carshop.model.dao.EngineDao;
 import ru.job4j.mapping.carshop.model.dao.GearboxDao;
 import ru.job4j.mapping.carshop.model.dao.UserDao;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,12 +29,14 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * Created on 23.01.18.
- * Add new car to db.
+ * Created on 09.02.18.
+ *
  * @author Wamdue
  * @version 1.0
  */
-public class NewCarController extends HttpServlet {
+@Controller
+@RequestMapping(value = "/newcar.do")
+public class MvcNewCarController {
     /**
      * Memory threshold.
      */
@@ -86,33 +87,37 @@ public class NewCarController extends HttpServlet {
     private static final String PRICE = "car_price";
 
     /**
-     * Connection to db.
-     */
-    private final DB db = Connect.INSTANCE.getConnection();
-    /**
      * Map with actions.
      */
     private final Map<String, Function<String, Boolean>> map = new HashMap<>();
     /**
      * Engine dao link.
      */
-    private EngineDao engineDao = new EngineDao(this.db);
+    private final EngineDao engineDao;
     /**
      * Body dao link.
      */
-    private BodyDao bodyDao = new BodyDao(this.db);
+    private final BodyDao bodyDao;
     /**
      * Brand dao link.
      */
-    private BrandDao brandDao = new BrandDao(this.db);
+    private final BrandDao brandDao;
     /**
      * Gearbox bao link.
      */
-    private GearboxDao gearboxDao = new GearboxDao(this.db);
+    private final GearboxDao gearboxDao;
     /**
      * Axle dao link.
      */
-    private AxleDao axleDao = new AxleDao(this.db);
+    private final AxleDao axleDao;
+    /**
+     * User dao link.
+     */
+    private final UserDao userDao;
+    /**
+     * Car dao link.
+     */
+    private final CarDao carDao;
 
     {
         this.map.put(BRAND, this.getBrand());
@@ -131,31 +136,52 @@ public class NewCarController extends HttpServlet {
      */
     private Car car;
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    /**
+     * Main constructor.
+     * @param engineDao - engine dao.
+     * @param bodyDao - body dao.
+     * @param brandDao - brand dao.
+     * @param gearboxDao - gearbox dao.
+     * @param axleDao - axle dao.
+     * @param userDao - user dao.
+     * @param carDao - car dao.
+     */
+    @Autowired
+    public MvcNewCarController(EngineDao engineDao, BodyDao bodyDao, BrandDao brandDao, GearboxDao gearboxDao, AxleDao axleDao, UserDao userDao, CarDao carDao) {
+        this.engineDao = engineDao;
+        this.bodyDao = bodyDao;
+        this.brandDao = brandDao;
+        this.gearboxDao = gearboxDao;
+        this.axleDao = axleDao;
+        this.userDao = userDao;
+        this.carDao = carDao;
+    }
+
+    /**
+     * Fill comboboxes of page.
+     * @param req - servlet request.
+     * @return - page to view.
+     * @throws UnsupportedEncodingException - encoding exception.
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    public String getPage(HttpServletRequest req) throws UnsupportedEncodingException {
         req.setCharacterEncoding("UTF-8");
         req.setAttribute("brands", this.brandDao.getList());
         req.setAttribute("engines", this.engineDao.getList());
         req.setAttribute("axles", this.axleDao.getList());
         req.setAttribute("bodies", this.bodyDao.getList());
         req.setAttribute("gearboxes", this.gearboxDao.getList());
-        req.getRequestDispatcher("/WEB-INF/add_car.jsp").forward(req, resp);
-
+        return "add_car";
     }
 
     /**
      * Writing new car to db.
-     *
      * @param req  - request.
-     * @param resp - response.
-     * @throws ServletException - exception.
-     * @throws IOException      - exception.
+     * @return - redirect page.
      */
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserDao userDao = new UserDao(this.db);
-        CarDao carDao = new CarDao(this.db);
-        User user = userDao.getById(Integer.valueOf((String) req.getSession().getAttribute("user")));
+    @RequestMapping(method = RequestMethod.POST)
+    public String writeToDb(HttpServletRequest req) {
+        User user = this.userDao.getById(Integer.valueOf((String) req.getSession().getAttribute("user")));
         this.car = new Car();
         this.car.setUser(user);
         this.car.setPost(new Timestamp(System.currentTimeMillis()));
@@ -163,13 +189,12 @@ public class NewCarController extends HttpServlet {
             p.setId(this.car.getId());
             this.car.addPic(p);
         }
-        carDao.create(car);
-        resp.sendRedirect(String.format("%s/welcome.html", req.getContextPath()));
+        this.carDao.create(this.car);
+        return "redirect:/index.do";
     }
 
     /**
      * Parse request for fields, and save files to dist.
-     *
      * @param request  - http servlet request.
      * @return - list of path files.
      */
@@ -309,4 +334,5 @@ public class NewCarController extends HttpServlet {
             return true;
         };
     }
+
 }

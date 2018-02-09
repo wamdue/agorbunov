@@ -2,6 +2,8 @@ package ru.job4j.mapping.carshop.model.repository;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.job4j.mapping.carshop.entity.Car;
 import ru.job4j.mapping.carshop.model.DB;
 import ru.job4j.mapping.carshop.model.dao.CarDao;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
  * @author Wamdue
  * @version 1.0
  */
+@Component
 public class CarRepository extends CarDao {
     /**
      * Temp queue.
@@ -28,6 +31,7 @@ public class CarRepository extends CarDao {
      *
      * @param db - db connection.
      */
+    @Autowired
     public CarRepository(DB db) {
         super(db);
     }

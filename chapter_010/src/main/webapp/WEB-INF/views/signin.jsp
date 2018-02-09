@@ -11,7 +11,7 @@
         <div class="page-header">
             <h2>Sign in</h2>
         </div>
-        <form method="post" action="${pageContext.request.contextPath}/signin">
+        <form method="post" action="${pageContext.request.contextPath}/signin.do">
             <div class="form-group">
                 <label for="login">Login</label>
                 <input type="text" id="login" name="login"/>

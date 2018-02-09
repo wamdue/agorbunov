@@ -3,6 +3,7 @@ package ru.job4j.mapping.carshop.model;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Component;
 
 /**
  * Created on 19.01.18.
@@ -10,6 +11,7 @@ import org.hibernate.cfg.Configuration;
  * @author Wamdue
  * @version 1.0
  */
+@Component
 public class DB {
     /**
      * Hibernate session factory.
@@ -19,7 +21,7 @@ public class DB {
     /**
      * Main constructor.
      */
-    DB() {
+    public DB() {
         this.init();
     }
 

@@ -63,17 +63,11 @@ public class Connection {
      * @param id - id of task.
      */
     public void updateStatus(int id) {
-        Transaction transaction = null;
         try (Session session = this.factory.openSession()) {
             session.beginTransaction();
-            transaction = session.getTransaction();
             Item item = session.get(Item.class, id);
             item.setStatus(item.getStatus() == 0 ? 1 : 0);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            session.getTransaction().commit();
         }
     }
 
@@ -85,10 +79,9 @@ public class Connection {
     public int addTask(Item item) {
         Transaction transaction = null;
         try (Session session = this.factory.openSession()) {
-            session.beginTransaction();
-            transaction = session.getTransaction();
+            transaction = session.beginTransaction();
             session.save(item);
-            transaction.commit();
+            session.getTransaction().commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();

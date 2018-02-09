@@ -1,5 +1,7 @@
 package ru.job4j.mapping.carshop.model;
 
+import org.springframework.context.annotation.Bean;
+
 /**
  * Created on 19.01.18.
  * Singleton realisation.
@@ -27,6 +29,7 @@ public enum Connect {
      * Get singleton item.
      * @return - db.
      */
+    @Bean
     public DB getConnection() {
         return this.db;
     }

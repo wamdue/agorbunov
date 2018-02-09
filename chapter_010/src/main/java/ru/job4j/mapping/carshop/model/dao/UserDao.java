@@ -1,6 +1,8 @@
 package ru.job4j.mapping.carshop.model.dao;
 
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.job4j.mapping.carshop.entity.User;
 import ru.job4j.mapping.carshop.model.DB;
 
@@ -12,12 +14,14 @@ import java.util.List;
  * @author Wamdue
  * @version 1.0
  */
+@Component
 public class UserDao extends AbstractDao<User> {
     /**
      * Main constructor.
      *
      * @param db - db connection.
      */
+    @Autowired
     public UserDao(DB db) {
         super(db);
     }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add new car.</title>
-    <link type="text/css" rel="stylesheet" media="all" href="<c:url value="/css/bootstrap-theme.min.css"/>"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<c:url value="/css/bootstrap.min.css"/>"/>
     <script src="<c:url value="/js/jquery-3.2.1.min.js"/>" type="text/javascript"></script>
 </head>
 <body>
@@ -12,7 +12,7 @@
     <div class="page-header">
         <h3>Add new car</h3>
     </div>
-    <form method="post" action="${pageContext.request.contextPath}/newcar" enctype="multipart/form-data">
+    <form method="post" action="${pageContext.request.contextPath}/newcar.do" enctype="multipart/form-data">
         <div class="form-group">
             <select name="brand_id" id="brand_id" title="Brand">
                 <c:forEach items="${brands}" var="brand">

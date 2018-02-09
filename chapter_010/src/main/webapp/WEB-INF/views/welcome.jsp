@@ -1,11 +1,13 @@
-<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=utf-8" %>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Welcome screen</title>
-    <link type="text/css" rel="stylesheet" media="all" href="css/bootstrap.min.css"/>
-    <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="<c:url value="/css/bootstrap.min.css"/>"/>
+    <script src="<c:url value="/js/jquery-3.2.1.min.js"/>" type="text/javascript"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>" type="text/javascript"></script>
     <script type="text/javascript">
 
         function drawTable(data) {
@@ -88,7 +90,7 @@
         }
 
         function loadList() {
-            $.ajax('./brands.do', {
+            $.ajax('./brand.do', {
                 method: 'get',
                 dataType: 'json',
                 complete: function (data) {
@@ -117,7 +119,7 @@
 <body>
 <div class="container">
     <div class="page-header">
-        <button class="btn btn-default" onclick="location.href='newcar'">Добавить объявление</button>
+        <button class="btn btn-default" onclick="location.href='newcar.do'">Добавить объявление</button>
     </div>
     <div>
         <form method="get" class="form-group">
