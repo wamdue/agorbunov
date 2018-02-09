@@ -2,7 +2,6 @@ package ru.job4j.config.db;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import ru.job4j.config.model.Item;
 
@@ -68,6 +67,8 @@ public class Connection {
             Item item = session.get(Item.class, id);
             item.setStatus(item.getStatus() == 0 ? 1 : 0);
             session.getTransaction().commit();
+        } catch (Exception e) {
+            this.factory.getCurrentSession().getTransaction().rollback();
         }
     }
 
@@ -77,15 +78,12 @@ public class Connection {
      * @return - id of task.
      */
     public int addTask(Item item) {
-        Transaction transaction = null;
         try (Session session = this.factory.openSession()) {
-            transaction = session.beginTransaction();
+            session.beginTransaction();
             session.save(item);
             session.getTransaction().commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            this.factory.getCurrentSession().getTransaction().rollback();
         }
         return item.getId();
     }
