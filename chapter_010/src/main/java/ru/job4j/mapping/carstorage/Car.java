@@ -18,14 +18,14 @@ import javax.persistence.Table;
  * @version 1.0
  */
 @Entity
-@Table(name="car")
+@Table(name = "car")
 public class Car {
     /**
      * Car id.
      */
     @Id
     @GeneratedValue(generator = "increment")
-    @GenericGenerator(name="increment", strategy = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     private int id;
     /**
      * Car name.

@@ -15,7 +15,7 @@ import javax.persistence.Table;
  * @version 1.0
  */
 @Entity
-@Table(name="gearbox")
+@Table(name = "gearbox")
 public class Gearbox {
     /**
      * Gearbox id.

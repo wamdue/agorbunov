@@ -15,7 +15,7 @@ import javax.persistence.Table;
  * @version 1.0
  */
 @Entity
-@Table(name="chassy")
+@Table(name = "chassy")
 public class Chassy {
     /**
      * Chassy id.
