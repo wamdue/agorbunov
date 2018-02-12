@@ -38,7 +38,7 @@ public abstract class AbstractDao<E> implements DaoInt<E> {
      */
     @Override
     public void create(E e) {
-        try(Session session = this.getDb().getSession()) {
+        try (Session session = this.getDb().getSession()) {
             session.beginTransaction();
             session.save(e);
             session.getTransaction().commit();
