@@ -1,12 +1,11 @@
 package ru.job4j.mapping.carshop.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.job4j.mapping.carshop.entity.Car;
-import ru.job4j.mapping.carshop.model.dao.CarDao;
+import ru.job4j.mapping.carshop.model.repository.Cars;
 
 import java.util.List;
 
@@ -21,15 +20,14 @@ public class MvcCarsJsonController {
     /**
      * Link to car dao.
      */
-    private final CarDao carDao;
+    private final Cars cars;
 
     /**
      * Main constructor.
-     * @param carDao - car dao bean.
+     * @param cars - car dao bean.
      */
-    @Autowired
-    public MvcCarsJsonController(CarDao carDao) {
-        this.carDao = carDao;
+    public MvcCarsJsonController(Cars cars) {
+        this.cars = cars;
     }
 
     /**
@@ -39,6 +37,6 @@ public class MvcCarsJsonController {
     @RequestMapping(value = "/list.do", method = RequestMethod.GET)
     @ResponseBody
     public List<Car> getCarsJson() {
-        return this.carDao.getList();
+        return (List<Car>) this.cars.findAll();
     }
 }

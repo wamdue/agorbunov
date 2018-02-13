@@ -1,11 +1,10 @@
 package ru.job4j.mapping.carshop.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.job4j.mapping.carshop.entity.User;
-import ru.job4j.mapping.carshop.model.repository.UserRepository;
+import ru.job4j.mapping.carshop.model.repository.Users;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,15 +20,14 @@ public class MvcSignInController {
     /**
      * User repository link.
      */
-    private final UserRepository userRepository;
+    private final Users users;
 
     /**
      * Main constructor.
-     * @param userRepository - user repository bean.
+     * @param users - user repository bean.
      */
-    @Autowired
-    public MvcSignInController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public MvcSignInController(Users users) {
+        this.users = users;
     }
 
     /**
@@ -49,11 +47,11 @@ public class MvcSignInController {
     @RequestMapping(value = "/signin.do", method = RequestMethod.POST)
     public String setLogin(HttpServletRequest req) {
         String name = req.getParameter("login");
-        User user  = this.userRepository.getUserByName(name);
+        User user  = this.users.getUserByName(name);
         if (user == null) {
             user = new User();
             user.setName(name);
-            this.userRepository.create(user);
+            this.users.save(user);
         }
 
         HttpSession session = req.getSession();

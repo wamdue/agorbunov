@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.job4j.mapping.carshop.entity.Brand;
-import ru.job4j.mapping.carshop.model.dao.BrandDao;
+import ru.job4j.mapping.carshop.model.repository.Brands;
 
 import java.util.List;
 
@@ -21,14 +21,14 @@ public class MvcBrandJsonController {
     /**
      * Link to brand dao.
      */
-    private final BrandDao brands;
+    private final Brands brands;
 
     /**
      * Main constructor.
      * @param brands - brand dao.
      */
     @Autowired
-    public MvcBrandJsonController(BrandDao brands) {
+    public MvcBrandJsonController(Brands brands) {
         this.brands = brands;
     }
 
@@ -39,6 +39,6 @@ public class MvcBrandJsonController {
     @RequestMapping(value = "/brand.do", method = RequestMethod.GET)
     @ResponseBody
     public List<Brand> getBrands() {
-        return this.brands.getList();
+        return (List<Brand>) this.brands.findAll();
     }
 }
