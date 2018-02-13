@@ -24,18 +24,18 @@ import java.util.Properties;
  */
 @Configuration
 @ComponentScan(basePackages = "ru.job4j.mapping.carshop")
-@EnableJpaRepositories(basePackages = "ru.job4j.mapping.carshop.model")
+@EnableJpaRepositories(basePackages = "ru.job4j.mapping.carshop")
 public class Config {
     /**
      * Factory manager bean.
      * @return - factory.
      */
     @Bean
-    public LocalContainerEntityManagerFactoryBean getIntityManagerFactoryBean() {
+    public LocalContainerEntityManagerFactoryBean getEntityManagerFactoryBean() {
         LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
         lcemfb.setJpaVendorAdapter(this.getJpaVendorAdapter());
         lcemfb.setDataSource(this.dataSource());
-        lcemfb.setPackagesToScan("ru.job4j.mapping.carshop.entity");
+        lcemfb.setPackagesToScan("ru.job4j.mapping.carshop");
         lcemfb.setJpaProperties(this.getProperties());
         return lcemfb;
     }
@@ -59,7 +59,7 @@ public class Config {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgres.Driver");
+        dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/car_shop");
         dataSource.setUsername("postgres");
         dataSource.setPassword("password");
@@ -72,7 +72,7 @@ public class Config {
      */
     @Bean
     public PlatformTransactionManager transactionManager() {
-        return new JpaTransactionManager(getIntityManagerFactoryBean().getObject());
+        return new JpaTransactionManager(this.getEntityManagerFactoryBean().getObject());
     }
 
     /**
