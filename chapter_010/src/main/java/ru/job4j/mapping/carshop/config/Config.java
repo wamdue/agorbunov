@@ -31,7 +31,7 @@ public class Config {
      * @return - factory.
      */
     @Bean
-    public LocalContainerEntityManagerFactoryBean getEntityManagerFactoryBean() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
         lcemfb.setJpaVendorAdapter(this.getJpaVendorAdapter());
         lcemfb.setDataSource(this.dataSource());
@@ -72,7 +72,7 @@ public class Config {
      */
     @Bean
     public PlatformTransactionManager transactionManager() {
-        return new JpaTransactionManager(this.getEntityManagerFactoryBean().getObject());
+        return new JpaTransactionManager(this.entityManagerFactory().getObject());
     }
 
     /**

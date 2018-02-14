@@ -15,5 +15,5 @@ public interface Users extends CrudRepository<User, Integer> {
      * @param name - name.
      * @return - user.
      */
-    User getUserByName(String name);
+    User findByName(String name);
 }
