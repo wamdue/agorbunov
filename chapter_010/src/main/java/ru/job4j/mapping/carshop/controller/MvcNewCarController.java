@@ -3,20 +3,19 @@ package ru.job4j.mapping.carshop.controller;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.job4j.mapping.carshop.entity.Car;
 import ru.job4j.mapping.carshop.entity.Pic;
 import ru.job4j.mapping.carshop.entity.User;
-import ru.job4j.mapping.carshop.model.dao.AxleDao;
-import ru.job4j.mapping.carshop.model.dao.BodyDao;
-import ru.job4j.mapping.carshop.model.dao.BrandDao;
-import ru.job4j.mapping.carshop.model.dao.CarDao;
-import ru.job4j.mapping.carshop.model.dao.EngineDao;
-import ru.job4j.mapping.carshop.model.dao.GearboxDao;
-import ru.job4j.mapping.carshop.model.dao.UserDao;
+import ru.job4j.mapping.carshop.model.repository.Axles;
+import ru.job4j.mapping.carshop.model.repository.Bodies;
+import ru.job4j.mapping.carshop.model.repository.Brands;
+import ru.job4j.mapping.carshop.model.repository.Cars;
+import ru.job4j.mapping.carshop.model.repository.Engines;
+import ru.job4j.mapping.carshop.model.repository.Gearboxes;
+import ru.job4j.mapping.carshop.model.repository.Users;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -93,31 +92,31 @@ public class MvcNewCarController {
     /**
      * Engine dao link.
      */
-    private final EngineDao engineDao;
+    private final Engines engines;
     /**
      * Body dao link.
      */
-    private final BodyDao bodyDao;
+    private final Bodies bodies;
     /**
      * Brand dao link.
      */
-    private final BrandDao brandDao;
+    private final Brands brands;
     /**
      * Gearbox bao link.
      */
-    private final GearboxDao gearboxDao;
+    private final Gearboxes gearboxes;
     /**
      * Axle dao link.
      */
-    private final AxleDao axleDao;
+    private final Axles axles;
     /**
      * User dao link.
      */
-    private final UserDao userDao;
+    private final Users users;
     /**
      * Car dao link.
      */
-    private final CarDao carDao;
+    private final Cars cars;
 
     {
         this.map.put(BRAND, this.getBrand());
@@ -138,23 +137,22 @@ public class MvcNewCarController {
 
     /**
      * Main constructor.
-     * @param engineDao - engine dao.
-     * @param bodyDao - body dao.
-     * @param brandDao - brand dao.
-     * @param gearboxDao - gearbox dao.
-     * @param axleDao - axle dao.
-     * @param userDao - user dao.
-     * @param carDao - car dao.
+     * @param engines - engines repository.
+     * @param bodies - bodies repository.
+     * @param brands - brands repository.
+     * @param gearboxes - gearboxes repository.
+     * @param axles - axles repository.
+     * @param users - users repository.
+     * @param cars - cars repository.
      */
-    @Autowired
-    public MvcNewCarController(EngineDao engineDao, BodyDao bodyDao, BrandDao brandDao, GearboxDao gearboxDao, AxleDao axleDao, UserDao userDao, CarDao carDao) {
-        this.engineDao = engineDao;
-        this.bodyDao = bodyDao;
-        this.brandDao = brandDao;
-        this.gearboxDao = gearboxDao;
-        this.axleDao = axleDao;
-        this.userDao = userDao;
-        this.carDao = carDao;
+    public MvcNewCarController(Engines engines, Bodies bodies, Brands brands, Gearboxes gearboxes, Axles axles, Users users, Cars cars) {
+        this.engines = engines;
+        this.bodies = bodies;
+        this.brands = brands;
+        this.gearboxes = gearboxes;
+        this.axles = axles;
+        this.users = users;
+        this.cars = cars;
     }
 
     /**
@@ -166,11 +164,11 @@ public class MvcNewCarController {
     @RequestMapping(method = RequestMethod.GET)
     public String getPage(HttpServletRequest req) throws UnsupportedEncodingException {
         req.setCharacterEncoding("UTF-8");
-        req.setAttribute("brands", this.brandDao.getList());
-        req.setAttribute("engines", this.engineDao.getList());
-        req.setAttribute("axles", this.axleDao.getList());
-        req.setAttribute("bodies", this.bodyDao.getList());
-        req.setAttribute("gearboxes", this.gearboxDao.getList());
+        req.setAttribute("brands", this.brands.findAll());
+        req.setAttribute("engines", this.engines.findAll());
+        req.setAttribute("axles", this.axles.findAll());
+        req.setAttribute("bodies", this.bodies.findAll());
+        req.setAttribute("gearboxes", this.gearboxes.findAll());
         return "add_car";
     }
 
@@ -181,7 +179,7 @@ public class MvcNewCarController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public String writeToDb(HttpServletRequest req) {
-        User user = this.userDao.getById(Integer.valueOf((String) req.getSession().getAttribute("user")));
+        User user = this.users.findById(Integer.valueOf((String) req.getSession().getAttribute("user"))).get();
         this.car = new Car();
         this.car.setUser(user);
         this.car.setPost(new Timestamp(System.currentTimeMillis()));
@@ -189,7 +187,7 @@ public class MvcNewCarController {
             p.setId(this.car.getId());
             this.car.addPic(p);
         }
-        this.carDao.create(this.car);
+        this.cars.save(this.car);
         return "redirect:/index.do";
     }
 
@@ -234,7 +232,7 @@ public class MvcNewCarController {
      */
     private Function<String, Boolean> getBrand() {
         return msg -> {
-            this.car.setBrand(this.brandDao.getById(Integer.valueOf(msg)));
+            this.car.setBrand(this.brands.findById(Integer.valueOf(msg)).get());
             return true;
         };
     }
@@ -246,7 +244,7 @@ public class MvcNewCarController {
      */
     private Function<String, Boolean> getAxle() {
         return msg -> {
-            this.car.setAxle(this.axleDao.getById(Integer.valueOf(msg)));
+            this.car.setAxle(this.axles.findById(Integer.valueOf(msg)).get());
             return true;
         };
     }
@@ -258,7 +256,7 @@ public class MvcNewCarController {
      */
     private Function<String, Boolean> getEngine() {
         return msg -> {
-            this.car.setEngine(this.engineDao.getById(Integer.valueOf(msg)));
+            this.car.setEngine(this.engines.findById(Integer.valueOf(msg)).get());
             return true;
         };
     }
@@ -270,7 +268,7 @@ public class MvcNewCarController {
      */
     private Function<String, Boolean> getGearbox() {
         return msg -> {
-            this.car.setGearbox(this.gearboxDao.getById(Integer.valueOf(msg)));
+            this.car.setGearbox(this.gearboxes.findById(Integer.valueOf(msg)).get());
             return true;
         };
     }
@@ -282,7 +280,7 @@ public class MvcNewCarController {
      */
     private Function<String, Boolean> getBody() {
         return msg -> {
-            this.car.setBody(this.bodyDao.getById(Integer.valueOf(msg)));
+            this.car.setBody(this.bodies.findById(Integer.valueOf(msg)).get());
             return true;
         };
     }

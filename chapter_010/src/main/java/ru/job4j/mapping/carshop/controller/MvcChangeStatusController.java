@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.job4j.mapping.carshop.entity.User;
-import ru.job4j.mapping.carshop.model.repository.CarRepository;
+import ru.job4j.mapping.carshop.model.repository.Cars;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,14 +20,14 @@ public class MvcChangeStatusController {
     /**
      * Link to car repository.
      */
-    private final CarRepository carStorage;
+    private final Cars carStorage;
 
     /**
      * Main constructor.
      * @param carStorage - repository bean.
      */
     @Autowired
-    public MvcChangeStatusController(CarRepository carStorage) {
+    public MvcChangeStatusController(Cars carStorage) {
         this.carStorage = carStorage;
     }
 
@@ -40,9 +40,9 @@ public class MvcChangeStatusController {
     public String changeCarStatus(HttpServletRequest req) {
         String userId = (String) req.getSession().getAttribute("user");
         String carId = req.getParameter("id");
-        User user = this.carStorage.getById(Integer.valueOf(carId)).getUser();
+        User user = this.carStorage.findById(Integer.valueOf(carId)).get().getUser();
         if (user.getId() == Integer.valueOf(userId)) {
-            this.carStorage.changCarStatus(Integer.valueOf(carId));
+            this.carStorage.changeStatus(Integer.valueOf(carId));
         }
         return "redirect:/index.do";
     }

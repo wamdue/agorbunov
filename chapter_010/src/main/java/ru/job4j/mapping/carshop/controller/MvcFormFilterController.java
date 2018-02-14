@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.job4j.mapping.carshop.entity.Car;
-import ru.job4j.mapping.carshop.model.repository.CarRepository;
+import ru.job4j.mapping.carshop.model.repository.Cars;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -22,14 +22,14 @@ public class MvcFormFilterController {
     /**
      * Link to car repository.
      */
-    private final CarRepository repository;
+    private final Cars repository;
 
     /**
      * Main constructor.
      * @param repository - car repository.
      */
     @Autowired
-    public MvcFormFilterController(CarRepository repository) {
+    public MvcFormFilterController(Cars repository) {
         this.repository = repository;
     }
 

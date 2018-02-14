@@ -2,6 +2,7 @@ package ru.job4j.mapping.carshop.model.dao;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.job4j.mapping.carshop.entity.Axle;
 import ru.job4j.mapping.carshop.entity.Body;
 import ru.job4j.mapping.carshop.entity.Brand;
@@ -12,7 +13,13 @@ import ru.job4j.mapping.carshop.entity.Pic;
 import ru.job4j.mapping.carshop.entity.User;
 import ru.job4j.mapping.carshop.model.Connect;
 import ru.job4j.mapping.carshop.model.DB;
-import ru.job4j.mapping.carshop.model.repository.CarRepository;
+import ru.job4j.mapping.carshop.model.repository.Axles;
+import ru.job4j.mapping.carshop.model.repository.Bodies;
+import ru.job4j.mapping.carshop.model.repository.Brands;
+import ru.job4j.mapping.carshop.model.repository.Cars;
+import ru.job4j.mapping.carshop.model.repository.Engines;
+import ru.job4j.mapping.carshop.model.repository.Gearboxes;
+import ru.job4j.mapping.carshop.model.repository.Users;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -36,31 +43,52 @@ public class CarDaoTest {
     /**
      * Link to car repository.
      */
-    private final CarRepository carDao = new CarRepository(db);
+    private final Cars carDao;
     /**
      * Link to body list.
      */
-    private final BodyDao bodyDao = new BodyDao(db);
+    private final Bodies bodyDao;
     /**
      * Link to axle list.
      */
-    private final AxleDao axleDao = new AxleDao(db);
+    private final Axles axleDao;
     /**
      * Link to gearbox list.
      */
-    private final GearboxDao gearboxDao = new GearboxDao(db);
+    private final Gearboxes gearboxDao;
     /**
      * Link to engine list.
      */
-    private final EngineDao engineDao = new EngineDao(db);
+    private final Engines engineDao;
     /**
      * Link to brand list.
      */
-    private final BrandDao brandDao = new BrandDao(db);
+    private final Brands brandDao;
     /**
      * Link to user list.
      */
-    private final UserDao userDao = new UserDao(db);
+    private final Users userDao;
+
+    /**
+     * Main constructor.
+     * @param carDao - car repository.
+     * @param bodyDao - body repository.
+     * @param axleDao - axle repository.
+     * @param gearboxDao - gearbox repository.
+     * @param engineDao - engine repository.
+     * @param brandDao - brand repository.
+     * @param userDao - user repository.
+     */
+    @Autowired
+    public CarDaoTest(Cars carDao, Bodies bodyDao, Axles axleDao, Gearboxes gearboxDao, Engines engineDao, Brands brandDao, Users userDao) {
+        this.carDao = carDao;
+        this.bodyDao = bodyDao;
+        this.axleDao = axleDao;
+        this.gearboxDao = gearboxDao;
+        this.engineDao = engineDao;
+        this.brandDao = brandDao;
+        this.userDao = userDao;
+    }
 
     /**
      * Fill tables with temp data.
@@ -69,27 +97,27 @@ public class CarDaoTest {
     public void fillTables() {
         Body body = new Body();
         body.setName("1");
-        this.bodyDao.create(body);
+        this.bodyDao.save(body);
 
         Engine engine = new Engine();
         engine.setName("1");
-        this.engineDao.create(engine);
+        this.engineDao.save(engine);
 
         Axle axle = new Axle();
         axle.setName("1");
-        this.axleDao.create(axle);
+        this.axleDao.save(axle);
 
         Brand brand = new Brand();
         brand.setName("1");
-        this.brandDao.create(brand);
+        this.brandDao.save(brand);
 
         Gearbox gearbox = new Gearbox();
         gearbox.setName("1");
-        this.gearboxDao.create(gearbox);
+        this.gearboxDao.save(gearbox);
 
         User user = new User();
         user.setName("1");
-        this.userDao.create(user);
+        this.userDao.save(user);
 
 
     }
@@ -101,8 +129,8 @@ public class CarDaoTest {
     @Test
     public void createTest() {
         Car car = this.createCar("first");
-        this.carDao.create(car);
-        assertThat(car.getName(), is(carDao.getById(car.getId()).getName()));
+        this.carDao.save(car);
+        assertThat(car.getName(), is(carDao.findById(car.getId()).get().getName()));
     }
 
     /**
@@ -112,11 +140,11 @@ public class CarDaoTest {
     @Test
     public void updateTest() {
         Car car = this.createCar("first");
-        this.carDao.create(car);
+        this.carDao.save(car);
         String expect = "second";
         car.setName("second");
-        this.carDao.update(car);
-        assertThat(expect, is(this.carDao.getById(car.getId()).getName()));
+        this.carDao.save(car);
+        assertThat(expect, is(this.carDao.findById(car.getId()).get().getName()));
     }
 
     /**
@@ -126,10 +154,11 @@ public class CarDaoTest {
     @Test
     public void deleteTest() {
         Car car = this.createCar("delete");
-        this.carDao.create(car);
+        this.carDao.save(car);
         this.carDao.delete(car);
         boolean expect = true;
-        assertThat(expect, is(!this.carDao.getList().contains(car)));
+        List<Car> carList = (List<Car>) this.carDao.findAll();
+        assertThat(expect, is(!carList.contains(car)));
     }
 
     /**
@@ -139,10 +168,11 @@ public class CarDaoTest {
     @Test
     public void getListTest() {
         Car car = this.createCar("third");
-        this.carDao.create(car);
+        this.carDao.save(car);
 
         boolean expect = true;
-        assertThat(expect, is(this.carDao.getList().contains(car)));
+        List<Car> carList = (List<Car>) this.carDao.findAll();
+        assertThat(expect, is(carList.contains(car)));
     }
 
     /**
@@ -152,11 +182,11 @@ public class CarDaoTest {
     @Test
     public void changeCarStatusTest() {
         Car car = this.createCar("status");
-        this.carDao.create(car);
+        this.carDao.save(car);
         int oldStatus = car.getStatus();
-        this.carDao.changCarStatus(car.getId());
+        this.carDao.changeStatus(car.getId());
         boolean expect = true;
-        assertThat(expect, is(this.carDao.getById(car.getId()).getStatus() != oldStatus));
+        assertThat(expect, is(this.carDao.findById(car.getId()).get().getStatus() != oldStatus));
     }
 
     /**
@@ -175,9 +205,9 @@ public class CarDaoTest {
         pic.setPath("".getBytes());
         two.addPic(pic);
         three.addPic(pic);
-        this.carDao.create(one);
-        this.carDao.create(two);
-        this.carDao.create(three);
+        this.carDao.save(one);
+        this.carDao.save(two);
+        this.carDao.save(three);
         List<Car> cars = this.carDao.getByFilter(1, 1, 1);
         int expect = 1;
         assertThat(expect, is(cars.size()));
@@ -191,13 +221,13 @@ public class CarDaoTest {
     private Car createCar(String name) {
         Car car = new Car();
         car.setName(name);
-        car.setUser(this.userDao.getById(1));
+        car.setUser(this.userDao.findById(1).get());
         car.setPost(new Timestamp(System.currentTimeMillis()));
-        car.setBrand(this.brandDao.getById(1));
-        car.setGearbox(this.gearboxDao.getById(1));
-        car.setEngine(this.engineDao.getById(1));
-        car.setAxle(this.axleDao.getById(1));
-        car.setBody(this.bodyDao.getById(1));
+        car.setBrand(this.brandDao.findById(1).get());
+        car.setGearbox(this.gearboxDao.findById(1).get());
+        car.setEngine(this.engineDao.findById(1).get());
+        car.setAxle(this.axleDao.findById(1).get());
+        car.setBody(this.bodyDao.findById(1).get());
         return car;
     }
 }
