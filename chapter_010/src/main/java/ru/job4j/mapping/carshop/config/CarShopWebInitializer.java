@@ -1,9 +1,6 @@
 package ru.job4j.mapping.carshop.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import ru.job4j.mapping.carshop.controller.ServletFilter;
-
-import javax.servlet.Filter;
 
 /**
  * Created on 06.02.18.
@@ -18,7 +15,7 @@ public class CarShopWebInitializer extends AbstractAnnotationConfigDispatcherSer
      */
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] {RootConfig.class};
+        return new Class[] {RootConfig.class, WebSecurityConfig.class};
     }
 
     /**
@@ -43,8 +40,8 @@ public class CarShopWebInitializer extends AbstractAnnotationConfigDispatcherSer
      * Get servlet filters.
      * @return - filters.
      */
-    @Override
-    protected Filter[] getServletFilters() {
-        return new Filter[]{new ServletFilter()};
-    }
+//    @Override
+//    protected Filter[] getServletFilters() {
+//        return new Filter[]{new ServletFilter()};
+//    }
 }

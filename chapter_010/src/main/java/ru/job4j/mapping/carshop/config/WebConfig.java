@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
@@ -15,10 +15,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  * @author Wamdue
  * @version 1.0
  */
-@EnableWebMvc
 @Configuration
+@EnableWebMvc
 @ComponentScan("ru.job4j.mapping.carshop.controller")
-public class WebConfig extends WebMvcConfigurerAdapter {
+public class WebConfig implements WebMvcConfigurer {
     /**
      * Mapping resources.
      * @param registry - registry.

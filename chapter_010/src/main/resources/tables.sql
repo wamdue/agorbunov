@@ -1,5 +1,5 @@
 ﻿create table if not exists brand(id serial primary key, name varchar(30));
-create table if not exists users(id serial primary key, name varchar(50));
+create table if not exists users(id serial primary key, name varchar(50), password VARCHAR(100));
 create table if not exists body (id serial primary key, name varchar(50));
 create table if not exists engine (id serial primary key, name varchar(20));
 create table if not exists gearbox(id serial primary key, name varchar(20));

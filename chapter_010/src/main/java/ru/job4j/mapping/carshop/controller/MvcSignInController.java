@@ -46,14 +46,13 @@ public class MvcSignInController {
      */
     @RequestMapping(value = "/signin.do", method = RequestMethod.POST)
     public String setLogin(HttpServletRequest req) {
-        String name = req.getParameter("login");
+        String name = req.getParameter("username");
         User user  = this.users.findByName(name);
         if (user == null) {
             user = new User();
             user.setName(name);
             this.users.save(user);
         }
-
         HttpSession session = req.getSession();
         session.setAttribute("user", String.valueOf(user.getId()));
         return "welcome";

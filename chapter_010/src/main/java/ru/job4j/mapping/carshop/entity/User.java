@@ -1,5 +1,7 @@
 package ru.job4j.mapping.carshop.entity;
 
+import javax.persistence.Transient;
+
 /**
  * Created on 19.01.18.
  * User information.
@@ -15,6 +17,11 @@ public class User {
      * User name.
      */
     private String name;
+    /**
+     * User password.
+     */
+    @Transient
+    private String password;
     /**
      * Get User id.
      * @return id.
@@ -45,5 +52,21 @@ public class User {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * User password.
+     * @return - password.
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * User password.
+     * @param password - new password.
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

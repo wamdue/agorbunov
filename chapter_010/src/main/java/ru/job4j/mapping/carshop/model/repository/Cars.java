@@ -35,7 +35,7 @@ public interface Cars extends CrudRepository<Car, Integer> {
      */
     @SuppressWarnings("unchecked")
     default List<Car> getByFilter(int brand, int pic, int date) {
-        List<Car> list = (List<Car>)this.findAll();
+        List<Car> list = (List<Car>) this.findAll();
         if (brand > 0) {
             list = list.stream().filter(x -> x.getBrand().getId() == brand).collect(Collectors.toList());
         }
