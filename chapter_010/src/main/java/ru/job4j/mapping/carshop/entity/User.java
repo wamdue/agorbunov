@@ -1,6 +1,7 @@
 package ru.job4j.mapping.carshop.entity;
 
-import javax.persistence.Transient;
+
+import org.springframework.data.annotation.Transient;
 
 /**
  * Created on 19.01.18.
