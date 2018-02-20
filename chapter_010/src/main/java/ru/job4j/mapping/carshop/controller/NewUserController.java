@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import ru.job4j.mapping.carshop.entity.Authority;
 import ru.job4j.mapping.carshop.entity.User;
+import ru.job4j.mapping.carshop.model.repository.Authorities;
 import ru.job4j.mapping.carshop.model.repository.Users;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,14 +26,17 @@ public class NewUserController {
      * Users repository.
      */
     private final Users users;
+    private final Authorities authorities;
 
     /**
      * Main constructor.
      * @param users - repository.
+     * @param authorities - authorities repository.
      */
     @Autowired
-    public NewUserController(Users users) {
+    public NewUserController(Users users, Authorities authorities) {
         this.users = users;
+        this.authorities = authorities;
     }
 
     /**
@@ -65,7 +70,10 @@ public class NewUserController {
             User user = new User();
             user.setName(username);
             user.setPassword(new BCryptPasswordEncoder().encode(password));
-            this.users.save(user);
+            Authority authority = new Authority();
+            authority.setUser(user);
+            authority.setRole("ROLE_USER");
+            this.authorities.save(authority);
         }
         return result;
     }

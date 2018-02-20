@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="ru.job4j.mapping.carshop.entity.Authority" table="authorities">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="user" class="ru.job4j.mapping.carshop.entity.User" column="user_id" lazy="false" update="false" fetch="select" cascade="all" not-null="true"/>
+        <property name="role" column="authority"/>
+    </class>
+</hibernate-mapping>
