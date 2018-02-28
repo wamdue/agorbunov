@@ -16,9 +16,30 @@ public class ShellTest {
      * When creating object.
      * Expect root linux path.
      */
+    private Entry entry;
+
+    /**
+     * Fill temp entry.
+     */
+    {
+        Entry e = new Entry();
+        e.setName("/");
+        e.addEntry(new Entry("var"));
+        Entry usr = new Entry("usr");
+        Entry lib = new Entry("lib");
+        Entry local = new Entry("/local");
+        usr.addEntry(local);
+        e.addEntry(usr);
+        e.addEntry(lib);
+        this.entry = e;
+    }
+
+    /**
+     * Testing root entry.
+     */
     @Test
     public void whenCreatingObjectThenReturnRootDirectory() {
-        Shell shell = new Shell();
+        Shell shell = new Shell(this.entry);
         String expect = "/";
         assertThat(shell.path(), is(expect));
     }
@@ -30,7 +51,7 @@ public class ShellTest {
      */
     @Test
     public void whenEnteringToDirectoryThenChangePath() {
-        Shell shell = new Shell();
+        Shell shell = new Shell(this.entry);
         shell.cd("var");
         String expect = "/var";
         assertThat(shell.path(), is(expect));
@@ -43,7 +64,7 @@ public class ShellTest {
      */
     @Test
     public void whenGoingDeeperThenChangePathToIt() {
-        Shell shell = new Shell();
+        Shell shell = new Shell(this.entry);
         shell.cd("usr").cd("local");
         shell.cd("../local").cd("./");
         String expect = "/usr/local";
@@ -57,7 +78,7 @@ public class ShellTest {
      */
     @Test
     public void whenGoingToParenDirectoryThenChangePathToIt() {
-        Shell shell = new Shell();
+        Shell shell = new Shell(this.entry);
         shell.cd("usr").cd("local");
         shell.cd("..");
         String expect = "/usr";
@@ -71,7 +92,7 @@ public class ShellTest {
      */
     @Test
     public void whenHaveAnotherMaskThenChangePath() {
-        Shell shell = new Shell();
+        Shell shell = new Shell(this.entry);
         shell.cd("//lib///");
         String expect = "/lib";
         assertThat(shell.path(), is(expect));
@@ -84,7 +105,7 @@ public class ShellTest {
      */
     @Test
     public void whenHaveIncorrectMaskThenDontChangePath() {
-        Shell shell = new Shell();
+        Shell shell = new Shell(this.entry);
         shell.cd("usr/..");
         assertThat(shell.path(), is("/"));
     }

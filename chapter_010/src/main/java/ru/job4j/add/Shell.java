@@ -1,13 +1,9 @@
 package ru.job4j.add;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-
 /**
  * Created on 12.02.18.
  * Emulating cmd.
+ *
  * @author Wamdue
  * @version 1.0
  */
@@ -15,7 +11,7 @@ public class Shell {
     /**
      * Current dir.
      */
-    private File currentDir;
+    private Entry currentDir;
     /**
      * Regular expression to analyze path.
      */
@@ -23,27 +19,28 @@ public class Shell {
 
     /**
      * Main constructor.
+     * @param e - Main entry.
      */
-    public Shell() {
-        this.currentDir = File.listRoots()[0];
+    public Shell(Entry e) {
+        this.currentDir = e;
     }
 
     /**
      * Changing path.
+     *
      * @param path - path to change.
      * @return - this.
      */
     public Shell cd(final String path) {
-        List<File> files = Arrays.asList(Objects.requireNonNull(this.currentDir.listFiles()));
-        if (files.size() > 0) {
-            if (path.equals("..")) {
-                String parent = this.currentDir.getParent();
-                if (parent != null) {
-                    this.currentDir = new File(parent);
-                }
-            } else if (path.matches(TEMPLATE)) {
-                String file = path.replaceAll("/", "");
-                this.currentDir = (File) files.stream().filter(x -> x.getName().equals(file)).toArray()[0];
+
+        if (path.equals("..")) {
+            if (this.currentDir.getRoot() != null) {
+                this.currentDir = this.currentDir.getRoot();
+            }
+        } else if (path.matches(TEMPLATE)) {
+            String file = path.replaceAll("/", "");
+            if (this.currentDir.getEntries().size() > 0) {
+                this.currentDir = this.currentDir.getEntries().stream().filter(x -> x.getName().replace("/", "").equals(file)).distinct().findFirst().get();
             }
         }
         return this;
@@ -51,9 +48,10 @@ public class Shell {
 
     /**
      * Show path.
+     *
      * @return - current path.
      */
     public String path() {
-        return this.currentDir.getAbsolutePath();
+        return this.currentDir.toString();
     }
 }
